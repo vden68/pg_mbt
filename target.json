@@ -1,0 +1,27 @@
+{
+  "mbt_db_main":{
+    "host": "192.168.122.111",
+    "database": "testdb",
+    "user": "test",
+    "password":"TestPass1",
+    "port":"3245"
+  },
+  "mbt_db_read_list":[
+    {"mbt_db_read": {
+      "host": "192.168.122.111",
+      "database": "testdb",
+      "user": "test",
+      "password": "TestPass1",
+      "port": "3245"
+      }
+    },
+    {"mbt_db_read": {
+      "host": "192.168.122.111",
+      "database": "testdb",
+      "user": "test",
+      "password": "TestPass1",
+      "port": "3245"
+      }
+    }
+    ]
+}
