@@ -12,7 +12,13 @@ import string
 
 class Application:
 
-    def __init__(self, browser, base_url):
+    def __init__(self, main_host):
+
+        self.main_host = main_host
+
+
+
+        """
         if browser == "firefox":
             self.wd = webdriver.Firefox()
         elif browser == "chrome":
@@ -27,7 +33,8 @@ class Application:
         self.navigation = NavigationHelper(self)
         self.common = CommonHelper(self)
         self.base_url = base_url
-
+        """
+"""
     def is_valid(self):
         try:
             self.wd.current_url
@@ -47,7 +54,7 @@ class Application:
                                      (filter(lambda x: x is not None,
                                              [contact.homephone, contact.mobilephone,
                                               contact.workphone, contact.seconderyphone]))))))
-
+"""
 
 
 

@@ -6,6 +6,7 @@ import os.path
 import importlib
 import jsonpickle
 from fixture.application import Application
+from model.mbt_host import Mbt_host
 #from fixture.orm import ORMFixture
 
 fixture = None
@@ -23,15 +24,17 @@ def load_config(file):
 @pytest.fixture
 def app(request):
     global fixture
-    browser = request.config.getoption("--browser")
+    #browser = request.config.getoption("--browser")
     mbt_config = load_config(request.config.getoption("--target"))["mbt_db_main"]
-    if fixture is None or not fixture.is_valid():
-        fixture = Application(browser=browser, base_url=mbt_config["baseUrl"])
-    fixture.session.ensure_login(username=mbt_config["username"], password=mbt_config["password"])
+    main_host= Mbt_host(host=mbt_config["host"], user=mbt_config["user"], password=mbt_config["password"],
+                        database=mbt_config["database"], port=mbt_config["port"])
+    if fixture is None :
+        fixture = Application(main_host)
+    #fixture.session.ensure_login(username=mbt_config["username"], password=mbt_config["password"])
     return fixture
 
 
-
+"""
 @pytest.fixture(scope='session')
 def orm(request):
     orm_config = load_config(request.config.getoption("--target"))["db"]
@@ -77,3 +80,4 @@ def load_from_module(module):
 def load_from_json(file):
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data/%s.json" % file)) as f:
         return jsonpickle.decode(f.read())
+"""

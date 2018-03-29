@@ -8,7 +8,7 @@
   },
   "mbt_db_read_list":[
     {"mbt_db_read": {
-      "host": "192.168.122.111",
+      "host": "192.168.122.112",
       "database": "testdb",
       "user": "test",
       "password": "TestPass1",
@@ -16,7 +16,7 @@
       }
     },
     {"mbt_db_read": {
-      "host": "192.168.122.111",
+      "host": "192.168.122.113",
       "database": "testdb",
       "user": "test",
       "password": "TestPass1",
