@@ -10,9 +10,11 @@ from fixture.db import Dbfixture
 
 from model.mbt_host import Mbt_hosts
 
+
 fixture = None
 target = None
 mbt_hosts = None
+
 
 def load_mbt_hosts():
     global mbt_hosts
@@ -30,11 +32,11 @@ def load_mbt_hosts():
 
     return mbt_hosts
 
+
 @pytest.fixture
 def app(request):
     global fixture
     mbt_hosts= load_mbt_hosts()
-
 
     if fixture is None :
         fixture = Application(mbt_hosts)
@@ -45,12 +47,12 @@ def app(request):
 
 @pytest.fixture
 def db(request):
-    pass
-    """
 
-    dbfixture = Dbfixture(host=db_config["host"], name=db_config["name"], user=db_config["user"], password=db_config["password"])
+    dbfixture = Dbfixture()
+
     def fin():
         dbfixture.destroy()
+
     request.addfinalizer(fin)
+
     return dbfixture
-    """
