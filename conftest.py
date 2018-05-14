@@ -6,31 +6,36 @@ import os.path
 import importlib
 import jsonpickle
 from fixture.application import Application
-from model.mbt_host import Mbt_host
+from model.mbt_host import Mbt_hosts
 #from fixture.orm import ORMFixture
 
 fixture = None
 target = None
+mbt_hosts = None
 
-
-def load_config(file):
-    global target
-    if target is None:
-        config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), file)
+def load_mbt_hosts():
+    global mbt_hosts
+    if mbt_hosts is None:
+        mbt_hosts = []
+        config_file = os.path.join(os.path.dirname(os.path.abspath(__file__))+'/mbt_hosts.json')
         with open(config_file) as f:
-            target = json.load(f)
-    return target
+            mbt_hosts_json = json.load(f)
+            mbt_hosts_p = mbt_hosts_json["mbt_hosts"]
+        for mbt_host in mbt_hosts_p:
+            mbt_hosts.append(Mbt_hosts(host=mbt_host["host"], user=mbt_host["user"], password=mbt_host["password"],
+                          database=mbt_host["database"], port=mbt_host["port"], type=mbt_host['type']))
+
+    return mbt_hosts
 
 @pytest.fixture
 def app(request):
     global fixture
-    #browser = request.config.getoption("--browser")
-    mbt_config = load_config(request.config.getoption("--target"))["mbt_db_main"]
-    main_host= Mbt_host(host=mbt_config["host"], user=mbt_config["user"], password=mbt_config["password"],
-                        database=mbt_config["database"], port=mbt_config["port"])
+    mbt_hosts= load_mbt_hosts()
+
+
     if fixture is None :
-        fixture = Application(main_host)
-    #fixture.session.ensure_login(username=mbt_config["username"], password=mbt_config["password"])
+        fixture = Application(mbt_hosts)
+
     return fixture
 
 

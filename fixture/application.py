@@ -12,9 +12,9 @@ import string
 
 class Application:
 
-    def __init__(self, main_host):
+    def __init__(self, mbt_hosts):
 
-        self.main_host = main_host
+        self.mbt_hosts = mbt_hosts
 
 
 
