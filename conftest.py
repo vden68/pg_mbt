@@ -23,9 +23,10 @@ def load_mbt_hosts():
             mbt_hosts_json = json.load(f)
             mbt_hosts_p = mbt_hosts_json["mbt_hosts"]
         for mbt_host in mbt_hosts_p:
-            mbt_hosts.append(Mbt_hosts(host=mbt_host["host"], user=mbt_host["user"], password=mbt_host["password"],
-                          database=mbt_host["database"], port=mbt_host["port"], write=mbt_host['write'],
-                                       read=mbt_host['read']))
+            mbt_hosts.append(Mbt_hosts(host=mbt_host["host"], superuser=mbt_host["superuser"],
+                                       superuser_password=mbt_host["superuser_password"], user=mbt_host["user"],
+                                       password=mbt_host["password"], database=mbt_host["database"],
+                                       port=mbt_host["port"], write=mbt_host['write'], read=mbt_host['read']))
 
     return mbt_hosts
 
