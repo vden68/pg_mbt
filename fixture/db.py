@@ -12,6 +12,7 @@ class Dbfixture:
 
         self.conn = ConnectHelper(self)
 
+
     """
 
     def get_group_list(self, clean=False):
