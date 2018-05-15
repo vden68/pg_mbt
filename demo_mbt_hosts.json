@@ -12,7 +12,7 @@
       "read": "True"
     },
     {
-      "host": "192.168.122.111",
+      "host": "192.168.122.112",
       "database": "test_mbt_db",
       "superuser": "postgres",
       "superuser_password": "TestRoot1",

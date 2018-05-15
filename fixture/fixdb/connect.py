@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'vden'
 import psycopg2
+import random
+import time
 
 
 
@@ -13,52 +15,63 @@ class ConnectHelper():
 
     def connection(self, host=None, port=None, dbname=None, user=None, password=None):
         conn = None
+        #" port="+port+
 
-        conn_string = "Проверка"#"host="+host+" host="+port+" dbname="+dbname+" user="+user+" password="+password
+        conn_string = "host="+host+" port="+port+" dbname="+dbname+" user="+user+" password="+password
         print("Connecting to database\n	->%s" % (conn_string))
-        print(self.db.mbt_hosts_write, self.db.mbt_hosts_read)
 
-        """
 
         try:
             conn = psycopg2.connect(conn_string)
         except :
             if conn:
-                conn.rollback()
                 conn.close()
-            print("I am unable to connect to the database ->%s %s %s %s" % (host, port, dbname, user, password))
-        """
+            print("I am unable to connect to the database ->%s %s %s %s" % (host, dbname, user, password))
+
 
         return conn
 
-    def con_db_postgres(app, db):
-        db_write = app.mbt_mbt_hosts
-        print(db_write)
-        conn=db.conn.connection()
-        print(conn)
+    def db_postgres(self):
+        conn = None
+        x = 0
+        while (conn is None) :
+            if x>0:
+                time.sleep(5)
+            db_host=random.choice(self.db.mbt_hosts_write)
+            conn=self.connection(host=db_host.host, port=db_host.port, dbname="postgres", user=db_host.superuser,
+                                 password=db_host.superuser_password)
+            print(db_host, x)
+
+            x=x+1
+            if x>10:
+                print('Could not connect to conn.db_postgres')
+                exit(1)
+
+        return conn
 
 
-    """
 
-    def tfp_execute(app, str_ex, conn):
+    def db_write(self):
+        conn = None
+        x = 0
+        while (conn is None):
+            if x > 0:
+                time.sleep(5)
+            db_host = random.choice(self.db.mbt_hosts_write)
+            conn = self.connection(host=db_host.host, port=db_host.port, dbname=db_host.database, user=db_host.superuser,
+                                   password=db_host.superuser_password)
+            print(db_host, x)
 
-        try:
-            cur= conn.cursor()
-            cur.execute(str_ex)
-            print(time.ctime()[11:-5], str_ex)
-            #rows = cur.fetchone()
-            #for row in rows:
-            #    print(row)
-            conn.commit()
-        except psycopg2.DatabaseError:
-            if conn:
-                conn.rollback()
+            x = x + 1
+            if x > 10:
+                print('Could not connect to conn.db_postgres')
+                exit(1)
 
-            print("Error " )
+        return conn
 
-        return cur
-    """
 
+    def db_read(self):
+        pass
 
 
 
