@@ -1,0 +1,26 @@
+{
+  "mbt_hosts": [
+    {
+      "host": "192.168.122.111",
+      "database": "test_mbt_db",
+      "superuser": "postgres",
+      "superuser_password": "TestRoot1",
+      "user": "test",
+      "password": "TestPass1",
+      "port": "3245",
+      "write": "False",
+      "read": "True"
+    },
+    {
+      "host": "192.168.122.111",
+      "database": "test_mbt_db",
+      "superuser": "postgres",
+      "superuser_password": "TestRoot1",
+      "user": "test",
+      "password": "TestPass1",
+      "port": "3245",
+      "write": "True",
+      "read" : "False"
+    }
+  ]
+}
