@@ -15,7 +15,6 @@ class ConnectHelper():
 
     def connection(self, host=None, port=None, dbname=None, user=None, password=None):
         conn = None
-        #" port="+port+
 
         conn_string = "host="+host+" port="+port+" dbname="+dbname+" user="+user+" password="+password
         print("Connecting to database\n	->%s" % (conn_string))
@@ -58,8 +57,8 @@ class ConnectHelper():
             if x > 0:
                 time.sleep(5)
             db_host = random.choice(self.db.mbt_hosts_write)
-            conn = self.connection(host=db_host.host, port=db_host.port, dbname=db_host.database, user=db_host.superuser,
-                                   password=db_host.superuser_password)
+            conn = self.connection(host=db_host.host, port=db_host.port, dbname=db_host.database, user=db_host.user,
+                                   password=db_host.password)
             print(db_host, x)
 
             x = x + 1
@@ -71,7 +70,22 @@ class ConnectHelper():
 
 
     def db_read(self):
-        pass
+        conn = None
+        x = 0
+        while (conn is None):
+            if x > 0:
+                time.sleep(5)
+            db_host = random.choice(self.db.mbt_hosts_read)
+            conn = self.connection(host=db_host.host, port=db_host.port, dbname=db_host.database,
+                                   user=db_host.user, password=db_host.password)
+            print(db_host, x)
+
+            x = x + 1
+            if x > 10:
+                print('Could not connect to conn.db_postgres')
+                exit(1)
+
+        return conn
 
 
 
