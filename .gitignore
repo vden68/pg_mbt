@@ -2,3 +2,4 @@
 /env/
 /test_group/.pytest_cache/
 mbt_hosts.json
+target.json
