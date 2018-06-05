@@ -1,22 +1,14 @@
 __author__ = 'vden'
 
-#from fixture.session import SessionHelper
-#from fixture.group import GroupHelper
-#from fixture.contact import ContactHelper
-#from fixture.navigation import NavigationHelper
-#from fixture.common import CommonHelper
-import re
-import random
-import string
-
 
 class Application:
 
-    def __init__(self, mbt_hosts):
+    def __init__(self, mbt_hosts, mbt_hosts_write, mbt_hosts_read, mbt_conn):
 
         self.mbt_hosts = mbt_hosts
-
-
+        self.mbt_hosts_write = mbt_hosts_write
+        self.mbt_hosts_read = mbt_hosts_read
+        self.mbt_conn = mbt_conn
 
         """
         if browser == "firefox":

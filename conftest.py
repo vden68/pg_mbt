@@ -9,25 +9,35 @@ from fixture.db import Dbfixture
 
 
 from model.mbt_host import Mbt_hosts
+from model.mbt_conn import Mbt_conn
 
 
 fixture = None
 target = None
+dbfixture = None
 
 
 def load_mbt_hosts():
     mbt_hosts = []
-    config_file = os.path.join(os.path.dirname(os.path.abspath(__file__))+'/mbt_hosts.json')
+    mbt_hosts_p = read_config_file(argument="mbt_hosts")
+    for mbt_host in mbt_hosts_p:
+        mbt_hosts.append(Mbt_hosts(host=mbt_host["host"], port=mbt_host["port"],
+                                   write=mbt_host['write'], read=mbt_host['read']))
+    return mbt_hosts
+
+def load_mbt_conn():
+    mbt_conn_r = read_config_file(argument="mbt_conn")
+    mbt_conn=Mbt_conn(superuser=mbt_conn_r["superuser"], superuser_password=mbt_conn_r["superuser_password"],
+                      user=mbt_conn_r['user'], password=mbt_conn_r['password'], database=mbt_conn_r['database'])
+    return mbt_conn
+
+
+def read_config_file(argument=None):
+    config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)) + '/mbt_hosts.json')
     with open(config_file) as f:
         mbt_hosts_json = json.load(f)
-        mbt_hosts_p = mbt_hosts_json["mbt_hosts"]
-    for mbt_host in mbt_hosts_p:
-        mbt_hosts.append(Mbt_hosts(host=mbt_host["host"], superuser=mbt_host["superuser"],
-                                   superuser_password=mbt_host["superuser_password"], user=mbt_host["user"],
-                                   password=mbt_host["password"], database=mbt_host["database"],
-                                   port=mbt_host["port"], write=mbt_host['write'], read=mbt_host['read']))
-
-    return mbt_hosts
+        mbt_hosts_p = mbt_hosts_json[argument]
+    return mbt_hosts_p
 
 
 @pytest.fixture
@@ -37,19 +47,22 @@ def app(request):
 
     if fixture is None :
         mbt_hosts = load_mbt_hosts()
-        fixture = Application(mbt_hosts)
+        mbt_hosts_write = [x for x in mbt_hosts if x.write == "True"]
+        mbt_hosts_read = [x for x in mbt_hosts if x.read == "True"]
+
+        mbt_conn= load_mbt_conn()
+
+        fixture = Application(mbt_hosts, mbt_hosts_write, mbt_hosts_read, mbt_conn)
 
     return fixture
 
 
 @pytest.fixture
 def db(request, app):
-    mbt_hosts = app.mbt_hosts
+    global dbfixture
 
-    mbt_hosts_write = [x for x  in mbt_hosts if x.write=="True"]
-    mbt_hosts_read = [x for x in mbt_hosts if x.read=="True"]
-
-    dbfixture = Dbfixture(mbt_hosts_write, mbt_hosts_read)
+    if dbfixture is None:
+        dbfixture = Dbfixture(app)
 
     def fin():
         dbfixture.destroy()

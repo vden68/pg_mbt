@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 __author__ = 'vden'
+
 import psycopg2
 import random
 import time
@@ -30,19 +30,19 @@ class ConnectHelper():
 
         return conn
 
-    def db_postgres(self):
+    def db_superuser(self):
         conn = None
         x = 0
         while (conn is None) :
             if x>0:
-                time.sleep(5)
-            db_host=random.choice(self.db.mbt_hosts_write)
-            conn=self.connection(host=db_host.host, port=db_host.port, dbname="postgres", user=db_host.superuser,
-                                 password=db_host.superuser_password)
+                time.sleep(1)
+            db_host=random.choice(self.db.app.mbt_hosts_write)
+            conn=self.connection(host=db_host.host, port=db_host.port, dbname="postgres",
+                                 user=self.db.app.mbt_conn.superuser, password=self.db.app.mbt_conn.superuser_password)
             print(db_host, x)
 
             x=x+1
-            if x>10:
+            if x>60:
                 print('Could not connect to conn.db_postgres')
                 exit(1)
 
@@ -56,9 +56,9 @@ class ConnectHelper():
         while (conn is None):
             if x > 0:
                 time.sleep(5)
-            db_host = random.choice(self.db.mbt_hosts_write)
-            conn = self.connection(host=db_host.host, port=db_host.port, dbname=db_host.database, user=db_host.user,
-                                   password=db_host.password)
+            db_host = random.choice(self.db.app.mbt_hosts_write)
+            conn = self.connection(host=db_host.host, port=db_host.port, dbname=self.db.app.mbt_conn.database,
+                                   user=self.db.app.mbt_conn.user, password=self.db.app.mbt_conn.password)
             print(db_host, x)
 
             x = x + 1
@@ -75,9 +75,9 @@ class ConnectHelper():
         while (conn is None):
             if x > 0:
                 time.sleep(5)
-            db_host = random.choice(self.db.mbt_hosts_read)
-            conn = self.connection(host=db_host.host, port=db_host.port, dbname=db_host.database,
-                                   user=db_host.user, password=db_host.password)
+            db_host = random.choice(self.db.app.mbt_hosts_read)
+            conn = self.connection(host=db_host.host, port=db_host.port, dbname=self.db.app.mbt_conn.database,
+                                   user=self.db.app.mbt_conn.user, password=self.db.app.mbt_conn.password)
             print(db_host, x)
 
             x = x + 1
