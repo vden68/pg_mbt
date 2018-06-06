@@ -7,6 +7,7 @@ from datetime import datetime
 
 from fixture.application import Application
 from fixture.db import Dbfixture
+from fixture.generator import Generatorfixture
 
 
 from model.mbt_host import Mbt_hosts
@@ -16,6 +17,7 @@ from model.mbt_conn import Mbt_conn
 fixture = None
 target = None
 dbfixture = None
+generatorfixture = None
 
 
 def load_mbt_hosts():
@@ -72,3 +74,18 @@ def db(request, app):
     request.addfinalizer(fin)
 
     return dbfixture
+
+
+@pytest.fixture
+def generator(request):
+    global generatorfixture
+
+    if generatorfixture is None:
+        generatorfixture = Generatorfixture()
+
+    def fin():
+        generatorfixture.destroy()
+
+    request.addfinalizer(fin)
+
+    return generatorfixture

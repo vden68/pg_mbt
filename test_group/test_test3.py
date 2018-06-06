@@ -44,6 +44,14 @@ def test_test3(app,db):
     print("mbt_hosts_read=", app.mbt_hosts_read)
     print("mbt_conn=", app.mbt_conn)
 
+    db.table_fibonacci_number.insert(fib_number=123456)
+    db.table_fibonacci_number.insert(fib_number=234567)
+    db.table_fibonacci_number.insert(fib_number=345678)
+    db.table_fibonacci_number.insert(fib_number=456789)
+    db.table_fibonacci_number.insert(fib_number=567890)
+
+    print(db.table_fibonacci_number.get_list_table_fibonacci_number())
+
 
 
 
