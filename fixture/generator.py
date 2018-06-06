@@ -1,11 +1,14 @@
 __author__ = 'vden'
 
+from fixture.fixgenerator.fibonacci import FibonacciHelper
+
 
 
 class Generatorfixture:
 
     def __init__(self):
-       pass
+        self.fibonacci = FibonacciHelper(self)
+
 
 
     def destroy(self):
