@@ -4,7 +4,6 @@ __author__ = 'vden'
 
 class InitdbHelper():
 
-
     def __init__(self, db):
         self.db = db
 
@@ -55,6 +54,37 @@ class InitdbHelper():
             print(("database %s already created") % datname)
         else:
             pass
+
+    def check_tablename(self, tablename=None):
+        print('check_tablename')
+        conn = self.db.conn.db_read()
+
+        sql_char = ("""
+        SELECT
+          tablename
+        FROM
+          pg_tables
+        where
+          tablename = '%s'
+        ;""")%tablename
+
+        print('sql_char=', sql_char)
+        cursor = self.db.cur_e.cursor_execute(conn=conn, sql_char=sql_char)
+        x_tablename = None
+        for row in cursor:
+            (x_tablename) = row
+            print('tablename=', x_tablename)
+
+        cursor.close()
+        conn.close()
+
+        if x_tablename is None :
+            return False
+        else:
+            return True
+
+
+
 
 
 

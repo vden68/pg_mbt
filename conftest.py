@@ -3,6 +3,7 @@ __author__ = 'vden'
 import pytest
 import json
 import os.path
+from datetime import datetime
 
 from fixture.application import Application
 from fixture.db import Dbfixture
@@ -28,7 +29,8 @@ def load_mbt_hosts():
 def load_mbt_conn():
     mbt_conn_r = read_config_file(argument="mbt_conn")
     mbt_conn=Mbt_conn(superuser=mbt_conn_r["superuser"], superuser_password=mbt_conn_r["superuser_password"],
-                      user=mbt_conn_r['user'], password=mbt_conn_r['password'], database=mbt_conn_r['database'])
+                      user=mbt_conn_r['user'], password=mbt_conn_r['password'], database=mbt_conn_r['database'],
+                      test_start_timestamp=datetime.now())
     return mbt_conn
 
 

@@ -1,7 +1,14 @@
 _author__ = 'vden'
 
 
-def test_test3(db):
+def test_test3(app,db):
+
+    print()
+    print("mbt_hosts=", app.mbt_hosts)
+    print("mbt_hosts_write=", app.mbt_hosts_write)
+    print("mbt_hosts_read=", app.mbt_hosts_read)
+    print("mbt_conn=", app.mbt_conn)
+
 
 
     print("Connect db_superuser")
@@ -29,6 +36,14 @@ def test_test3(db):
     conn = db.conn.db_read()
     conn = db.conn.db_read()
     conn.close()
+
+
+    print()
+    print("mbt_hosts=", app.mbt_hosts)
+    print("mbt_hosts_write=", app.mbt_hosts_write)
+    print("mbt_hosts_read=", app.mbt_hosts_read)
+    print("mbt_conn=", app.mbt_conn)
+
 
 
 
