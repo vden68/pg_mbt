@@ -92,8 +92,9 @@ class Table_fibonacci_numberHelper():
         global count_table_fibonacci_number
 
         c_count = False
-        x=1
-        for x in range(10):
+        x=0
+        y=0
+        while x<10 :
             sql_char = ("""
                         select
                           count (id)
@@ -114,7 +115,60 @@ class Table_fibonacci_numberHelper():
                 c_count = True
             else:
                 c_count = False
-                break
+                x=x-10
+                time.sleep(2)
+                if y<5:
+                    y=y+1
+                else:
+                    break
+            x=x+1
 
         return c_count
+
+
+    def check_records(self):
+        global list_table_fibonacci_number
+
+        c_records = False
+
+        xc=0
+        yc=0
+        while xc<10:
+
+            for x in list_table_fibonacci_number:
+                sql_char = ("""
+                                    select
+                                      id,
+                                      fib_number,
+                                      test_start_timestamp
+                                    from
+                                      fibonacci_number
+                                    where
+                                       id = %s                    ;
+                                    """) % (x.id)
+
+                # print('sql_char=', sql_char)
+
+                list_records = self.db.cur_e.execute_select(sql_char=sql_char)
+                for row in list_records:
+                    (id, fib_number, test_start_timestamp) = row
+                    print("check_records_table=", id, fib_number,test_start_timestamp)
+
+                if  x.id==id and x.fib_number==fib_number and x.test_start_timestamp==test_start_timestamp:
+                    c_records = True
+                else:
+                    c_records = False
+                    break
+
+            if c_records:
+                xc=xc+1
+            else:
+                xc=xc-10
+                time.sleep(2)
+                if yc<5:
+                    yc=yc+1
+                else:
+                    break
+
+        return c_records
 

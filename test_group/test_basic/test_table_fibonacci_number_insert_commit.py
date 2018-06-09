@@ -1,7 +1,7 @@
 __author__ = 'vden'
 
 
-def test_insert_commit_table_fibonacci_number(app, generator, db):
+def test_table_fibonacci_number_insert_commit(generator, db):
 
     i_fib = 1
     fib = generator.fibonacci.number(i_fib)
@@ -14,8 +14,6 @@ def test_insert_commit_table_fibonacci_number(app, generator, db):
         fib = generator.fibonacci.number(i_fib)
         print('i_fib=', i_fib, 'fib=', fib)
 
-    get_list=db.table_fibonacci_number.get_list()
-    print(get_list)
-
     assert(db.table_fibonacci_number.check_count())
+    assert (db.table_fibonacci_number.check_records())
 
