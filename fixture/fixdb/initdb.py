@@ -25,7 +25,7 @@ class InitdbHelper():
             ;
             """)%(x_rolname, x_datname)
 
-        print('sql_char=', sql_char)
+        #print('sql_char=', sql_char)
 
         cursor = self.db.cur_e.cursor_execute(conn=conn, sql_char=sql_char)
         datname, rolname = None, None

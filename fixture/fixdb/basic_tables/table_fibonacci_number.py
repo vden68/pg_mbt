@@ -1,8 +1,12 @@
 __author__ = 'vden'
 
+import time
+import random
+
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
 list_table_fibonacci_number = []
+count_table_fibonacci_number = 0
 
 class Table_fibonacci_numberHelper():
 
@@ -16,7 +20,7 @@ class Table_fibonacci_numberHelper():
         else:
             print(("table '%s' no created") % 'fibonacci_number')
 
-            conn = self.db.conn.db_read()
+            conn = self.db.conn.db_write()
 
             sql_char = """
                   create table fibonacci_number
@@ -38,48 +42,79 @@ class Table_fibonacci_numberHelper():
                        """
 
 
-            print('sql_char=', sql_char)
+            #print('sql_char=', sql_char)
             cursor = self.db.cur_e.cursor_execute(conn=conn, sql_char=sql_char)
 
-            cursor.close()
-            conn.close()
+            if cursor is not None:
+                cursor.close()
+            if conn is not None:
+                conn.close()
 
 
     def insert(self, fib_number=None, commit=True):
         global list_table_fibonacci_number
-        print("insert_commit")
-        print('fib_number=', fib_number)
+        global count_table_fibonacci_number
 
-        conn = self.db.conn.db_write()
+        list_sql_char=[]
 
-        sql_char = ("""
+        list_sql_char.append(("""
                           insert into fibonacci_number
                              (fib_number, test_start_timestamp) VALUES 
                              (%s, '%s') RETURNING id
                           ; 
                                """) %(fib_number, self.db.app.mbt_conn.test_start_timestamp)
-
-        print('sql_char=', sql_char)
-
-        cursor = self.db.cur_e.cursor_execute(conn=conn, sql_char=sql_char)
-        print('cursor=', cursor)
-        for row in cursor:
-            (id,)=row
-            print(id)
+                             )
 
         if commit:
-            cursor = self.db.cur_e.cursor_execute(conn=conn, sql_char='commit;')
-            list_table_fibonacci_number.append(Table_fibonacci_number(id=id, fib_number=fib_number,
-                                               test_start_timestamp=self.db.app.mbt_conn.test_start_timestamp))
-        else:
-            pass
+            list_sql_char.append('commit;')
 
-        cursor.close()
-        conn.close()
-        print('list_table_fibonacci_number=', list_table_fibonacci_number)
+            list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
+
+            for row in list_row:
+                list_table_fibonacci_number.append(Table_fibonacci_number(id=row, fib_number=fib_number,
+                                                                      test_start_timestamp=self.db.app.mbt_conn.test_start_timestamp))
+            if len(list_table_fibonacci_number)>10:
+                r_list= random.choice(list_table_fibonacci_number)
+                list_table_fibonacci_number.remove(r_list)
+
+            count_table_fibonacci_number+=1
 
 
-    def get_list_table_fibonacci_number(self):
+
+
+
+    def get_list(self):
         global list_table_fibonacci_number
         return list_table_fibonacci_number
+
+
+    def check_count(self):
+        global count_table_fibonacci_number
+
+        c_count = False
+        x=1
+        for x in range(10):
+            sql_char = ("""
+                        select
+                          count (id)
+                        from
+                          fibonacci_number
+                        where
+                           test_start_timestamp = '%s'                    ;
+                        """) % (self.db.app.mbt_conn.test_start_timestamp)
+
+            # print('sql_char=', sql_char)
+
+            list_count = self.db.cur_e.execute_select(sql_char=sql_char)
+            for row in list_count:
+                (count,) = row
+                print("count_table=", count)
+
+            if count==count_table_fibonacci_number:
+                c_count = True
+            else:
+                c_count = False
+                break
+
+        return c_count
 
