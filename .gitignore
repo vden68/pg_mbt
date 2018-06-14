@@ -1,5 +1,6 @@
 /.idea/
 /env/
 /test_group/.pytest_cache/
+/test_group/test_basic/allure-results/
 mbt_hosts.json
 target.json

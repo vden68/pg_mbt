@@ -2,6 +2,7 @@ __author__ = 'vden'
 
 import time
 import random
+import pytest
 
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
@@ -50,7 +51,7 @@ class Table_fibonacci_numberHelper():
             if conn is not None:
                 conn.close()
 
-
+    @pytest.allure.step('insert in table "fibonacci_number"')
     def insert(self, fib_number=None, commit=True):
         global list_table_fibonacci_number
         global count_table_fibonacci_number
@@ -68,7 +69,8 @@ class Table_fibonacci_numberHelper():
         if commit:
             list_sql_char.append('commit;')
 
-            list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
+            with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
+                list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
             for row in list_row:
                 list_table_fibonacci_number.append(Table_fibonacci_number(id=row, fib_number=fib_number,
@@ -87,7 +89,7 @@ class Table_fibonacci_numberHelper():
         global list_table_fibonacci_number
         return list_table_fibonacci_number
 
-
+    @pytest.allure.step('check count')
     def check_count(self):
         global count_table_fibonacci_number
 
@@ -106,21 +108,24 @@ class Table_fibonacci_numberHelper():
 
             # print('sql_char=', sql_char)
 
-            list_count = self.db.cur_e.execute_select(sql_char=sql_char)
+            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+                list_count = self.db.cur_e.execute_select(sql_char=sql_char)
             for row in list_count:
                 (count,) = row
                 print("count_table=", count)
 
-            if count==count_table_fibonacci_number:
-                c_count = True
-            else:
-                c_count = False
-                x=x-10
-                time.sleep(2)
-                if y<5:
-                    y=y+1
+            with pytest.allure.step('compare the number of rows received=%s calculated=%s' %
+                                    (count, count_table_fibonacci_number)):
+                if count==count_table_fibonacci_number:
+                    c_count = True
                 else:
-                    break
+                    c_count = False
+                    x=x-10
+                    time.sleep(2)
+                    if y<5:
+                        y=y+1
+                    else:
+                        break
             x=x+1
 
         return c_count
