@@ -4,6 +4,7 @@ import pytest
 import json
 import os.path
 from datetime import datetime
+from distutils.util import strtobool
 
 from fixture.application import Application
 from fixture.db import Dbfixture
@@ -24,8 +25,8 @@ def load_mbt_hosts():
     mbt_hosts = []
     mbt_hosts_p = read_config_file(argument="mbt_hosts")
     for mbt_host in mbt_hosts_p:
-        mbt_hosts.append(Mbt_hosts(host=mbt_host["host"], port=mbt_host["port"],
-                                   write=mbt_host['write'], read=mbt_host['read']))
+        mbt_hosts.append(Mbt_hosts(host=mbt_host["host"], node_id=int(mbt_host["node_id"]), port=mbt_host["port"],
+                                   write=strtobool(mbt_host['write']), read=strtobool(mbt_host['read'])))
     return mbt_hosts
 
 def load_mbt_conn():
@@ -51,8 +52,8 @@ def app(request):
 
     if fixture is None :
         mbt_hosts = load_mbt_hosts()
-        mbt_hosts_write = [x for x in mbt_hosts if x.write == "True"]
-        mbt_hosts_read = [x for x in mbt_hosts if x.read == "True"]
+        mbt_hosts_write = [x for x in mbt_hosts if x.write ]
+        mbt_hosts_read = [x for x in mbt_hosts if x.read ]
 
         mbt_conn= load_mbt_conn()
 
