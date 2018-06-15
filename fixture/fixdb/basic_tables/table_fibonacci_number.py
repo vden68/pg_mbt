@@ -80,9 +80,12 @@ class Table_fibonacci_numberHelper():
                 list_table_fibonacci_number.remove(r_list)
 
             count_table_fibonacci_number+=1
+        else:
+            list_sql_char.append('rollback;')
+            list_sql_char.append('commit;')
 
-
-
+            with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
+                list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
 
     def get_list(self):
@@ -110,14 +113,16 @@ class Table_fibonacci_numberHelper():
 
             with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
                 list_count = self.db.cur_e.execute_select(sql_char=sql_char)
+
             for row in list_count:
                 (count,) = row
-                print("count_table=", count)
 
             with pytest.allure.step('compare the number of rows received=%s calculated=%s' %
                                     (count, count_table_fibonacci_number)):
                 if count==count_table_fibonacci_number:
                     c_count = True
+                    if count==0:
+                        c_count = False
                 else:
                     c_count = False
                     x=x-10
@@ -130,7 +135,7 @@ class Table_fibonacci_numberHelper():
 
         return c_count
 
-
+    @pytest.allure.step('check records')
     def check_records(self):
         global list_table_fibonacci_number
 
@@ -154,16 +159,20 @@ class Table_fibonacci_numberHelper():
 
                 # print('sql_char=', sql_char)
 
-                list_records = self.db.cur_e.execute_select(sql_char=sql_char)
+                with pytest.allure.step('get row  SQL=%s' % sql_char):
+                    list_records = self.db.cur_e.execute_select(sql_char=sql_char)
                 for row in list_records:
                     (id, fib_number, test_start_timestamp) = row
-                    print("check_records_table=", id, fib_number,test_start_timestamp)
+                    #print("check_records_table=", id, fib_number,test_start_timestamp)
 
-                if  x.id==id and x.fib_number==fib_number and x.test_start_timestamp==test_start_timestamp:
-                    c_records = True
-                else:
-                    c_records = False
-                    break
+                with pytest.allure.step('compare the row received=%s present=%s' %
+                                        (str(id)+" "+str(fib_number)+" "+str(test_start_timestamp),
+                                         str(x.id) + " " + str(x.fib_number) + " " + str(x.test_start_timestamp))):
+                    if  x.id==id and x.fib_number==fib_number and x.test_start_timestamp==test_start_timestamp:
+                        c_records = True
+                    else:
+                        c_records = False
+                        break
 
             if c_records:
                 xc=xc+1

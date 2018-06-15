@@ -39,12 +39,12 @@ class CursorExecuteHelper():
                     cursor.execute(sql_char)
                     if cursor.rowcount > 0:
                         results = cursor.fetchall()
-                        print('results=', results)
+                        #print('results=', results)
                         for row in results:
-                            print('row=', row)
+                            #print('row=', row)
                             (id1,) = row
                             id = int(id1)
-                            print('id=', id)
+                            #print('id=', id)
                             list_row.append(id)
                 except:
                     if cursor:
@@ -90,10 +90,10 @@ class CursorExecuteHelper():
                 cursor.execute(sql_char)
                 if cursor.rowcount > 0:
                     results = cursor.fetchall()
-                    print('results=', results)
+                    #print('results=', results)
                     for row in results:
                         (id) = row
-                        print('id=', id)
+                        #print('id=', id)
                         list_row.append(id)
                 break
             except:

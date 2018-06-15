@@ -1,3 +1,4 @@
 [
-  "test_basic/test_table_fibonacci_number_insert_commit.py::test_table_fibonacci_number_insert_commit"
+  "test_basic/test_table_fibonacci_number_insert_commit.py::test_table_fibonacci_number_insert_commit",
+  "test_basic/test_table_fibonacci_number_insert_rollback.py::test_table_fibonacci_number_insert_rollback"
 ]

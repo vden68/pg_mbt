@@ -17,7 +17,7 @@ class ConnectHelper():
         conn = None
 
         conn_string = "host="+host+" port="+port+" dbname="+dbname+" user="+user+" password="+password
-        print("Connecting to database\n	->%s" % (conn_string))
+        #print("Connecting to database\n	->%s" % (conn_string))
 
 
         try:
@@ -39,7 +39,7 @@ class ConnectHelper():
             db_host=random.choice(self.db.app.mbt_hosts_write)
             conn=self.connection(host=db_host.host, port=db_host.port, dbname="postgres",
                                  user=self.db.app.mbt_conn.superuser, password=self.db.app.mbt_conn.superuser_password)
-            print(db_host, x)
+            #print(db_host, x)
 
             x=x+1
             if x>60:
@@ -59,7 +59,7 @@ class ConnectHelper():
             db_host = random.choice(self.db.app.mbt_hosts_write)
             conn = self.connection(host=db_host.host, port=db_host.port, dbname=self.db.app.mbt_conn.database,
                                    user=self.db.app.mbt_conn.user, password=self.db.app.mbt_conn.password)
-            print(db_host, x)
+            #print(db_host, x)
 
             x = x + 1
             if x > 10:
@@ -78,7 +78,7 @@ class ConnectHelper():
             db_host = random.choice(self.db.app.mbt_hosts_read)
             conn = self.connection(host=db_host.host, port=db_host.port, dbname=self.db.app.mbt_conn.database,
                                    user=self.db.app.mbt_conn.user, password=self.db.app.mbt_conn.password)
-            print(db_host, x)
+            #print(db_host, x)
 
             x = x + 1
             if x > 10:
