@@ -3,12 +3,14 @@ __author__ = 'vden'
 import pytest
 import json
 import os.path
+import uuid
 from datetime import datetime
 from distutils.util import strtobool
 
 from fixture.application import Application
 from fixture.db import Dbfixture
 from fixture.generator import Generatorfixture
+from fixture.mbtfixture import Mbtfixture
 
 
 from model.mbt_host import Mbt_hosts
@@ -19,21 +21,24 @@ fixture = None
 target = None
 dbfixture = None
 generatorfixture = None
+mbtfixture = None
 
 
 def load_mbt_hosts():
     mbt_hosts = []
     mbt_hosts_p = read_config_file(argument="mbt_hosts")
     for mbt_host in mbt_hosts_p:
+        m_test_uuid = str(uuid.uuid1())[0:8]
         mbt_hosts.append(Mbt_hosts(host=mbt_host["host"], node_id=int(mbt_host["node_id"]), port=mbt_host["port"],
                                    write=strtobool(mbt_host['write']), read=strtobool(mbt_host['read'])))
     return mbt_hosts
 
 def load_mbt_conn():
     mbt_conn_r = read_config_file(argument="mbt_conn")
+    test_uuid = str(uuid.uuid1())[0:8]
     mbt_conn=Mbt_conn(superuser=mbt_conn_r["superuser"], superuser_password=mbt_conn_r["superuser_password"],
                       user=mbt_conn_r['user'], password=mbt_conn_r['password'], database=mbt_conn_r['database'],
-                      test_start_timestamp=datetime.now())
+                      test_start_timestamp=datetime.now(), test_uuid=test_uuid)
     return mbt_conn
 
 
@@ -90,3 +95,18 @@ def generator(request):
     request.addfinalizer(fin)
 
     return generatorfixture
+
+@pytest.fixture
+def mbt(request):
+    global mbtfixture
+
+    if mbtfixture is None:
+        mbtfixture = Mbtfixture()
+
+    def fin():
+        mbt.destroy()
+
+    request.addfinalizer(fin)
+
+    return mbtfixture
+

@@ -25,6 +25,7 @@ class ConnectHelper():
         except :
             if conn:
                 conn.close()
+            conn = None
             print("I am unable to connect to the database ->%s %s %s %s" % (host, dbname, user, password))
 
 
@@ -55,14 +56,14 @@ class ConnectHelper():
         x = 0
         while (conn is None):
             if x > 0:
-                time.sleep(5)
+                time.sleep(1)
             db_host = random.choice(self.db.app.mbt_hosts_write)
             conn = self.connection(host=db_host.host, port=db_host.port, dbname=self.db.app.mbt_conn.database,
                                    user=self.db.app.mbt_conn.user, password=self.db.app.mbt_conn.password)
             #print(db_host, x)
 
             x = x + 1
-            if x > 10:
+            if x > 60:
                 print('Could not connect to conn.db_postgres')
                 exit(1)
 
@@ -74,14 +75,15 @@ class ConnectHelper():
         x = 0
         while (conn is None):
             if x > 0:
-                time.sleep(5)
+                print("x=", x)
+                time.sleep(1)
             db_host = random.choice(self.db.app.mbt_hosts_read)
             conn = self.connection(host=db_host.host, port=db_host.port, dbname=self.db.app.mbt_conn.database,
                                    user=self.db.app.mbt_conn.user, password=self.db.app.mbt_conn.password)
             #print(db_host, x)
 
             x = x + 1
-            if x > 10:
+            if x > 60:
                 print('Could not connect to conn.db_postgres')
                 exit(1)
 

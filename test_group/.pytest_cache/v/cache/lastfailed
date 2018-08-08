@@ -1,1 +1,5 @@
-{}
+{
+  "setup.py": true,
+  "setup.py::TestCommand": true,
+  "test_basic/test_table_fibonacci_number_insert_commit.py::test_table_fibonacci_number_insert_commit": true
+}

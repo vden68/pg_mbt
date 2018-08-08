@@ -2,8 +2,10 @@ __author__ = 'vden'
 import pytest
 
 @pytest.allure.step('test_table_fibonacci_number_insert_rollback')
-def test_table_fibonacci_number_insert_rollback(app,generator, db):
+def test_table_fibonacci_number_insert_rollback(generator, db):
 
+
+    #Check
     c_count=db.table_fibonacci_number.check_count()
     if not c_count:
         for x in range(10):

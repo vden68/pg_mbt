@@ -1,26 +1,50 @@
 {
+
+  "mbt_conn":{
+    "database": "mydb",
+    "superuser": "myuser",
+    "superuser_password": "myuserpassword",
+    "user": "myuser",
+    "password": "myuserpassword"
+  },
+  "mbt_modules":{
+    "multimaster": "True"
+  },
   "mbt_hosts": [
     {
-      "host": "192.168.122.111",
-      "database": "test_mbt_db",
-      "superuser": "postgres",
-      "superuser_password": "TestRoot1",
-      "user": "test",
-      "password": "TestPass1",
-      "port": "3245",
-      "write": "False",
+      "host": "192.168.122.113",
+      "node_id": "1",
+      "port": "5432",
+      "write": "True",
       "read": "True"
     },
     {
-      "host": "192.168.122.112",
-      "database": "test_mbt_db",
-      "superuser": "postgres",
-      "superuser_password": "TestRoot1",
-      "user": "test",
-      "password": "TestPass1",
-      "port": "3245",
+      "host": "192.168.122.237",
+      "node_id": "2",
+      "port": "5432",
       "write": "True",
-      "read" : "False"
+      "read" : "True"
+    },
+    {
+      "host": "192.168.122.16",
+      "node_id": "3",
+      "port": "5432",
+      "write": "True",
+      "read" : "True"
+    },
+    {
+      "host": "192.168.122.28",
+      "node_id": "4",
+      "port": "5432",
+      "write": "False",
+      "read" : "True"
+    },
+    {
+      "host": "192.168.122.227",
+      "node_id": "5",
+      "port": "5432",
+      "write": "False",
+      "read" : "True"
     }
   ]
 }

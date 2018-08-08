@@ -16,31 +16,28 @@ class Table_fibonacci_numberHelper():
 
     def create_table(self):
 
-        if self.db.initdb.check_tablename(tablename='fibonacci_number'):
+        if self.db.initdb.check_tablename(tablename='fibonacci_number_'+self.db.app.mbt_conn.test_uuid) :
             print(("table '%s' already created") % 'fibonacci_number')
         else:
             print(("table '%s' no created") % 'fibonacci_number')
 
             conn = self.db.conn.db_write()
 
-            sql_char = """
-                  create table fibonacci_number
+            sql_char = ("""
+                  create table fibonacci_number_{test_uuid}
                     (
                        id         serial not null
-                         constraint fibonacci_number_pkey
+                         constraint fibonacci_number_{test_uuid}_pkey
                          primary key,
-                        fib_number bigint,
-                        test_start_timestamp timestamp                        
-                     );
+                        fib_number bigint
+                     ); 
 
-                    create unique index fibonacci_number_id_uindex
-                       on fibonacci_number (id);
+                    create unique index fibonacci_number_{test_uuid}_id_uindex
+                       on fibonacci_number_{test_uuid} (id);
                        
-                    create index fibonacci_number_test_start_timestamp_index
-                        on fibonacci_number (test_start_timestamp desc); 
-                        
+                                            
                     commit ;
-                       """
+                       """) .format(test_uuid=self.db.app.mbt_conn.test_uuid)
 
 
             #print('sql_char=', sql_char)
@@ -59,11 +56,11 @@ class Table_fibonacci_numberHelper():
         list_sql_char=[]
 
         list_sql_char.append(("""
-                          insert into fibonacci_number
-                             (fib_number, test_start_timestamp) VALUES 
-                             (%s, '%s') RETURNING id
+                          insert into fibonacci_number_{test_uuid}
+                             (fib_number) VALUES 
+                             ({fib_number}) RETURNING id
                           ; 
-                               """) %(fib_number, self.db.app.mbt_conn.test_start_timestamp)
+                               """).format (fib_number=fib_number, test_uuid=self.db.app.mbt_conn.test_uuid)
                              )
 
         if commit:
@@ -73,8 +70,7 @@ class Table_fibonacci_numberHelper():
                 list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
             for row in list_row:
-                list_table_fibonacci_number.append(Table_fibonacci_number(id=row, fib_number=fib_number,
-                                                                      test_start_timestamp=self.db.app.mbt_conn.test_start_timestamp))
+                list_table_fibonacci_number.append(Table_fibonacci_number(id=row, fib_number=fib_number))
             if len(list_table_fibonacci_number)>10:
                 r_list= random.choice(list_table_fibonacci_number)
                 list_table_fibonacci_number.remove(r_list)
@@ -104,10 +100,9 @@ class Table_fibonacci_numberHelper():
                         select
                           count (id)
                         from
-                          fibonacci_number
-                        where
-                           test_start_timestamp = '%s'                    ;
-                        """) % (self.db.app.mbt_conn.test_start_timestamp)
+                          fibonacci_number_{test_uuid}
+                                           ;
+                        """).format(test_uuid=self.db.app.mbt_conn.test_uuid)
 
             # print('sql_char=', sql_char)
 
@@ -119,6 +114,7 @@ class Table_fibonacci_numberHelper():
 
             with pytest.allure.step('compare the number of rows received=%s calculated=%s' %
                                     (count, count_table_fibonacci_number)):
+                print('count=', count, 'count_table_fibonacci_number=', count_table_fibonacci_number)
                 if count==count_table_fibonacci_number:
                     c_count = True
                     if count==0:
@@ -126,7 +122,7 @@ class Table_fibonacci_numberHelper():
                 else:
                     c_count = False
                     x=x-10
-                    time.sleep(2)
+                    #time.sleep(2)
                     if y<5:
                         y=y+1
                     else:
@@ -149,26 +145,23 @@ class Table_fibonacci_numberHelper():
                 sql_char = ("""
                                     select
                                       id,
-                                      fib_number,
-                                      test_start_timestamp
+                                      fib_number
                                     from
-                                      fibonacci_number
+                                      fibonacci_number_{test_uuid}
                                     where
-                                       id = %s                    ;
-                                    """) % (x.id)
+                                       id = {xid}                    ;
+                                    """).format(xid=x.id, test_uuid=self.db.app.mbt_conn.test_uuid)
 
                 # print('sql_char=', sql_char)
 
                 with pytest.allure.step('get row  SQL=%s' % sql_char):
                     list_records = self.db.cur_e.execute_select(sql_char=sql_char)
                 for row in list_records:
-                    (id, fib_number, test_start_timestamp) = row
-                    #print("check_records_table=", id, fib_number,test_start_timestamp)
+                    (id, fib_number) = row
+                    #print("check_records_table=", id, fib_number)
 
-                with pytest.allure.step('compare the row received=%s present=%s' %
-                                        (str(id)+" "+str(fib_number)+" "+str(test_start_timestamp),
-                                         str(x.id) + " " + str(x.fib_number) + " " + str(x.test_start_timestamp))):
-                    if  x.id==id and x.fib_number==fib_number and x.test_start_timestamp==test_start_timestamp:
+                with pytest.allure.step(('compare the row received=%s present=%s') %(str(id)+" "+str(fib_number), str(x.id)+" "+str(x.fib_number))):
+                    if  x.id==id and x.fib_number==fib_number:
                         c_records = True
                     else:
                         c_records = False
@@ -178,7 +171,7 @@ class Table_fibonacci_numberHelper():
                 xc=xc+1
             else:
                 xc=xc-10
-                time.sleep(2)
+                #time.sleep(2)
                 if yc<5:
                     yc=yc+1
                 else:
