@@ -135,14 +135,23 @@ class ConnectHelper():
         if conn_node1 is not None:
             conn_node1.close()
             conn_node1 = None
+            print("conn_node1 close")
         if conn_node2 is not None:
             conn_node2.close()
+            conn_node2 = None
+            print("conn_node2 close")
         if conn_node3 is not None:
             conn_node3.close()
+            conn_node3 = None
+            print("conn_node3 close")
         if conn_node4 is not None:
             conn_node4.close()
+            conn_node4 = None
+            print("conn_node4 close")
         if conn_node5 is not None:
             conn_node5.close()
+            conn_node5 = None
+            print("conn_node5 close")
 
 
 
