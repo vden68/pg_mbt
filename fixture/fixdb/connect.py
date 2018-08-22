@@ -4,7 +4,11 @@ import psycopg2
 import random
 import time
 
-
+conn_node1=None
+conn_node2=None
+conn_node3=None
+conn_node4=None
+conn_node5=None
 
 class ConnectHelper():
 
@@ -28,8 +32,8 @@ class ConnectHelper():
             conn = None
             print("I am unable to connect to the database ->%s %s %s %s" % (host, dbname, user, password))
 
-
         return conn
+
 
     def db_superuser(self):
         conn = None
@@ -51,23 +55,54 @@ class ConnectHelper():
 
 
 
-    def db_write(self):
-        conn = None
-        x = 0
-        while (conn is None):
-            if x > 0:
-                time.sleep(1)
-            db_host = random.choice(self.db.app.mbt_hosts_write)
-            conn = self.connection(host=db_host.host, port=db_host.port, dbname=self.db.app.mbt_conn.database,
-                                   user=self.db.app.mbt_conn.user, password=self.db.app.mbt_conn.password)
-            #print(db_host, x)
+    def db_write(self, selected_node=None):
 
-            x = x + 1
-            if x > 60:
-                print('Could not connect to conn.db_postgres')
-                exit(1)
+        global conn_node1
+        global conn_node2
+        global conn_node3
+        global conn_node4
+        global conn_node5
 
-        return conn
+        if selected_node is None:
+            selected_node = random.choice(self.db.app.mbt_hosts_write)
+
+        if selected_node.node_id==1:
+            if conn_node1 is None:
+                conn_node1=self.connection(host=selected_node.host, port=selected_node.port,
+                                           dbname=self.db.app.mbt_conn.database, user=self.db.app.mbt_conn.user,
+                                           password=self.db.app.mbt_conn.password)
+            return conn_node1
+
+        elif selected_node.node_id==2:
+            if conn_node2 is None:
+                conn_node2 = self.connection(host=selected_node.host, port=selected_node.port,
+                                             dbname=self.db.app.mbt_conn.database, user=self.db.app.mbt_conn.user,
+                                             password=self.db.app.mbt_conn.password)
+            return conn_node2
+
+        elif selected_node.node_id==3:
+            if conn_node3 is None:
+                conn_node3 = self.connection(host=selected_node.host, port=selected_node.port,
+                                             dbname=self.db.app.mbt_conn.database, user=self.db.app.mbt_conn.user,
+                                             password=self.db.app.mbt_conn.password)
+            return conn_node3
+
+        elif selected_node.node_id==4:
+            if conn_node4 is None:
+                conn_node4 = self.connection(host=selected_node.host, port=selected_node.port,
+                                             dbname=self.db.app.mbt_conn.database, user=self.db.app.mbt_conn.user,
+                                             password=self.db.app.mbt_conn.password)
+            return conn_node4
+
+        elif selected_node.node_id==5:
+            if conn_node5 is None:
+                conn_node5 = self.connection(host=selected_node.host, port=selected_node.port,
+                                             dbname=self.db.app.mbt_conn.database, user=self.db.app.mbt_conn.user,
+                                             password=self.db.app.mbt_conn.password)
+            return conn_node5
+
+
+
 
 
     def db_read(self):
@@ -88,6 +123,29 @@ class ConnectHelper():
                 exit(1)
 
         return conn
+
+    def all_close_conn(self):
+
+        global conn_node1
+        global conn_node2
+        global conn_node3
+        global conn_node4
+        global conn_node5
+
+        if conn_node1 is not None:
+            conn_node1.close()
+            conn_node1 = None
+        if conn_node2 is not None:
+            conn_node2.close()
+        if conn_node3 is not None:
+            conn_node3.close()
+        if conn_node4 is not None:
+            conn_node4.close()
+        if conn_node5 is not None:
+            conn_node5.close()
+
+
+
 
 
 

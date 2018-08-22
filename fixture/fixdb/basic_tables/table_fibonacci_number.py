@@ -45,8 +45,7 @@ class Table_fibonacci_numberHelper():
 
             if cursor is not None:
                 cursor.close()
-            if conn is not None:
-                conn.close()
+
 
     @pytest.allure.step('insert in table "fibonacci_number"')
     def insert(self, fib_number=None, commit=True):
@@ -78,7 +77,7 @@ class Table_fibonacci_numberHelper():
             count_table_fibonacci_number+=1
         else:
             list_sql_char.append('rollback;')
-            list_sql_char.append('commit;')
+            #list_sql_char.append('commit;')
 
             with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
                 list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)

@@ -55,8 +55,8 @@ class CursorExecuteHelper():
                 if cursor is None:
                     x = x + 1
                     print('x=', x)
-                    if conn is not None:
-                        conn.close()
+                    #if conn is not None:
+                        #conn.close()
                     list_row = None
 
                     if x > 10:
@@ -69,8 +69,8 @@ class CursorExecuteHelper():
 
             if cursor is not None:
                 cursor.close()
-            if conn is not None:
-                conn.close()
+            #if conn is not None:
+                #conn.close()
 
         return list_row
 
@@ -148,8 +148,8 @@ class CursorExecuteHelper():
             finally:
                 if cursor is not None:
                     cursor.close()
-                if conn is not None:
-                    conn.close()
+                #if conn is not None:
+                    #conn.close()
 
 
             if check_cursor is None:

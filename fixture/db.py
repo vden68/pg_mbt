@@ -30,8 +30,7 @@ class Dbfixture:
 
 
     def destroy(self):
-        pass
-        #self.connection.close()
+        self.conn.all_close_conn()
 
 
 

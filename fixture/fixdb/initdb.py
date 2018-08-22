@@ -36,7 +36,7 @@ class InitdbHelper():
 
 
         cursor.close()
-        conn.close()
+        #conn.close()
 
         if datname is None and rolname is None:
             return False
@@ -57,7 +57,8 @@ class InitdbHelper():
 
     def check_tablename(self, tablename=None):
         print('check_tablename')
-        conn = self.db.conn.db_read()
+        #conn = self.db.conn.db_read()
+        conn = self.db.conn.db_write()
 
         sql_char = ("""
         SELECT
@@ -76,7 +77,7 @@ class InitdbHelper():
             print('tablename=', x_tablename)
 
         cursor.close()
-        conn.close()
+        #conn.close()
 
         if x_tablename is None :
             return False
