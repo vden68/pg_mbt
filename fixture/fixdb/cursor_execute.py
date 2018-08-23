@@ -103,6 +103,7 @@ class CursorExecuteHelper():
             finally:
                 if cursor is not None:
                     cursor.close()
+                cursor=None
 
             if len(list_row)>0:
                 break

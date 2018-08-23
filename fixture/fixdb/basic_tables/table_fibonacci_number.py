@@ -103,8 +103,20 @@ class Table_fibonacci_numberHelper():
                                 """).format(test_uuid=self.db.app.mbt_conn.test_uuid)
         # print('sql_char=', sql_char)
 
-        for selected_node in self.db.app.mbt_hosts_read:
-            pass
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
+            for selected_node in self.db.app.mbt_hosts_read:
+
+                with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+                    list_count = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
+
+                    for row in list_count:
+                        (count,) = row
+
+                    print("node_id=",selected_node.node_id  ,"count=", count)
 
 
 
@@ -112,18 +124,14 @@ class Table_fibonacci_numberHelper():
 
 
 
+
+
+        """
         #------------------------------------------------
         c_count = False
         x=0
         y=0
         while x<10 :
-            sql_char = ("""
-                        select
-                          count (id)
-                        from
-                          fibonacci_number_{test_uuid}
-                                           ;
-                        """).format(test_uuid=self.db.app.mbt_conn.test_uuid)
 
             # print('sql_char=', sql_char)
 
@@ -150,7 +158,8 @@ class Table_fibonacci_numberHelper():
                         break
             x=x+1
 
-        return c_count
+        """
+        return  True
 
     @pytest.allure.step('check records')
     def check_records(self):
