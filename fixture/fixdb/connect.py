@@ -23,7 +23,6 @@ class ConnectHelper():
         conn_string = "host="+host+" port="+port+" dbname="+dbname+" user="+user+" password="+password
         #print("Connecting to database\n	->%s" % (conn_string))
 
-
         try:
             conn = psycopg2.connect(conn_string)
         except :
@@ -57,14 +56,31 @@ class ConnectHelper():
 
     def db_write(self, selected_node=None):
 
+        if selected_node is None:
+            selected_node = random.choice(self.db.app.mbt_hosts_write)
+
+        conn=self.get_conn_node(selected_node)
+
+        return conn
+
+
+    def db_read(self, selected_node=None):
+        if selected_node is None:
+            selected_node = random.choice(self.db.app.mbt_hosts_read)
+
+        conn=self.get_conn_node(selected_node)
+
+        return conn
+
+
+
+    def get_conn_node(self, selected_node):
+
         global conn_node1
         global conn_node2
         global conn_node3
         global conn_node4
         global conn_node5
-
-        if selected_node is None:
-            selected_node = random.choice(self.db.app.mbt_hosts_write)
 
         if selected_node.node_id==1:
             if conn_node1 is None:
@@ -105,24 +121,7 @@ class ConnectHelper():
 
 
 
-    def db_read(self):
-        conn = None
-        x = 0
-        while (conn is None):
-            if x > 0:
-                print("x=", x)
-                time.sleep(1)
-            db_host = random.choice(self.db.app.mbt_hosts_read)
-            conn = self.connection(host=db_host.host, port=db_host.port, dbname=self.db.app.mbt_conn.database,
-                                   user=self.db.app.mbt_conn.user, password=self.db.app.mbt_conn.password)
-            #print(db_host, x)
 
-            x = x + 1
-            if x > 60:
-                print('Could not connect to conn.db_postgres')
-                exit(1)
-
-        return conn
 
     def all_close_conn(self):
 

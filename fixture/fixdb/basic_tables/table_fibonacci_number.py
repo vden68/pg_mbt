@@ -70,27 +70,49 @@ class Table_fibonacci_numberHelper():
 
             for row in list_row:
                 list_table_fibonacci_number.append(Table_fibonacci_number(id=row, fib_number=fib_number))
+
             if len(list_table_fibonacci_number)>10:
                 r_list= random.choice(list_table_fibonacci_number)
                 list_table_fibonacci_number.remove(r_list)
 
             count_table_fibonacci_number+=1
+
         else:
+
             list_sql_char.append('rollback;')
-            #list_sql_char.append('commit;')
 
             with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
-                list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
+                self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
 
     def get_list(self):
         global list_table_fibonacci_number
         return list_table_fibonacci_number
 
+
     @pytest.allure.step('check count')
     def check_count(self):
         global count_table_fibonacci_number
 
+        sql_char = ("""
+                                select
+                                  count (id)
+                                from
+                                  fibonacci_number_{test_uuid}
+                                                   ;
+                                """).format(test_uuid=self.db.app.mbt_conn.test_uuid)
+        # print('sql_char=', sql_char)
+
+        for selected_node in self.db.app.mbt_hosts_read:
+            pass
+
+
+
+
+
+
+
+        #------------------------------------------------
         c_count = False
         x=0
         y=0

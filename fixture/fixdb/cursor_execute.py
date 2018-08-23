@@ -22,14 +22,18 @@ class CursorExecuteHelper():
 
         return cursor
 
+
     def execute_insert(self, list_sql_char=None):
-        #list_row=[]
-        cursor = None
-        x = 0
-        while cursor is None:
-            if x > 0:
-                time.sleep(5)
+
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
             conn = self.db.conn.db_write()
+            if conn is None:
+                continue
+
             cursor = conn.cursor()
             list_row = []
 
@@ -39,12 +43,12 @@ class CursorExecuteHelper():
                     cursor.execute(sql_char)
                     if cursor.rowcount > 0:
                         results = cursor.fetchall()
-                        #print('results=', results)
+                        # print('results=', results)
                         for row in results:
-                            #print('row=', row)
+                            # print('row=', row)
                             (id1,) = row
                             id = int(id1)
-                            #print('id=', id)
+                            # print('id=', id)
                             list_row.append(id)
                 except:
                     if cursor:
@@ -53,29 +57,70 @@ class CursorExecuteHelper():
                     cursor = None
 
                 if cursor is None:
-                    x = x + 1
-                    print('x=', x)
-                    #if conn is not None:
-                        #conn.close()
-                    list_row = None
-
-                    if x > 10:
-                        print('Could not connect to conn.db_postgres')
-                        exit(1)
-
                     break
 
-
-
             if cursor is not None:
-                cursor.close()
-            #if conn is not None:
-                #conn.close()
+                break
+
+        else:
+            print('Could not connect to conn.db_postgres')
+            exit(1)
+
+        if cursor:
+            cursor.close()
 
         return list_row
 
 
-    def execute_select(self, sql_char=None):
+
+
+    def execute_select(self, sql_char=None, selected_node=None):
+
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
+            conn = self.db.conn.db_read(selected_node)
+            if conn is None:
+                continue
+
+            list_row = []
+            try:
+                cursor = conn.cursor()
+                cursor.execute(sql_char)
+                if cursor.rowcount > 0:
+                    results = cursor.fetchall()
+                    #print('results=', results)
+                    for row in results:
+                        (id) = row
+                        #print('id=', id)
+                        list_row.append(id)
+
+            except:
+                print("no execute %s" % (sql_char))
+
+            finally:
+                if cursor is not None:
+                    cursor.close()
+
+            if len(list_row)>0:
+                break
+
+        else:
+            list_row=None
+
+        return list_row
+
+
+
+
+
+
+
+
+
+        """
         check_cursor = None
         x = 0
         while check_cursor is None:
@@ -83,9 +128,10 @@ class CursorExecuteHelper():
                 #time.sleep(5)
 
             list_row = []
+            cursor=None
 
             try:
-                conn = self.db.conn.db_read()
+                conn = self.db.conn.db_read(selected_node)
                 cursor = conn.cursor()
                 cursor.execute(sql_char)
                 if cursor.rowcount > 0:
@@ -103,8 +149,8 @@ class CursorExecuteHelper():
             finally:
                 if cursor is not None:
                     cursor.close()
-                if conn is not None:
-                    conn.close()
+                #if conn is not None:
+                    #conn.close()
 
 
             if check_cursor is None:
@@ -119,6 +165,7 @@ class CursorExecuteHelper():
 
 
         return list_row
+        """
 
 
 

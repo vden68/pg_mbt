@@ -50,7 +50,7 @@ def read_config_file(argument=None):
     return mbt_hosts_p
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def app(request):
     global fixture
 
@@ -67,7 +67,7 @@ def app(request):
     return fixture
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def db(request, app):
     global dbfixture
 
@@ -82,7 +82,7 @@ def db(request, app):
     return dbfixture
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def generator(request):
     global generatorfixture
 
@@ -96,7 +96,7 @@ def generator(request):
 
     return generatorfixture
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def mbt(request):
     global mbtfixture
 
