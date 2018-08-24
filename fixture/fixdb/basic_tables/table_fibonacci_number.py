@@ -92,6 +92,7 @@ class Table_fibonacci_numberHelper():
 
     @pytest.allure.step('check count')
     def check_count(self):
+        c_count = False
         global count_table_fibonacci_number
 
         sql_char = ("""
@@ -108,64 +109,85 @@ class Table_fibonacci_numberHelper():
             if x > 1:
                 time.sleep(2)
 
+            list_count_node_id = []
             for selected_node in self.db.app.mbt_hosts_read:
 
                 with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
                     list_count = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
 
-                    for row in list_count:
-                        (count,) = row
-
-                    print("node_id=",selected_node.node_id  ,"count=", count)
-
-
-
-
-
-
-
-
-
-        """
-        #------------------------------------------------
-        c_count = False
-        x=0
-        y=0
-        while x<10 :
-
-            # print('sql_char=', sql_char)
-
-            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
-                list_count = self.db.cur_e.execute_select(sql_char=sql_char)
-
-            for row in list_count:
-                (count,) = row
-
-            with pytest.allure.step('compare the number of rows received=%s calculated=%s' %
-                                    (count, count_table_fibonacci_number)):
-                print('count=', count, 'count_table_fibonacci_number=', count_table_fibonacci_number)
-                if count==count_table_fibonacci_number:
-                    c_count = True
-                    if count==0:
-                        c_count = False
-                else:
-                    c_count = False
-                    x=x-10
-                    #time.sleep(2)
-                    if y<5:
-                        y=y+1
+                    if list_count is not None:
+                        for row in list_count:
+                            (count,) = row
+                        print("node_id=",selected_node.node_id  ,"count=", count)
+                        list_count_node_id.append(count)
                     else:
-                        break
-            x=x+1
+                        print("node_id=", selected_node.node_id, "count=", None)
+                        list_count_node_id.append(None)
 
-        """
-        return  True
+
+            print("list_count_node_id=", list_count_node_id)
+
+            for count_node_id in list_count_node_id:
+                if not (count_node_id==count_table_fibonacci_number or count_node_id is None):
+                    break
+            else:
+                c_count=True
+                break
+
+        return  c_count
+
 
     @pytest.allure.step('check records')
     def check_records(self):
-        global list_table_fibonacci_number
 
+        global list_table_fibonacci_number
         c_records = False
+
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
+            sql_char = ("""
+                                                select
+                                                  id,
+                                                  fib_number
+                                                from
+                                                  fibonacci_number_{test_uuid}
+                                                where
+                                                   id = {rowid}                    ;
+                                                """).format(rowid=row.id, test_uuid=self.db.app.mbt_conn.test_uuid)
+            for row in list_table_fibonacci_number:
+                pass
+            # print('sql_char=', sql_char)
+
+
+            for selected_node in self.db.app.mbt_hosts_read:
+
+
+                with pytest.allure.step('get row  SQL=%s' % sql_char):
+                    list_records = self.db.cur_e.execute_select(sql_char=sql_char)
+                for row_list_records in list_records:
+                    (id, fib_number) = row_list_records
+                    #print("check_records_table=", id, fib_number)
+
+                with pytest.allure.step(('compare the row received=%s present=%s') %(str(id)+" "+str(fib_number), str(x.id)+" "+str(x.fib_number))):
+                    if  row.id==id and row.fib_number==fib_number:
+                        c_records = True
+                    else:
+                        c_records = False
+                        break
+
+
+
+
+
+
+
+
+
+
+
 
         xc=0
         yc=0

@@ -68,6 +68,7 @@ class CursorExecuteHelper():
 
         if cursor:
             cursor.close()
+            cursor=None
 
         return list_row
 
