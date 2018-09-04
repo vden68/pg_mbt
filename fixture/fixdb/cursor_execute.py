@@ -1,6 +1,5 @@
 __author__ = 'vden'
 import time
-import pytest
 
 
 
@@ -41,6 +40,7 @@ class CursorExecuteHelper():
 
                 try:
                     cursor.execute(sql_char)
+                    #cursor.executescript(sql_char)
                     if cursor.rowcount > 0:
                         results = cursor.fetchall()
                         # print('results=', results)
@@ -71,8 +71,6 @@ class CursorExecuteHelper():
             cursor=None
 
         return list_row
-
-
 
 
     def execute_select(self, sql_char=None, selected_node=None):
@@ -113,62 +111,6 @@ class CursorExecuteHelper():
             list_row=None
 
         return list_row
-
-
-
-
-
-
-
-
-
-        """
-        check_cursor = None
-        x = 0
-        while check_cursor is None:
-            #if x > 0:
-                #time.sleep(5)
-
-            list_row = []
-            cursor=None
-
-            try:
-                conn = self.db.conn.db_read(selected_node)
-                cursor = conn.cursor()
-                cursor.execute(sql_char)
-                if cursor.rowcount > 0:
-                    results = cursor.fetchall()
-                    #print('results=', results)
-                    for row in results:
-                        (id) = row
-                        #print('id=', id)
-                        list_row.append(id)
-                break
-            except:
-                print("no execute %s" % (sql_char))
-                check_cursor = None
-
-            finally:
-                if cursor is not None:
-                    cursor.close()
-                #if conn is not None:
-                    #conn.close()
-
-
-            if check_cursor is None:
-                x = x + 1
-                print('x=', x)
-
-                if x > 10:
-                    print('Could not connect to conn.db_postgres')
-                    exit(1)
-
-
-
-
-        return list_row
-        """
-
 
 
     def execute_ddl(self, sql_char=None):
@@ -213,10 +155,3 @@ class CursorExecuteHelper():
 
 
         return list_row
-
-
-
-
-
-
-

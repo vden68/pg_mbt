@@ -23,4 +23,4 @@ def test_table_fibonacci_number_insert_commit_or_rollback(generator, db):
     assert(db.table_fibonacci_number.check_count())
     #assert (db.table_fibonacci_number.check_records())
 
-mbt_test_table_fibonacci_number_insert_commit_or_roll=test_table_fibonacci_number_insert_commit_or_rollback
+#mbt_test_table_fibonacci_number_insert_commit_or_roll=test_table_fibonacci_number_insert_commit_or_rollback

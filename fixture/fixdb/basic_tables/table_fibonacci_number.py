@@ -54,6 +54,7 @@ class Table_fibonacci_numberHelper():
 
         list_sql_char=[]
 
+        list_sql_char.append("begin;")
         list_sql_char.append(("""
                           insert into fibonacci_number_{test_uuid}
                              (fib_number) VALUES 
@@ -62,7 +63,7 @@ class Table_fibonacci_numberHelper():
                                """).format (fib_number=fib_number, test_uuid=self.db.app.mbt_conn.test_uuid)
                              )
 
-        if commit:
+        if commit==True:
             list_sql_char.append('commit;')
 
             with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
@@ -118,7 +119,7 @@ class Table_fibonacci_numberHelper():
                     if list_count is not None:
                         for row in list_count:
                             (count,) = row
-                        print("node_id=",selected_node.node_id  ,"count=", count)
+                        print("count_table_fibonacci_number=", count_table_fibonacci_number ,"node_id=",selected_node.node_id  ,"count=", count)
                         list_count_node_id.append(count)
                     else:
                         print("node_id=", selected_node.node_id, "count=", None)
