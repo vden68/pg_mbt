@@ -40,38 +40,6 @@ class Table_fibonacci_numberHelper():
                 list_row = self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
 
-
-
-
-
-            """
-            conn = self.db.conn.db_write()
-
-            sql_char = (
-                  create table fibonacci_number_{test_uuid}
-                    (
-                       id         serial not null
-                         constraint fibonacci_number_{test_uuid}_pkey
-                         primary key,
-                        fib_number bigint
-                     ); 
-
-                    create unique index fibonacci_number_{test_uuid}_id_uindex
-                       on fibonacci_number_{test_uuid} (id);
-                       
-                                            
-                    commit ;
-                       ) .format(test_uuid=self.db.app.mbt_conn.test_uuid)
-
-
-            #print('sql_char=', sql_char)
-            cursor = self.db.cur_e.cursor_execute(conn=conn, sql_char=sql_char)
-
-            if cursor is not None:
-                cursor.close()
-            """
-
-
     @pytest.allure.step('insert in table "fibonacci_number"')
     def insert(self, fib_number=None, commit=True):
         global list_table_fibonacci_number

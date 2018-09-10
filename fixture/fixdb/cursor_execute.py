@@ -99,6 +99,7 @@ class CursorExecuteHelper():
 
             except:
                 print("no execute %s" % (sql_char))
+                self.db.conn.all_close_conn()
 
             finally:
                 if cursor is not None:
@@ -140,6 +141,7 @@ class CursorExecuteHelper():
                         cursor.close()
                     print("no execute %s" % (sql_char))
                     cursor = None
+                    self.db.conn.all_close_conn()
 
                 if cursor is None:
                     break
