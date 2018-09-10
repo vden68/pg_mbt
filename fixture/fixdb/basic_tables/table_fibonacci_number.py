@@ -64,12 +64,16 @@ class Table_fibonacci_numberHelper():
             with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
                 list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
+            row_id=0
             for row in list_row:
-                list_table_fibonacci_number.append(Table_fibonacci_number(id=row, fib_number=list_table_fibonacci_numbers))
+                #print(row, list_table_fibonacci_numbers[row_id].fib_number)
+                list_table_fibonacci_number.append(Table_fibonacci_number(id=row,
+                                                                          fib_number=list_table_fibonacci_numbers[row_id].fib_number))
+                row_id+=1
 
-            if len(list_table_fibonacci_number)>10:
-                r_list= random.choice(list_table_fibonacci_number)
-                list_table_fibonacci_number.remove(r_list)
+                if len(list_table_fibonacci_number)>10:
+                    r_list= random.choice(list_table_fibonacci_number)
+                    list_table_fibonacci_number.remove(r_list)
 
             count_table_fibonacci_number+=len(list_table_fibonacci_numbers)
 
