@@ -13,9 +13,9 @@ def test_table_fibonacci_number_insert_commit_or_rollback(generator, db):
         with pytest.allure.step('insert in the table the Fibonacci number %s' % fib):
             com_or_ron=random.randint(0,1)
             if com_or_ron==0:
-                db.table_fibonacci_number.insert(fib_number=fib)
+                db.table_fibonacci_number.insert(list_table_fibonacci_numbers=fib)
             else:
-                db.table_fibonacci_number.insert(fib_number=fib, commit=False)
+                db.table_fibonacci_number.insert(list_table_fibonacci_numbers=fib, commit=False)
 
         i_fib = i_fib + 1
         fib = generator.fibonacci.number(i_fib)

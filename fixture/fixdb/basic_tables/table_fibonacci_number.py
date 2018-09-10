@@ -41,20 +41,22 @@ class Table_fibonacci_numberHelper():
 
 
     @pytest.allure.step('insert in table "fibonacci_number"')
-    def insert(self, fib_number=None, commit=True):
+    def insert(self, list_table_fibonacci_numbers=None, commit=True):
         global list_table_fibonacci_number
         global count_table_fibonacci_number
 
         list_sql_char=[]
 
         list_sql_char.append("begin;")
-        list_sql_char.append(("""
-                          insert into fibonacci_number_{test_uuid}
-                             (fib_number) VALUES 
-                             ({fib_number}) RETURNING id
-                          ; 
-                               """).format (fib_number=fib_number, test_uuid=self.db.app.mbt_conn.test_uuid)
-                             )
+        sql_char=(("""insert into fibonacci_number_{test_uuid}
+                             (fib_number) VALUES""").format(test_uuid=self.db.app.mbt_conn.test_uuid))
+
+        for fib_n in list_table_fibonacci_numbers:
+            sql_char+=("""
+                       ({fib_number}),""").format (fib_number=fib_n.fib_number)
+        sql_char=sql_char[:-1]+" RETURNING id ;"
+
+        list_sql_char.append(sql_char)
 
         if commit==True:
             list_sql_char.append('commit;')
@@ -63,13 +65,13 @@ class Table_fibonacci_numberHelper():
                 list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
             for row in list_row:
-                list_table_fibonacci_number.append(Table_fibonacci_number(id=row, fib_number=fib_number))
+                list_table_fibonacci_number.append(Table_fibonacci_number(id=row, fib_number=list_table_fibonacci_numbers))
 
             if len(list_table_fibonacci_number)>10:
                 r_list= random.choice(list_table_fibonacci_number)
                 list_table_fibonacci_number.remove(r_list)
 
-            count_table_fibonacci_number+=1
+            count_table_fibonacci_number+=len(list_table_fibonacci_numbers)
 
         else:
 
