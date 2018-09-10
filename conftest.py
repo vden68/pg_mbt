@@ -67,7 +67,7 @@ def app(request):
     return fixture
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def db(request, app):
     global dbfixture
 

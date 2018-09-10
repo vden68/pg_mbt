@@ -21,9 +21,33 @@ class Table_fibonacci_numberHelper():
         else:
             print(("table '%s' no created") % 'fibonacci_number')
 
+            list_sql_char = []
+
+            list_sql_char.append("begin;")
+
+            list_sql_char.append(("""
+                     create table fibonacci_number_{test_uuid}
+                     (id         serial not null
+                                constraint fibonacci_number_{test_uuid}_pkey
+                                primary key,
+                     fib_number bigint);
+                     """) .format(test_uuid=self.db.app.mbt_conn.test_uuid)
+                                 )
+
+            list_sql_char.append('commit;')
+
+            with pytest.allure.step('DDL=%s' % list_sql_char):
+                list_row = self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
+
+
+
+
+
+
+            """
             conn = self.db.conn.db_write()
 
-            sql_char = ("""
+            sql_char = (
                   create table fibonacci_number_{test_uuid}
                     (
                        id         serial not null
@@ -37,7 +61,7 @@ class Table_fibonacci_numberHelper():
                        
                                             
                     commit ;
-                       """) .format(test_uuid=self.db.app.mbt_conn.test_uuid)
+                       ) .format(test_uuid=self.db.app.mbt_conn.test_uuid)
 
 
             #print('sql_char=', sql_char)
@@ -45,6 +69,7 @@ class Table_fibonacci_numberHelper():
 
             if cursor is not None:
                 cursor.close()
+            """
 
 
     @pytest.allure.step('insert in table "fibonacci_number"')

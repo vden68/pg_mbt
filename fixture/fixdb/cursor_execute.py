@@ -55,6 +55,7 @@ class CursorExecuteHelper():
                         cursor.close()
                     print("no execute %s" % (sql_char))
                     cursor = None
+                    self.db.conn.all_close_conn()
 
                 if cursor is None:
                     break
@@ -113,45 +114,46 @@ class CursorExecuteHelper():
         return list_row
 
 
-    def execute_ddl(self, sql_char=None):
-        check_cursor = None
-        x = 0
-        while check_cursor is None:
+    def execute_ddl(self, list_sql_char=None):
 
-            list_row = []
+        for x in range(10):
 
-            try:
-                conn = self.db.conn.db_read()
-                cursor = conn.cursor()
-                cursor.execute(sql_char)
-                if cursor.rowcount > 0:
-                    results = cursor.fetchall()
-                    #print('results=', results)
-                    for row in results:
-                        (id) = row
-                        #print('id=', id)
-                        list_row.append(id)
+            if x > 1:
+                time.sleep(2)
+
+            conn = self.db.conn.db_write()
+            if conn is None:
+                continue
+
+            cursor = conn.cursor()
+
+
+            for sql_char in list_sql_char:
+
+                try:
+                    cursor.execute(sql_char)
+                    #cursor.executescript(sql_char)
+
+
+                except:
+                    if cursor:
+                        cursor.close()
+                    print("no execute %s" % (sql_char))
+                    cursor = None
+
+                if cursor is None:
+                    break
+
+            if cursor is not None:
                 break
-            except:
-                print("no execute %s" % (sql_char))
-                check_cursor = None
 
-            finally:
-                if cursor is not None:
-                    cursor.close()
-                #if conn is not None:
-                    #conn.close()
+        else:
+            print('Could not connect to conn.db_postgres')
+            exit(1)
 
+        if cursor:
+            cursor.close()
+            cursor=None
 
-            if check_cursor is None:
-                x = x + 1
-                print('x=', x)
+        return
 
-                if x > 10:
-                    print('Could not connect to conn.db_postgres')
-                    exit(1)
-
-
-
-
-        return list_row
