@@ -2,12 +2,12 @@ __author__ = 'vden'
 import pytest
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
-@pytest.allure.step('test_table_fibonacci_number_insert_commit')
-def test_table_fibonacci_number_insert_commit(db, generator):
+@pytest.allure.step('test_table_fibonacci_number_multi_insert_commit')
+def test_table_fibonacci_number_multi_insert_commit(db, generator):
 
     fib = generator.fibonacci.numbers_list()
 
-    for x in range(1):
+    for x in range(100):
 
         list_table_fibonacci_numbers = []
         for i_fib in fib:
@@ -17,5 +17,5 @@ def test_table_fibonacci_number_insert_commit(db, generator):
             db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
 
     assert(db.table_fibonacci_number.check_count())
-    print(db.table_fibonacci_number.get_list())
+    #print(db.table_fibonacci_number.get_list())
     #assert (db.table_fibonacci_number.check_records())

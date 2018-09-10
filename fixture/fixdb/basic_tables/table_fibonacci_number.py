@@ -71,7 +71,7 @@ class Table_fibonacci_numberHelper():
                                                                           fib_number=list_table_fibonacci_numbers[row_id].fib_number))
                 row_id+=1
 
-                if len(list_table_fibonacci_number)>10:
+                if len(list_table_fibonacci_number)>20:
                     r_list= random.choice(list_table_fibonacci_number)
                     list_table_fibonacci_number.remove(r_list)
 
