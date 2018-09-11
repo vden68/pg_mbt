@@ -132,7 +132,7 @@ class Table_fibonacci_numberHelper():
         if count_table_fibonacci_number<100:
             c_limit=count_table_fibonacci_number//10+2
         elif count_table_fibonacci_number<1000:
-            c_limit = count_table_fibonacci_number//10 * 2
+            c_limit = count_table_fibonacci_number//10
 
 
 
