@@ -8,7 +8,7 @@ def test_table_fibonacci_number_insert_commit(db, generator):
 
     fib = generator.fibonacci.numbers_list()
 
-    for x in range(1):
+    for x in range(5):
 
         for i_fib in fib:
             list_table_fibonacci_numbers = []
@@ -17,5 +17,4 @@ def test_table_fibonacci_number_insert_commit(db, generator):
                 db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
 
     assert(db.table_fibonacci_number.check_count())
-    #print(db.table_fibonacci_number.get_list())
-    #assert (db.table_fibonacci_number.check_records())
+    assert (db.table_fibonacci_number.check_records())

@@ -1,12 +1,11 @@
 __author__ = 'vden'
 
 import time
-import random
 import pytest
 
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
-list_table_fibonacci_number = []
+#list_table_fibonacci_number = []
 count_table_fibonacci_number = 0
 
 class Table_fibonacci_numberHelper():
@@ -64,17 +63,6 @@ class Table_fibonacci_numberHelper():
             with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
                 list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
-            row_id=0
-            for row in list_row:
-                #print(row, list_table_fibonacci_numbers[row_id].fib_number)
-                list_table_fibonacci_number.append(Table_fibonacci_number(id=row,
-                                                                          fib_number=list_table_fibonacci_numbers[row_id].fib_number))
-                row_id+=1
-
-                if len(list_table_fibonacci_number)>20:
-                    r_list= random.choice(list_table_fibonacci_number)
-                    list_table_fibonacci_number.remove(r_list)
-
             count_table_fibonacci_number+=len(list_table_fibonacci_numbers)
 
         else:
@@ -85,9 +73,9 @@ class Table_fibonacci_numberHelper():
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
 
-    def get_list(self):
-        global list_table_fibonacci_number
-        return list_table_fibonacci_number
+    #def get_list(self):
+        #global list_table_fibonacci_number
+        #return list_table_fibonacci_number
 
 
     @pytest.allure.step('check count')
@@ -140,6 +128,26 @@ class Table_fibonacci_numberHelper():
     @pytest.allure.step('check records')
     def check_records(self):
 
+        global count_table_fibonacci_number
+        if count_table_fibonacci_number<100:
+            c_limit=count_table_fibonacci_number//10+2
+        elif count_table_fibonacci_number<1000:
+            c_limit = count_table_fibonacci_number//10 * 2
+
+
+
+        sql_char = ("""
+                                        select
+                                          id,
+                                          fib_number
+                                        from
+                                          fibonacci_number_{test_uuid}
+                                        ORDER BY RANDOM()
+                                        LIMIT {climit}                                                           ;
+                                        ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid, climit=c_limit)
+        print('sql_char=', sql_char)
+
+        """
         global list_table_fibonacci_number
         c_records = False
 
@@ -148,19 +156,19 @@ class Table_fibonacci_numberHelper():
             if x > 1:
                 time.sleep(2)
 
-            sql_char = ("""select
+            sql_char = (select
                             id,
                             fib_number
                           from
                             fibonacci_number_{test_uuid}
                           where
-                          id IN (""").format(test_uuid=self.db.app.mbt_conn.test_uuid)
+                          id IN ().format(test_uuid=self.db.app.mbt_conn.test_uuid)
                                                  #  id = {rowid}                    ;
                                                 #).format(rowid=row.id, test_uuid=self.db.app.mbt_conn.test_uuid)
 
             for row in list_table_fibonacci_number:
-                sql_char=sql_char+("""
-                            {rowid},""").format(rowid=row.id)
+                sql_char=sql_char+(
+                            {rowid},).format(rowid=row.id)
             sql_char=sql_char[:-1]+");"
             print('sql_char=', sql_char)
 
@@ -174,7 +182,7 @@ class Table_fibonacci_numberHelper():
                     (id, fib_number) = row_list_records
                     print("selected_node_id=", selected_node.node_id, "check_records_table=", id, fib_number)
 
-                """
+
                 with pytest.allure.step(('compare the row received=%s present=%s') %(str(id)+" "+str(fib_number), str(x.id)+" "+str(x.fib_number))):
                     if  row.id==id and row.fib_number==fib_number:
                         c_records = True

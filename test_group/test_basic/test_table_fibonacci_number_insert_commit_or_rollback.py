@@ -1,23 +1,29 @@
 __author__ = 'vden'
 import pytest
 import random
+from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
+
 
 @pytest.allure.step('test_table_fibonacci_number_insert_commit_or_rollback')
 def test_table_fibonacci_number_insert_commit_or_rollback(generator, db):
+    fib = generator.fibonacci.numbers_list()
 
-    i_fib = 1
-    fib = generator.fibonacci.number(i_fib)
+    for x in range(5):
 
-    while fib < 9223372036854775807:
+        fib = generator.fibonacci.numbers_list()
 
-        with pytest.allure.step('insert in the table the Fibonacci number %s' % fib):
-            com_or_ron=random.randint(0,1)
-            if com_or_ron==0:
-                db.table_fibonacci_number.insert(list_table_fibonacci_numbers=fib)
-            else:
-                db.table_fibonacci_number.insert(list_table_fibonacci_numbers=fib, commit=False)
+        for x in range(1):
 
-        i_fib = i_fib + 1
-        fib = generator.fibonacci.number(i_fib)
+            for i_fib in fib:
+                list_table_fibonacci_numbers = []
+                list_table_fibonacci_numbers.append(Table_fibonacci_number(id=0, fib_number=i_fib))
+                with pytest.allure.step('insert in the table the Fibonacci number %s' % fib):
+                    com_or_ron = random.randint(0, 1)
+                    if com_or_ron == 0:
+                        db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
+                    else:
+                        db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers, commit=False)
 
-    assert(db.table_fibonacci_number.check_count())
+    assert (db.table_fibonacci_number.check_count())
+    assert (db.table_fibonacci_number.check_records())
+
