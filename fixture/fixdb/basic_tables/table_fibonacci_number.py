@@ -152,7 +152,6 @@ class Table_fibonacci_numberHelper():
                                         ORDER BY RANDOM()
                                         LIMIT {climit}                                                           ;
                                         ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid, climit=c_limit)
-        print('sql_char=', sql_char)
 
         for x in range(10):
 
@@ -170,16 +169,21 @@ class Table_fibonacci_numberHelper():
                 break
 
         list_row_records_for_verification=sorted(list_row_records_for_verification, key=lambda x: x.id)
-        print("list_row_records_for_verification=", list_row_records_for_verification)
 
         sql_char = ("""select
                           fib.id,
                           fib.fib_number
                         from
                           fibonacci_number_{test_uuid} AS fib
-                        ORDER BY fib.id
+                        
                         WHERE 
                           fib.id IN (""").format(test_uuid=self.db.app.mbt_conn.test_uuid)
+
+        for row in list_row_records_for_verification:
+            sql_char+=("""
+                           {c_id},""").format(c_id=row.id)
+        sql_char = sql_char[:-1]+""" ) 
+                        ORDER BY fib.id;"""
 
 
 
