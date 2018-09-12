@@ -133,6 +133,13 @@ class Table_fibonacci_numberHelper():
             c_limit=count_table_fibonacci_number//10+2
         elif count_table_fibonacci_number<1000:
             c_limit = count_table_fibonacci_number//10
+        elif count_table_fibonacci_number<10000:
+            c_limit = count_table_fibonacci_number//20
+        elif count_table_fibonacci_number<100000:
+            c_limit = count_table_fibonacci_number//40
+        else:
+            c_limit = 3000
+
 
 
 
@@ -147,49 +154,32 @@ class Table_fibonacci_numberHelper():
                                         ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid, climit=c_limit)
         print('sql_char=', sql_char)
 
-        """
-        global list_table_fibonacci_number
-        c_records = False
-
-        for x in range(1):
+        for x in range(10):
 
             if x > 1:
                 time.sleep(2)
 
-            sql_char = (select
-                            id,
-                            fib_number
-                          from
-                            fibonacci_number_{test_uuid}
-                          where
-                          id IN ().format(test_uuid=self.db.app.mbt_conn.test_uuid)
-                                                 #  id = {rowid}                    ;
-                                                #).format(rowid=row.id, test_uuid=self.db.app.mbt_conn.test_uuid)
+            with pytest.allure.step('get row records for verification  SQL=%s' % sql_char):
+                list_row = self.db.cur_e.execute_select(sql_char=sql_char)
 
-            for row in list_table_fibonacci_number:
-                sql_char=sql_char+(
-                            {rowid},).format(rowid=row.id)
-            sql_char=sql_char[:-1]+");"
-            print('sql_char=', sql_char)
+            list_row_records_for_verification = []
+            if list_row is not None:
+                for row in list_row:
+                    (id, fib_number,) = row
+                    list_row_records_for_verification.append(Table_fibonacci_number(id=id, fib_number=fib_number))
+                break
 
+        list_row_records_for_verification=sorted(list_row_records_for_verification, key=lambda x: x.id)
+        print("list_row_records_for_verification=", list_row_records_for_verification)
 
-
-            for selected_node in self.db.app.mbt_hosts_read:
-
-                with pytest.allure.step('get row  SQL=%s' % sql_char):
-                    list_records = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
-                for row_list_records in list_records:
-                    (id, fib_number) = row_list_records
-                    print("selected_node_id=", selected_node.node_id, "check_records_table=", id, fib_number)
-
-
-                with pytest.allure.step(('compare the row received=%s present=%s') %(str(id)+" "+str(fib_number), str(x.id)+" "+str(x.fib_number))):
-                    if  row.id==id and row.fib_number==fib_number:
-                        c_records = True
-                    else:
-                        c_records = False
-                        break
-            
+        sql_char = ("""select
+                          fib.id,
+                          fib.fib_number
+                        from
+                          fibonacci_number_{test_uuid} AS fib
+                        ORDER BY fib.id
+                        WHERE 
+                          fib.id IN (""").format(test_uuid=self.db.app.mbt_conn.test_uuid)
 
 
 
@@ -199,41 +189,5 @@ class Table_fibonacci_numberHelper():
 
 
 
-
-
-
-        xc=0
-        yc=0
-        while xc<10:
-
-            for x in list_table_fibonacci_number:
-                sql_char = mat(xid=x.id, test_uuid=self.db.app.mbt_conn.test_uuid)
-
-                # print('sql_char=', sql_char)
-
-                with pytest.allure.step('get row  SQL=%s' % sql_char):
-                    list_records = self.db.cur_e.execute_select(sql_char=sql_char)
-                for row in list_records:
-                    (id, fib_number) = row
-                    #print("check_records_table=", id, fib_number)
-
-                with pytest.allure.step(('compare the row received=%s present=%s') %(str(id)+" "+str(fib_number), str(x.id)+" "+str(x.fib_number))):
-                    if  x.id==id and x.fib_number==fib_number:
-                        c_records = True
-                    else:
-                        c_records = False
-                        break
-
-            if c_records:
-                xc=xc+1
-            else:
-                xc=xc-10
-                #time.sleep(2)
-                if yc<5:
-                    yc=yc+1
-                else:
-                    break
-
-        """
         return True
 
