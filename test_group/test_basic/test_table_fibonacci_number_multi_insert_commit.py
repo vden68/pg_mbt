@@ -8,9 +8,9 @@ def test_table_fibonacci_number_multi_insert_commit(db, generator):
 
     fib = generator.fibonacci.numbers_list()
 
-    for y in range(100):
+    for y in range(10):
 
-        for x in range(100):
+        for x in range(10):
 
             list_table_fibonacci_numbers = []
             for i_fib in fib:

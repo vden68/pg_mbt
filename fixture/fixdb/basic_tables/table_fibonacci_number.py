@@ -203,3 +203,35 @@ class Table_fibonacci_numberHelper():
 
         return True
 
+    @pytest.allure.step('insert in table "fibonacci_number"')
+    def update_id_more_than_number(self, number_write=0,number_id=0 , commit=True):
+
+        list_sql_char = []
+
+        list_sql_char.append("BEGIN;")
+        sql_char = (("""UPDATE 
+                          fibonacci_number_{test_uuid}
+                        SET 
+                          fib_number = {m_number_write}
+                        WHERE 
+                          id > {m_number_id}  ;
+                          """).format(test_uuid=self.db.app.mbt_conn.test_uuid,
+                                      m_number_write=number_write, m_number_id=number_id))
+
+        list_sql_char.append(sql_char)
+
+        if commit == True:
+            list_sql_char.append('commit;')
+
+            with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
+                list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
+
+        else:
+
+            list_sql_char.append('rollback;')
+
+            with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
+                self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
+
+
+

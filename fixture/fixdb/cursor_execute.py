@@ -9,6 +9,7 @@ class CursorExecuteHelper():
     def __init__(self, db):
         self.db = db
 
+
     def cursor_execute(self, conn=None, sql_char=None):
         cursor = conn.cursor()
         try:
@@ -20,6 +21,7 @@ class CursorExecuteHelper():
             cursor = None
 
         return cursor
+
 
 
     def execute_insert(self, list_sql_char=None):
@@ -101,10 +103,6 @@ class CursorExecuteHelper():
                 print("no execute %s" % (sql_char))
                 self.db.conn.all_close_conn()
 
-            finally:
-                if cursor is not None:
-                    cursor.close()
-                cursor=None
 
             if len(list_row)>0:
                 break

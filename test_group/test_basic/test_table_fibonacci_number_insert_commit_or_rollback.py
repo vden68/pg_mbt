@@ -9,7 +9,7 @@ def test_table_fibonacci_number_insert_commit_or_rollback(generator, db):
     print("\n\ntest_table_fibonacci_number_insert_commit_or_rollback \n\n")
     fib = generator.fibonacci.numbers_list()
 
-    for x in range(100):
+    for x in range(10):
 
         for i_fib in fib:
             list_table_fibonacci_numbers = []
