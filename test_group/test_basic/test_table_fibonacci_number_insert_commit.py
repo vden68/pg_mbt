@@ -5,10 +5,11 @@ from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
 @pytest.allure.step('test_table_fibonacci_number_insert_commit')
 def test_table_fibonacci_number_insert_commit(db, generator):
+    print("\n\ntest_table_fibonacci_number_insert_commit \n\n")
 
     fib = generator.fibonacci.numbers_list()
 
-    for x in range(5):
+    for x in range(100):
 
         for i_fib in fib:
             list_table_fibonacci_numbers = []

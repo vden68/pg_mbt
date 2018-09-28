@@ -185,13 +185,21 @@ class Table_fibonacci_numberHelper():
         sql_char = sql_char[:-1]+""" ) 
                         ORDER BY fib.id;"""
 
+        for selected_node in self.db.app.mbt_hosts_read:
 
+            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+                list_row = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
+                list_row2 = []
 
+                if list_row is not None:
+                    for row in list_row:
+                        (id, fib_number,) = row
+                        list_row2.append(Table_fibonacci_number(id=id, fib_number=fib_number))
 
-
-
-
-
+                    assert list_row_records_for_verification==list_row2
+                    print("node_id=", selected_node.node_id, True)
+                else:
+                    print("node_id=", selected_node.node_id, None)
 
         return True
 
