@@ -10,6 +10,8 @@ def test_table_fibonacci_number_multi_insert_commit(db, generator):
 
     for y in range(10):
 
+        print("range=", y)
+
         for x in range(10):
 
             list_table_fibonacci_numbers = []
