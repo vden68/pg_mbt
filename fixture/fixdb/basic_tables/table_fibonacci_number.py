@@ -82,6 +82,7 @@ class Table_fibonacci_numberHelper():
     def check_count(self):
         c_count = False
         global count_table_fibonacci_number
+        self.checking_completion_of_all_locks()
 
         sql_char = ("""
                                 select
@@ -203,7 +204,9 @@ class Table_fibonacci_numberHelper():
 
         return True
 
-    @pytest.allure.step('insert in table "fibonacci_number"')
+
+
+    @pytest.allure.step('update in table "fibonacci_number"')
     def update_id_more_than_number(self, number_write=0,number_id=0 , commit=True):
 
         list_sql_char = []
@@ -214,7 +217,8 @@ class Table_fibonacci_numberHelper():
                         SET 
                           fib_number = {m_number_write}
                         WHERE 
-                          id > {m_number_id}  ;
+                          id > {m_number_id} 
+                        ;
                           """).format(test_uuid=self.db.app.mbt_conn.test_uuid,
                                       m_number_write=number_write, m_number_id=number_id))
 
@@ -223,15 +227,65 @@ class Table_fibonacci_numberHelper():
         if commit == True:
             list_sql_char.append('commit;')
 
-            with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
-                list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
+            with pytest.allure.step('update plus commit  SQL=%s' % list_sql_char):
+                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
         else:
 
             list_sql_char.append('rollback;')
 
-            with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
-                self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
+            with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
+                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
+
+    def get_count_table_fibonacci_number(self):
+        global count_table_fibonacci_number
+        return count_table_fibonacci_number
+
+
+    def checking_completion_of_all_locks(self):
+
+        list_sql_char = []
+
+        list_sql_char.append("BEGIN;")
+
+        sql_char = ("""SELECT
+                            count(c.relname)
+                         FROM
+                           pg_locks AS l
+                           LEFT JOIN pg_class AS c ON l.relation = c.oid
+                         WHERE
+                           relname='fibonacci_number_{test_uuid}'
+                         ;
+                        """).format(test_uuid=self.db.app.mbt_conn.test_uuid)
+        list_sql_char.append(sql_char)
+        list_sql_char.append('commit;')
+
+        print('sql_char=' , sql_char)
+
+
+        for selected_node in self.db.app.mbt_hosts_read:
+
+            count_lock=10
+            count2=0
+            while count_lock!=0:
+
+
+                with pytest.allure.step('Checking completion of all locks  SQL=%s' % sql_char):
+                    list_count = self.db.cur_e.execute_select_list(list_sql_char=list_sql_char, selected_node=selected_node)
+
+                    if list_count is not None:
+                        for row in list_count:
+                            (count_lock,) = row
+
+                    if count2>1:
+                        time.sleep(1)
+
+                    if count2>40:
+                        break
+
+                    count2+=1
+                    print('selected_node=', selected_node,  "count=", count_lock)
+
 
 
 

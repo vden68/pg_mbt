@@ -157,3 +157,98 @@ class CursorExecuteHelper():
 
         return
 
+
+    def execute_update(self, list_sql_char=None):
+
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
+            conn = self.db.conn.db_write()
+            if conn is None:
+                continue
+
+            cursor = conn.cursor()
+
+
+            for sql_char in list_sql_char:
+
+                try:
+                    print('sql_char=', sql_char)
+                    cursor.execute(sql_char)
+
+                except:
+                    if cursor:
+                        cursor.close()
+                    print("no execute %s" % (sql_char))
+                    cursor = None
+                    self.db.conn.all_close_conn()
+
+                if cursor is None:
+                    break
+
+            if cursor is not None:
+                break
+
+        else:
+            print('Could not connect to conn.db_postgres')
+            exit(1)
+
+        if cursor:
+            cursor.close()
+            cursor=None
+
+        return
+
+
+    def execute_select_list(self, list_sql_char=None, selected_node=None):
+
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
+            conn = self.db.conn.db_write(selected_node)
+            if conn is None:
+                continue
+
+            cursor = conn.cursor()
+
+            list_row = []
+            for sql_char in list_sql_char:
+
+                try:
+                    cursor.execute(sql_char)
+                    if cursor.rowcount > 0:
+                        results = cursor.fetchall()
+                        #print('results=', results)
+                        for row in results:
+                            (id) = row
+                            #print('id=', id)
+                            list_row.append(id)
+                except:
+                    if cursor:
+                        cursor.close()
+                    print("no execute %s" % (sql_char))
+                    cursor = None
+                    self.db.conn.all_close_conn()
+
+                if cursor is None:
+                    break
+
+            if cursor is not None:
+                break
+
+        else:
+            print('Could not connect to conn.db_postgres')
+            exit(1)
+
+        if cursor:
+            cursor.close()
+            cursor=None
+
+        return list_row
+
+
+
