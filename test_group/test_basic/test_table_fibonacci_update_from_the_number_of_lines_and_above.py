@@ -25,7 +25,6 @@ def test_table_fibonacci_number_multi_insert_commit(db, generator):
                 db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
 
         db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1), number_id=count_table_fibonacci_number)
-        #time.sleep(20)
 
         assert(db.table_fibonacci_number.check_count())
         assert (db.table_fibonacci_number.check_records())

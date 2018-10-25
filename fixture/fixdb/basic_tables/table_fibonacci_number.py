@@ -284,7 +284,7 @@ class Table_fibonacci_numberHelper():
                         break
 
                     count2+=1
-                    print('selected_node=', selected_node,  "count=", count_lock)
+                    print('selected_node=', selected_node,  "count_lock=", count_lock)
 
 
 

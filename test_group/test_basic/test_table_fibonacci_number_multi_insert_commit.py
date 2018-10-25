@@ -22,4 +22,4 @@ def test_table_fibonacci_number_multi_insert_commit(db, generator):
                 db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
 
         assert(db.table_fibonacci_number.check_count())
-        #assert (db.table_fibonacci_number.check_records())
+        assert (db.table_fibonacci_number.check_records())
