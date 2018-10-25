@@ -15,7 +15,7 @@ def test_table_fibonacci_number_multi_insert_commit(db, generator):
         print('count_table_fibonacci_number=', count_table_fibonacci_number)
         print("\n range=", y)
 
-        for x in range(10):
+        for x in range(50):
 
             list_table_fibonacci_numbers = []
             for i_fib in fib:
@@ -26,5 +26,5 @@ def test_table_fibonacci_number_multi_insert_commit(db, generator):
 
         db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1), number_id=count_table_fibonacci_number)
 
-        assert(db.table_fibonacci_number.check_count())
-        assert (db.table_fibonacci_number.check_records())
+    assert(db.table_fibonacci_number.check_count())
+    assert (db.table_fibonacci_number.check_records())

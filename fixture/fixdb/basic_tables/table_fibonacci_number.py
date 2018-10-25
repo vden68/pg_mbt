@@ -4,6 +4,7 @@ import time
 import pytest
 
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
+from model.basic_tables.check_table_fibonacci_number import Check_table_fibonacci_number
 
 #list_table_fibonacci_number = []
 count_table_fibonacci_number = 0
@@ -145,14 +146,16 @@ class Table_fibonacci_numberHelper():
 
 
         sql_char = ("""
-                                        select
-                                          id,
-                                          fib_number
-                                        from
-                                          fibonacci_number_{test_uuid}
-                                        ORDER BY RANDOM()
-                                        LIMIT {climit}                                                           ;
-                                        ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid, climit=c_limit)
+        SELECT
+           fib_number,
+           count(*)
+         FROM
+           fibonacci_number_{test_uuid}
+         GROUP BY
+           fib_number
+         ORDER BY
+           fib_number
+        ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid)
 
         for x in range(10):
 
@@ -165,26 +168,12 @@ class Table_fibonacci_numberHelper():
             list_row_records_for_verification = []
             if list_row is not None:
                 for row in list_row:
-                    (id, fib_number,) = row
-                    list_row_records_for_verification.append(Table_fibonacci_number(id=id, fib_number=fib_number))
+                    (fib_number, count,) = row
+                    list_row_records_for_verification.append(Check_table_fibonacci_number(fib_number=fib_number, count=count))
                 break
 
-        list_row_records_for_verification=sorted(list_row_records_for_verification, key=lambda x: x.id)
+        #list_row_records_for_verification=sorted(list_row_records_for_verification, key=lambda x: x.id)
 
-        sql_char = ("""select
-                          fib.id,
-                          fib.fib_number
-                        from
-                          fibonacci_number_{test_uuid} AS fib
-                        
-                        WHERE 
-                          fib.id IN (""").format(test_uuid=self.db.app.mbt_conn.test_uuid)
-
-        for row in list_row_records_for_verification:
-            sql_char+=("""
-                           {c_id},""").format(c_id=row.id)
-        sql_char = sql_char[:-1]+""" ) 
-                        ORDER BY fib.id;"""
 
         for selected_node in self.db.app.mbt_hosts_read:
 
@@ -194,9 +183,11 @@ class Table_fibonacci_numberHelper():
 
                 if list_row is not None:
                     for row in list_row:
-                        (id, fib_number,) = row
-                        list_row2.append(Table_fibonacci_number(id=id, fib_number=fib_number))
+                        (fib_number, count,) = row
+                        list_row2.append(Check_table_fibonacci_number(fib_number=fib_number, count=count))
 
+                    #print('list_row_records_for_verification=' , list_row_records_for_verification)
+                    #print('list_row2=', list_row2)
                     assert list_row_records_for_verification==list_row2
                     print("node_id=", selected_node.node_id, True)
                 else:

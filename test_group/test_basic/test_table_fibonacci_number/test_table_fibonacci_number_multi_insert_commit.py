@@ -10,9 +10,9 @@ def test_table_fibonacci_number_multi_insert_commit(db, generator):
 
     for y in range(10):
 
-        print("\n range=", y)
+        #print("\n range=", y)
 
-        for x in range(10):
+        for x in range(100):
 
             list_table_fibonacci_numbers = []
             for i_fib in fib:
@@ -21,5 +21,5 @@ def test_table_fibonacci_number_multi_insert_commit(db, generator):
             with pytest.allure.step('insert in the table the Fibonacci number %s' % fib):
                 db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
 
-        assert(db.table_fibonacci_number.check_count())
-        assert (db.table_fibonacci_number.check_records())
+    assert(db.table_fibonacci_number.check_count())
+    assert (db.table_fibonacci_number.check_records())
