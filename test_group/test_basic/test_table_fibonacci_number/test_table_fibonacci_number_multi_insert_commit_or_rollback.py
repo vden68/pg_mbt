@@ -4,7 +4,7 @@ import random
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
 @pytest.allure.step('test_table_fibonacci_number_multi_insert_commit')
-def test_table_fibonacci_number_multi_insert_commit(db, generator):
+def test_table_fibonacci_number_multi_insert_commit_or_rollback(db, generator):
     print("\n\ntest_table_fibonacci_number_multi_insert_commit \n\n")
 
     fib = generator.fibonacci.numbers_list()
