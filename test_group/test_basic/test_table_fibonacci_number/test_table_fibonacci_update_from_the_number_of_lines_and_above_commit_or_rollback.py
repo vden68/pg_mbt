@@ -4,7 +4,7 @@ import random
 import time
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
-@pytest.allure.step('test_table_fibonacci_number_multi_insert_commit')
+@pytest.allure.step('test_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rollback')
 def test_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rollback(db, generator):
     print("\n\ntest_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rollback \n\n")
 
@@ -26,12 +26,13 @@ def test_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rol
 
                 db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
 
-        com_or_ron = random.randint(0, 1)
-        if com_or_ron == 0:
-            db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1), number_id=count_table_fibonacci_number)
-        else:
-            db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1),
-                                                                 number_id=count_table_fibonacci_number, commit=False)
+        with pytest.allure.step('update id more than number'):
+            com_or_ron = random.randint(0, 1)
+            if com_or_ron == 0:
+                db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1), number_id=count_table_fibonacci_number)
+            else:
+                db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1),
+                                                                     number_id=count_table_fibonacci_number, commit=False)
 
 
     assert(db.table_fibonacci_number.check_count())
