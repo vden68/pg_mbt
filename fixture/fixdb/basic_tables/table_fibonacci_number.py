@@ -228,6 +228,7 @@ class Table_fibonacci_numberHelper():
             with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
+
     def get_count_table_fibonacci_number(self):
         global count_table_fibonacci_number
         return count_table_fibonacci_number
@@ -276,6 +277,43 @@ class Table_fibonacci_numberHelper():
 
                     count2+=1
                     print('selected_node=', selected_node,  "count_lock=", count_lock)
+
+
+    @pytest.allure.step('delete 10 percent of rows "fibonacci_number"')
+    def delete_10_percent_of_rows(self, commit=True):
+
+        global count_table_fibonacci_number
+        c_limit = count_table_fibonacci_number // 10 + 1
+
+        list_sql_char = []
+
+        list_sql_char.append("BEGIN;")
+        sql_char = (("""
+        DELETE FROM fibonacci_number_{test_uuid}
+          WHERE
+            id IN (SELECT id  FROM fibonacci_number_{test_uuid}
+                    ORDER BY RANDOM()
+                      LIMIT {m_limit})
+        ;
+        """).format(test_uuid=self.db.app.mbt_conn.test_uuid, m_limit=c_limit))
+
+        list_sql_char.append(sql_char)
+
+        if commit == True:
+            list_sql_char.append('commit;')
+
+            with pytest.allure.step('update plus commit  SQL=%s' % list_sql_char):
+                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
+                count_table_fibonacci_number=count_table_fibonacci_number-c_limit
+                print('c_limit=', c_limit)
+
+        else:
+
+            list_sql_char.append('rollback;')
+
+            with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
+                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
+
 
 
 
