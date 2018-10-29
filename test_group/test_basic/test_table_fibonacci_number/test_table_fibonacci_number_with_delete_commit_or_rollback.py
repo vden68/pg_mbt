@@ -1,6 +1,6 @@
 __author__ = 'vden'
 import pytest
-import time
+import random
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
 @pytest.allure.step('test_table_fibonacci_number_with_delete')
@@ -24,7 +24,11 @@ def test_table_fibonacci_number_with_delete(db, generator):
     cycle_factor = db.app.mbt_conn.cycle_factor
     for x in range(10*cycle_factor):
         with pytest.allure.step('update id more than number'):
-            db.table_fibonacci_number.delete_10_percent_of_rows()
+            com_or_ron = random.randint(0, 1)
+            if com_or_ron == 0:
+                db.table_fibonacci_number.delete_10_percent_of_rows()
+            else:
+                db.table_fibonacci_number.delete_10_percent_of_rows(commit=False)
 
         assert(db.table_fibonacci_number.check_count())
         assert (db.table_fibonacci_number.check_records())

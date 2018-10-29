@@ -8,7 +8,8 @@ def test_table_fibonacci_number_multi_insert_commit(db, generator):
 
     fib = generator.fibonacci.numbers_list()
 
-    for y in range(10):
+    cycle_factor = db.app.mbt_conn.cycle_factor
+    for y in range(10*cycle_factor):
 
         #print("\n range=", y)
 

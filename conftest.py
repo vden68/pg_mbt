@@ -38,7 +38,8 @@ def load_mbt_conn():
     test_uuid = str(uuid.uuid1())[0:8]
     mbt_conn=Mbt_conn(superuser=mbt_conn_r["superuser"], superuser_password=mbt_conn_r["superuser_password"],
                       user=mbt_conn_r['user'], password=mbt_conn_r['password'], database=mbt_conn_r['database'],
-                      test_start_timestamp=datetime.now(), test_uuid=test_uuid)
+                      test_start_timestamp=datetime.now(), test_uuid=test_uuid,
+                      cycle_factor=int(mbt_conn_r['cycle_factor']))
     return mbt_conn
 
 
