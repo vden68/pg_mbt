@@ -34,6 +34,10 @@ class Table_fibonacci_numberHelper():
                      """) .format(test_uuid=self.db.app.mbt_conn.test_uuid)
                                  )
 
+            list_sql_char.append(("""
+                CREATE  INDEX  fibonacci_number_{test_uuid}_column_fib_number ON fibonacci_number_{test_uuid}(fib_number)
+                ;""") .format(test_uuid=self.db.app.mbt_conn.test_uuid))
+
             list_sql_char.append('commit;')
 
             with pytest.allure.step('DDL=%s' % list_sql_char):
@@ -129,21 +133,6 @@ class Table_fibonacci_numberHelper():
 
     @pytest.allure.step('check records')
     def check_records(self):
-
-        global count_table_fibonacci_number
-        if count_table_fibonacci_number<100:
-            c_limit=count_table_fibonacci_number//10+2
-        elif count_table_fibonacci_number<1000:
-            c_limit = count_table_fibonacci_number//10
-        elif count_table_fibonacci_number<10000:
-            c_limit = count_table_fibonacci_number//20
-        elif count_table_fibonacci_number<100000:
-            c_limit = count_table_fibonacci_number//40
-        else:
-            c_limit = 3000
-
-
-
 
         sql_char = ("""
         SELECT

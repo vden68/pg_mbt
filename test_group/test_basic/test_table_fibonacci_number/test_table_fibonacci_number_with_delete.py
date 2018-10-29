@@ -18,9 +18,11 @@ def test_table_fibonacci_number_with_delete(db, generator):
             with pytest.allure.step('insert in the table the Fibonacci number %s' % fib):
                 db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
 
-    with pytest.allure.step('update id more than number'):
-
-        db.table_fibonacci_number.delete_10_percent_of_rows()
-
     assert(db.table_fibonacci_number.check_count())
-    assert (db.table_fibonacci_number.check_records())
+
+    for x in range(10):
+        with pytest.allure.step('update id more than number'):
+            db.table_fibonacci_number.delete_10_percent_of_rows()
+
+        assert(db.table_fibonacci_number.check_count())
+        assert (db.table_fibonacci_number.check_records())
