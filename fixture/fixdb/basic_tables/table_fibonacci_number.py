@@ -3,10 +3,8 @@ __author__ = 'vden'
 import time
 import pytest
 
-from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 from model.basic_tables.check_table_fibonacci_number import Check_table_fibonacci_number
 
-#list_table_fibonacci_number = []
 count_table_fibonacci_number = 0
 
 class Table_fibonacci_numberHelper():
