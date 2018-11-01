@@ -185,7 +185,10 @@ class Table_fibonacci_numberHelper():
 
 
     @pytest.allure.step('update in table "fibonacci_number"')
-    def update_id_more_than_number(self, number_write=0,number_id=0 , commit=True):
+    def update_id_more_than_number(self, number_write=0, commit=True):
+
+        global count_table_fibonacci_number
+        c_limit = count_table_fibonacci_number // 10 + 1
 
         list_sql_char = []
 
@@ -195,10 +198,11 @@ class Table_fibonacci_numberHelper():
                         SET 
                           fib_number = {m_number_write}
                         WHERE 
-                          id > {m_number_id} 
-                        ;
-                          """).format(test_uuid=self.db.app.mbt_conn.test_uuid,
-                                      m_number_write=number_write, m_number_id=number_id))
+                          id IN (SELECT id  FROM fibonacci_number_{test_uuid}
+                                 ORDER BY RANDOM()
+                                 LIMIT {m_limit})
+                         ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid,
+                                      m_number_write=number_write, m_limit=c_limit))
 
         list_sql_char.append(sql_char)
 

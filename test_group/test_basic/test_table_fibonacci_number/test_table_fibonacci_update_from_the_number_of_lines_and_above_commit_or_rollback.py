@@ -17,7 +17,7 @@ def test_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rol
         print('count_table_fibonacci_number=', count_table_fibonacci_number)
         print("\n range=", y)
 
-        for x in range(50):
+        for x in range(20):
 
             list_table_fibonacci_numbers = []
             for i_fib in fib:
@@ -30,10 +30,9 @@ def test_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rol
         with pytest.allure.step('update id more than number'):
             com_or_ron = random.randint(0, 1)
             if com_or_ron == 0:
-                db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1), number_id=count_table_fibonacci_number)
+                db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1))
             else:
-                db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1),
-                                                                     number_id=count_table_fibonacci_number, commit=False)
+                db.table_fibonacci_number.update_id_more_than_number(number_write=(y+1), commit=False)
 
 
     assert(db.table_fibonacci_number.check_count())
