@@ -6,6 +6,7 @@ from fixture.fixdb.cursor_execute import CursorExecuteHelper
 from fixture.fixdb.basic_tables.table_fibonacci_number import Table_fibonacci_numberHelper
 from fixture.fixdb.basic_tables.table_points_index_gist import Table_points_index_gistHelper
 from fixture.fixdb.basic_tables.sql_ddl import Sql_ddlHelper
+from fixture.fixdb.table_check import TableCheckHelper
 
 
 
@@ -17,6 +18,7 @@ class Dbfixture:
         self.conn = ConnectHelper(self)
         self.initdb = InitdbHelper(self)
         self.cur_e = CursorExecuteHelper(self)
+        self.table_check = TableCheckHelper(self)
 
         #basic tables
         self.table_fibonacci_number=Table_fibonacci_numberHelper(self)

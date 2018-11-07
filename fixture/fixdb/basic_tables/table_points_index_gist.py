@@ -86,7 +86,7 @@ class Table_points_index_gistHelper():
 
         sql_char = ("""
                                     select
-                                      count (id)
+                                      count (*)
                                     from
                                       points_index_gist_{test_uuid}
                                                        ;
@@ -144,7 +144,7 @@ class Table_points_index_gistHelper():
         list_sql_char.append(sql_char)
         list_sql_char.append('commit;')
 
-        print('sql_char=' , sql_char)
+        #print('sql_char=' , sql_char)
 
 
         for selected_node in self.db.app.mbt_hosts_read:
