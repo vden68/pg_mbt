@@ -87,5 +87,64 @@ class Table_points_index_gistHelper():
 
         return c_count
 
+    @pytest.allure.step('check records')
+    def check_records(self):
+
+        sql_char = ("""
+            SELECT
+                   count(id) AS count_box
+            FROM
+                 points_index_gist_{test_uuid}
+            GROUP BY
+                  p_point <@ box '(-100,-100),(-80,100)',
+                  p_point <@ box '(-60,-100),(-40,100)',
+                  p_point <@ box '(-40,-100),(-20,100)',
+                  p_point <@ box '(0,-100),(20,100)',
+                  p_point <@ box '(20,-100),(40,100)',
+                  p_point <@ box '(60,-100),(80,100)',
+                  p_point <@ box '(80,-100),(100,100)'
+            ORDER BY
+              count_box
+            ;
+            """).format(test_uuid=self.db.app.mbt_conn.test_uuid)
+
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
+            with pytest.allure.step('get row records for verification  SQL=%s' % sql_char):
+                list_row = self.db.cur_e.execute_select(sql_char=sql_char)
+
+            list_row_records_for_verification = []
+            if list_row is not None:
+                for row in list_row:
+                    (count_box,) = row
+                    list_row_records_for_verification.append(count_box)
+                break
+
+        # list_row_records_for_verification=sorted(list_row_records_for_verification, key=lambda x: x.id)
+
+        for selected_node in self.db.app.mbt_hosts_read:
+
+            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+                list_row = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
+                list_row2 = []
+
+                if list_row is not None:
+                    for row in list_row:
+                        (count_box,) = row
+                        list_row2.append(count_box)
+
+                    # print('list_row_records_for_verification=' , list_row_records_for_verification)
+                    # print('list_row2=', list_row2)
+                    assert list_row_records_for_verification == list_row2
+                    print("node_id=", selected_node.node_id, True)
+                else:
+                    print("node_id=", selected_node.node_id, None)
+
+        return True
+
+
 
 

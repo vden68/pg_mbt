@@ -17,7 +17,4 @@ def test_table_points_index_gist_insert_commit(db, generator):
             db.table_points_index_gist.insert(list_points=list_table_points)
 
     assert(db.table_points_index_gist.check_count())
-
-
-
-    #assert (db.table_fibonacci_number.check_records())
+    assert (db.table_points_index_gist.check_records())
