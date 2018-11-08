@@ -16,7 +16,7 @@ class TableCheckHelper():
     def check_count(self, count_rows_table=None, table_name=None):
         c_count = False
         #global count_table_points_index_gist
-        self.checking_completion_of_all_locks()
+        self.checking_completion_of_all_locks(table_name=table_name)
 
         sql_char = ("""
                                         SELECT
@@ -59,7 +59,7 @@ class TableCheckHelper():
 
         return c_count
 
-    def checking_completion_of_all_locks(self):
+    def checking_completion_of_all_locks(self, table_name=None):
 
         list_sql_char = []
 
@@ -71,9 +71,9 @@ class TableCheckHelper():
                                pg_locks AS l
                                LEFT JOIN pg_class AS c ON l.relation = c.oid
                              WHERE
-                               relname='points_index_gist_{test_uuid}'
+                               relname='{s_table_name}'
                              ;
-                            """).format(test_uuid=self.db.app.mbt_conn.test_uuid)
+                            """).format(s_table_name=table_name)
         list_sql_char.append(sql_char)
         list_sql_char.append('commit;')
 
@@ -96,7 +96,7 @@ class TableCheckHelper():
                     if count2 > 1:
                         time.sleep(1)
 
-                    if count2 > 40:
+                    if count2 > 120:
                         break
 
                     count2 += 1

@@ -19,16 +19,5 @@ def test_table_points_index_gist_insert_commit(db, generator):
     assert(db.table_points_index_gist.check_count())
 
 
-    """
-    cycle_factor=db.app.mbt_conn.cycle_factor
-    for x in range(10*cycle_factor):
 
-        for i_fib in fib:
-            list_table_fibonacci_numbers = []
-            list_table_fibonacci_numbers.append(Table_fibonacci_number(id=0,fib_number=i_fib))
-            with pytest.allure.step('insert in the table the Fibonacci number %s' % fib):
-                db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
-
-    assert(db.table_fibonacci_number.check_count())
-    assert (db.table_fibonacci_number.check_records())
-    """
+    #assert (db.table_fibonacci_number.check_records())

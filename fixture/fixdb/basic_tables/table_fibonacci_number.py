@@ -83,49 +83,9 @@ class Table_fibonacci_numberHelper():
 
     @pytest.allure.step('check count')
     def check_count(self):
-        c_count = False
         global count_table_fibonacci_number
-        self.checking_completion_of_all_locks()
-
-        sql_char = ("""
-                                select
-                                  count (id)
-                                from
-                                  fibonacci_number_{test_uuid}
-                                                   ;
-                                """).format(test_uuid=self.db.app.mbt_conn.test_uuid)
-        # print('sql_char=', sql_char)
-
-        for x in range(10):
-
-            if x > 1:
-                time.sleep(2)
-
-            list_count_node_id = []
-            for selected_node in self.db.app.mbt_hosts_read:
-
-                with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
-                    list_count = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
-
-                    if list_count is not None:
-                        for row in list_count:
-                            (count,) = row
-                        print("count_table_fibonacci_number=", count_table_fibonacci_number ,"node_id=",selected_node.node_id  ,"count=", count)
-                        list_count_node_id.append(count)
-                    else:
-                        print("node_id=", selected_node.node_id, "count=", None)
-                        list_count_node_id.append(None)
-
-
-            print("list_count_node_id=", list_count_node_id)
-
-            for count_node_id in list_count_node_id:
-                if not (count_node_id==count_table_fibonacci_number or count_node_id is None):
-                    break
-            else:
-                c_count=True
-                break
-
+        table_name = ("fibonacci_number_{test_uuid}").format(test_uuid=self.db.app.mbt_conn.test_uuid)
+        c_count = self.db.table_check.check_count(count_rows_table=count_table_fibonacci_number, table_name=table_name)
         return  c_count
 
 
@@ -223,52 +183,6 @@ class Table_fibonacci_numberHelper():
     def get_count_table_fibonacci_number(self):
         global count_table_fibonacci_number
         return count_table_fibonacci_number
-
-
-    def checking_completion_of_all_locks(self):
-
-        list_sql_char = []
-
-        list_sql_char.append("BEGIN;")
-
-        sql_char = ("""SELECT
-                            count(c.relname)
-                         FROM
-                           pg_locks AS l
-                           LEFT JOIN pg_class AS c ON l.relation = c.oid
-                         WHERE
-                           relname='fibonacci_number_{test_uuid}'
-                         ;
-                        """).format(test_uuid=self.db.app.mbt_conn.test_uuid)
-        list_sql_char.append(sql_char)
-        list_sql_char.append('commit;')
-
-        print('sql_char=' , sql_char)
-
-
-        for selected_node in self.db.app.mbt_hosts_read:
-
-            count_lock=10
-            count2=0
-            while count_lock!=0:
-
-
-                with pytest.allure.step('Checking completion of all locks  SQL=%s' % sql_char):
-                    list_count = self.db.cur_e.execute_select_list(list_sql_char=list_sql_char, selected_node=selected_node)
-
-                    if list_count is not None:
-                        for row in list_count:
-                            (count_lock,) = row
-
-                    if count2>1:
-                        time.sleep(1)
-
-                    if count2>40:
-                        break
-
-                    count2+=1
-                    print('selected_node=', selected_node,  "count_lock=", count_lock)
-
 
     @pytest.allure.step('delete 10 percent of rows "fibonacci_number"')
     def delete_10_percent_of_rows(self, commit=True):
