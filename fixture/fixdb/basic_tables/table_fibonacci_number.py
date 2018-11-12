@@ -188,7 +188,7 @@ class Table_fibonacci_numberHelper():
     def delete_10_percent_of_rows(self, commit=True):
 
         global count_table_fibonacci_number
-        c_limit = count_table_fibonacci_number // 10 + 1
+        c_limit = count_table_fibonacci_number // 50 + 1
 
         list_sql_char = []
 
