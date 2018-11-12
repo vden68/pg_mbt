@@ -26,9 +26,9 @@ def test_table_fibonacci_number_with_delete(db, generator):
         with pytest.allure.step('update id more than number'):
             com_or_ron = random.randint(0, 1)
             if com_or_ron == 0:
-                db.table_fibonacci_number.delete_10_percent_of_rows()
+                db.table_fibonacci_number.delete_2_percent_of_rows()
             else:
-                db.table_fibonacci_number.delete_10_percent_of_rows(commit=False)
+                db.table_fibonacci_number.delete_2_percent_of_rows(commit=False)
 
         assert(db.table_fibonacci_number.check_count())
         assert (db.table_fibonacci_number.check_records())

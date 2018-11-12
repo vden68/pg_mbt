@@ -185,7 +185,7 @@ class Table_fibonacci_numberHelper():
         return count_table_fibonacci_number
 
     @pytest.allure.step('delete 10 percent of rows "fibonacci_number"')
-    def delete_10_percent_of_rows(self, commit=True):
+    def delete_2_percent_of_rows(self, commit=True):
 
         global count_table_fibonacci_number
         c_limit = count_table_fibonacci_number // 50 + 1

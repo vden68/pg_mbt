@@ -24,7 +24,7 @@ def test_table_fibonacci_number_with_delete(db, generator):
     #cycle_factor = db.app.mbt_conn.cycle_factor
     for x in range(10):
         with pytest.allure.step('update id more than number'):
-            db.table_fibonacci_number.delete_10_percent_of_rows()
+            db.table_fibonacci_number.delete_2_percent_of_rows()
 
         assert(db.table_fibonacci_number.check_count())
         assert (db.table_fibonacci_number.check_records())

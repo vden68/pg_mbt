@@ -18,5 +18,5 @@ def test_table_points_index_gist_insert_commit_or_rollback(db, generator):
             else:
                 db.table_points_index_gist.insert(list_points=list_points, commit=False)
 
-        assert(db.table_points_index_gist.check_count())
-        assert (db.table_points_index_gist.check_records())
+    assert(db.table_points_index_gist.check_count())
+    assert (db.table_points_index_gist.check_records())
