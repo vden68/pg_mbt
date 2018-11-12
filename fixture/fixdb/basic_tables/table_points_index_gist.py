@@ -45,7 +45,7 @@ class Table_points_index_gistHelper():
                 self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
 
-    @pytest.allure.step('insert in table "fibonacci_number"')
+    @pytest.allure.step('insert in table "points_index_gist"')
     def insert(self, list_points=None, commit=True):
         global count_table_points_index_gist
 
@@ -144,6 +144,51 @@ class Table_points_index_gistHelper():
                     print("node_id=", selected_node.node_id, None)
 
         return True
+
+    @pytest.allure.step('delete 2 percent of rows "points_index_gist"')
+    def delete_2_percent_of_rows(self, commit=True):
+
+        global count_table_points_index_gist
+        c_limit = count_table_points_index_gist // 50 + 1
+
+        list_sql_char = []
+
+        list_sql_char.append("BEGIN;")
+        sql_char = (("""
+        DELETE FROM points_index_gist_{test_uuid}
+          WHERE
+            id IN (SELECT id  FROM points_index_gist_{test_uuid}
+                    ORDER BY RANDOM()
+                      LIMIT {m_limit})
+        ;
+        """).format(test_uuid=self.db.app.mbt_conn.test_uuid, m_limit=c_limit))
+
+        list_sql_char.append(sql_char)
+
+        if commit == True:
+            list_sql_char.append('commit;')
+
+            #print("list_sql_char=", list_sql_char)
+
+            with pytest.allure.step('delete plus commit  SQL=%s' % list_sql_char):
+                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
+                count_table_points_index_gist=count_table_points_index_gist-c_limit
+                print('c_limit=', c_limit)
+
+        else:
+
+            list_sql_char.append('rollback;')
+
+            with pytest.allure.step('delete plus rollback  SQL=%s' % list_sql_char):
+                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
+
+
+    def get_count_table_points_index_gist(self):
+        global count_table_points_index_gist
+        return count_table_points_index_gist
+
+
+
 
 
 
