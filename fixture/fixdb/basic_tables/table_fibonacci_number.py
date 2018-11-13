@@ -148,17 +148,17 @@ class Table_fibonacci_numberHelper():
     def update_id_more_than_number(self, number_write=0, commit=True):
 
         global count_table_fibonacci_number
-        c_limit = count_table_fibonacci_number // 10 + 1
+        c_limit = count_table_fibonacci_number // 50 + 1
 
         list_sql_char = []
 
         list_sql_char.append("BEGIN;")
         sql_char = (("""UPDATE 
-                          fibonacci_number_{test_uuid}
+                          fibonacci_number_{test_uuid} AS f1
                         SET 
-                          fib_number = {m_number_write}
+                          fib_number = {m_number_write}        
                         WHERE 
-                          id IN (SELECT id  FROM fibonacci_number_{test_uuid}
+                          f1.id IN (SELECT id  FROM fibonacci_number_{test_uuid}
                                  ORDER BY RANDOM()
                                  LIMIT {m_limit})
                          ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid,
