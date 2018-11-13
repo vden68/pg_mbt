@@ -148,7 +148,7 @@ class Table_fibonacci_numberHelper():
     def update_id_more_than_number(self, number_write=0, commit=True):
 
         global count_table_fibonacci_number
-        c_limit = count_table_fibonacci_number // 50 + 1
+        c_limit = count_table_fibonacci_number // 10 + 1
 
         list_sql_char = []
 
