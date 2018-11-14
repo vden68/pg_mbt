@@ -21,7 +21,7 @@ class Table_fibonacci_numberHelper():
 
             list_sql_char = []
 
-            list_sql_char.append("begin;")
+            list_sql_char.append("BEGIN;")
 
             list_sql_char.append(("""
                      create table fibonacci_number_{test_uuid}
