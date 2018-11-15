@@ -7,18 +7,21 @@ from fixture.fixdb.basic_tables.table_fibonacci_number import Table_fibonacci_nu
 from fixture.fixdb.basic_tables.table_points_index_gist import Table_points_index_gistHelper
 from fixture.fixdb.basic_tables.sql_ddl import Sql_ddlHelper
 from fixture.fixdb.table_check import TableCheckHelper
+from fixture.fixdb.table_mbt_random import TableMbtRandomHelper
 
 
 
 class Dbfixture:
 
-    def __init__(self, app):
+    def __init__(self, app ):
         self.app = app
+        #self.generator = generator
 
         self.conn = ConnectHelper(self)
         self.initdb = InitdbHelper(self)
         self.cur_e = CursorExecuteHelper(self)
         self.table_check = TableCheckHelper(self)
+        self.mbt_random = TableMbtRandomHelper(self)
 
         #basic tables
         self.table_fibonacci_number=Table_fibonacci_numberHelper(self)
@@ -30,6 +33,7 @@ class Dbfixture:
         self.initdb.create_db()
         self.table_fibonacci_number.create_table()
         self.table_points_index_gist.create_table()
+        self.mbt_random.create_table()
 
 
 
