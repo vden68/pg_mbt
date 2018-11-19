@@ -242,11 +242,12 @@ class CursorExecuteHelper():
 
         else:
             print('Could not connect to conn.db_postgres')
-            exit(1)
+            list_row = None
+            #exit(1)
 
-        if cursor:
-            cursor.close()
-            cursor=None
+        #if cursor:
+            #cursor.close()
+            #cursor=None
 
         return list_row
 

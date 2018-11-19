@@ -13,9 +13,9 @@ from fixture.fixdb.table_mbt_random import TableMbtRandomHelper
 
 class Dbfixture:
 
-    def __init__(self, app ):
+    def __init__(self, app, generator ):
         self.app = app
-        #self.generator = generator
+        self.generator = generator
 
         self.conn = ConnectHelper(self)
         self.initdb = InitdbHelper(self)

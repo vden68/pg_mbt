@@ -69,11 +69,11 @@ def app(request):
 
 
 @pytest.fixture(scope="session")
-def db(request, app):
+def db(request, app, generator):
     global dbfixture
 
     if dbfixture is None:
-        dbfixture = Dbfixture(app)
+        dbfixture = Dbfixture(app, generator)
 
     def fin():
         dbfixture.destroy()

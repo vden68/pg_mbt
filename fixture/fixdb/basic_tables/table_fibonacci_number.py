@@ -145,7 +145,7 @@ class Table_fibonacci_numberHelper():
 
 
     @pytest.allure.step('update in table "fibonacci_number"')
-    def update_id_more_than_number(self, number_write=0, commit=True):
+    def update_id_random(self, number_write=0, commit=True):
 
         global count_table_fibonacci_number
         c_limit = count_table_fibonacci_number // 10 + 1
@@ -154,11 +154,14 @@ class Table_fibonacci_numberHelper():
 
         list_sql_char.append("BEGIN;")
         sql_char = (("""UPDATE 
-                          fibonacci_number_{test_uuid} AS f1
+                          fibonacci_number_{test_uuid} AS f
                         SET 
-                          fib_number = {m_number_write}        
+                          fib_number = (SELECT m.fib_number FROM mbt_random AS m
+                        WHERE m.id<> f.id
+                        ORDER BY  RANDOM()
+                        LIMIT 1)        
                         WHERE 
-                          f1.id IN (SELECT id  FROM fibonacci_number_{test_uuid}
+                          f.id IN (SELECT id  FROM fibonacci_number_{test_uuid}
                                  ORDER BY RANDOM()
                                  LIMIT {m_limit})
                          ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid,
@@ -167,14 +170,14 @@ class Table_fibonacci_numberHelper():
         list_sql_char.append(sql_char)
 
         if commit == True:
-            list_sql_char.append('commit;')
+            list_sql_char.append('COMMIT;')
 
             with pytest.allure.step('update plus commit  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
         else:
 
-            list_sql_char.append('rollback;')
+            list_sql_char.append('ROLLBACK;')
 
             with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
@@ -205,7 +208,7 @@ class Table_fibonacci_numberHelper():
         list_sql_char.append(sql_char)
 
         if commit == True:
-            list_sql_char.append('commit;')
+            list_sql_char.append('COMMIT;')
 
             with pytest.allure.step('update plus commit  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
@@ -214,7 +217,7 @@ class Table_fibonacci_numberHelper():
 
         else:
 
-            list_sql_char.append('rollback;')
+            list_sql_char.append('ROLLBACK;')
 
             with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)

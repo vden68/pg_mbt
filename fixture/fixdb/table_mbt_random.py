@@ -33,22 +33,30 @@ class TableMbtRandomHelper():
 
             list_sql_char.append('COMMIT;')
 
+            #test_list = self.db.generator.mbt_random.random_generator()
+            #print('test_list=', test_list)
+
             with pytest.allure.step('DDL=%s' % list_sql_char):
                 self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
+            self.insert()
+
 
     @pytest.allure.step('insert in table "mbt_random"')
-    def insert(self, list_points=None):
+    def insert(self ):
 
+
+        list_mbt_random = self.db.generator.mbt_random.random_generator()
         list_sql_char=[]
 
         list_sql_char.append("BEGIN;")
         sql_char=("""INSERT INTO mbt_random
                              (fib_number, p_point) VALUES""")
 
-        for p in list_points:
+        for l in list_mbt_random:
             sql_char+=("""
-                       ({pl_point}),""").format (pl_point=("'"+str(p.p_point_x)+","+str(p.p_point_y))+"'")
+                       ({fib_number}, {pl_point}),""").format (fib_number= l.fib_number,
+                                                               pl_point=("'"+str(l.p_point_x)+","+str(l.p_point_y))+"'")
         sql_char=sql_char[:-1]+" RETURNING id ;"
 
         list_sql_char.append(sql_char)
@@ -57,6 +65,8 @@ class TableMbtRandomHelper():
 
         with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
             self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
+
+        self.db.table_check.checking_completion_of_all_locks(table_name="mbt_random")
 
 
     @pytest.allure.step('check count')

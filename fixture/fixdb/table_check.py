@@ -92,6 +92,8 @@ class TableCheckHelper():
                     if list_count is not None:
                         for row in list_count:
                             (count_lock,) = row
+                    else:
+                        break
 
                     if count2 > 1:
                         time.sleep(1)
