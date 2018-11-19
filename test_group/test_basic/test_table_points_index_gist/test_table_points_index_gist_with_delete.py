@@ -1,6 +1,5 @@
 __author__ = 'vden'
 import pytest
-from model.basic_tables.table_points_index_gist import Table_points_index_gist
 
 @pytest.allure.step('test_table_points_index_gist_insert_commit')
 def test_table_points_index_gist_insert_commit(db, generator):
