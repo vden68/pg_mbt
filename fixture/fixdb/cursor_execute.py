@@ -175,7 +175,7 @@ class CursorExecuteHelper():
             for sql_char in list_sql_char:
 
                 try:
-                    print('sql_char=', sql_char)
+                    #print('sql_char=', sql_char)
                     cursor.execute(sql_char)
 
                 except:
