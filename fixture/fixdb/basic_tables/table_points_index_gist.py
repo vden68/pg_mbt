@@ -188,6 +188,47 @@ class Table_points_index_gistHelper():
         return count_table_points_index_gist
 
 
+    @pytest.allure.step('update in table "points_index_gist"')
+    def update_id_random(self, commit=True):
+
+        global count_table_points_index_gist
+        c_limit = count_table_points_index_gist // 10 + 1
+        if c_limit>10000:
+            c_limit=10000
+
+        list_sql_char = []
+
+        list_sql_char.append("BEGIN;")
+        sql_char = (("""UPDATE 
+                              points_index_gist_{test_uuid} AS f
+                            SET 
+                              p_point = (SELECT m.p_point FROM mbt_random AS m
+                            WHERE m.id<> f.id
+                            ORDER BY  RANDOM()
+                            LIMIT 1)        
+                            WHERE 
+                              f.id IN (SELECT id  FROM points_index_gist_{test_uuid}
+                                     ORDER BY RANDOM()
+                                     LIMIT {m_limit})
+                             ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid, m_limit=c_limit))
+
+        list_sql_char.append(sql_char)
+
+        if commit == True:
+            list_sql_char.append('COMMIT;')
+
+            with pytest.allure.step('update plus commit  SQL=%s' % list_sql_char):
+                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
+
+        else:
+
+            list_sql_char.append('ROLLBACK;')
+
+            with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
+                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
+
+
+
 
 
 

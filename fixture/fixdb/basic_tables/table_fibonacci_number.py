@@ -149,6 +149,8 @@ class Table_fibonacci_numberHelper():
 
         global count_table_fibonacci_number
         c_limit = count_table_fibonacci_number // 10 + 1
+        if c_limit>10000:
+            c_limit=10000
 
         list_sql_char = []
 

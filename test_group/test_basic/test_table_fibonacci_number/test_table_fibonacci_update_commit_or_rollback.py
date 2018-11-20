@@ -10,8 +10,8 @@ def test_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rol
 
     fib = generator.fibonacci.numbers_list()
 
-    cycle_factor = db.app.mbt_conn.cycle_factor
-    for y in range(10*cycle_factor):
+    #cycle_factor = db.app.mbt_conn.cycle_factor
+    for y in range(10):
 
         count_table_fibonacci_number=db.table_fibonacci_number.get_count_table_fibonacci_number()
         print('count_table_fibonacci_number=', count_table_fibonacci_number)
