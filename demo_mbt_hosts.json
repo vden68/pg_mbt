@@ -5,43 +5,30 @@
     "superuser": "myuser",
     "superuser_password": "myuserpassword",
     "user": "myuser",
-    "password": "myuserpassword"
+    "password": "myuserpassword",
+    "cycle_factor": "1"
   },
   "mbt_modules":{
     "multimaster": "True"
   },
   "mbt_hosts": [
     {
-      "host": "192.168.122.113",
+      "host": "192.168.122.152",
       "node_id": "1",
       "port": "5432",
       "write": "True",
       "read": "True"
     },
     {
-      "host": "192.168.122.237",
+      "host": "192.168.122.56",
       "node_id": "2",
       "port": "5432",
       "write": "True",
       "read" : "True"
     },
     {
-      "host": "192.168.122.16",
+      "host": "192.168.122.196",
       "node_id": "3",
-      "port": "5432",
-      "write": "True",
-      "read" : "True"
-    },
-    {
-      "host": "192.168.122.28",
-      "node_id": "4",
-      "port": "5432",
-      "write": "False",
-      "read" : "True"
-    },
-    {
-      "host": "192.168.122.227",
-      "node_id": "5",
       "port": "5432",
       "write": "False",
       "read" : "True"
