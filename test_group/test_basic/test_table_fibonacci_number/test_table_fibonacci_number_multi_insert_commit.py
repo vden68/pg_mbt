@@ -2,6 +2,7 @@ __author__ = 'vden'
 import pytest
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
+@pytest.mark.test_basic
 @pytest.allure.step('test_table_fibonacci_number_multi_insert_commit')
 def test_table_fibonacci_number_multi_insert_commit(db, generator):
     print("\n\ntest_table_fibonacci_number_multi_insert_commit \n\n")

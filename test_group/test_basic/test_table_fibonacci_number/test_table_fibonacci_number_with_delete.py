@@ -3,6 +3,7 @@ import pytest
 import time
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
+@pytest.mark.test_basic
 @pytest.allure.step('test_table_fibonacci_number_with_delete')
 def test_table_fibonacci_number_with_delete(db, generator):
     print("\n\ntest_table_fibonacci_number_with_delete \n\n")

@@ -3,6 +3,7 @@ import pytest
 import random
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
+@pytest.mark.test_basic
 @pytest.allure.step('test_table_fibonacci_number_multi_insert_commit_or_rollback')
 def test_table_fibonacci_number_multi_insert_commit_or_rollback(db, generator):
     print("\n\ntest_table_fibonacci_number_multi_insert_commit_or_rollback \n\n")

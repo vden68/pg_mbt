@@ -1,6 +1,7 @@
 __author__ = 'vden'
 import pytest
 
+@pytest.mark.test_basic
 @pytest.allure.step('test_table_points_index_gist_update')
 def test_table_points_index_gist_update(db, generator):
     print("\n\ntest_table_points_index_gist_update \n\n")

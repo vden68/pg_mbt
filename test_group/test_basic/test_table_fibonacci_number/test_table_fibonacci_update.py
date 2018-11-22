@@ -2,6 +2,7 @@ __author__ = 'vden'
 import pytest
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
+@pytest.mark.test_basic
 @pytest.allure.step('test table fibonacci update from the number of lines and above')
 def test_table_fibonacci_update_from_the_number_of_lines_and_above(db, generator):
     print("\n\ntest_table_fibonacci_update_from_the_number_of_lines_and_above \n\n")
