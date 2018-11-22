@@ -4,10 +4,6 @@
 
 ## Общее описание и решаемые задачи
 
-Ввыполняется :
-
-    Подготовка окружения для тестирования
-    Параметризация и запуск тестов
 
 ## Запуск тестов .
 
@@ -15,7 +11,7 @@
 ```
 pytest -v
 ```
-- Запуск конкретново теста:
+- Запуск конкретного теста:
 ```
 pytest -v test_group/test_basic/test_table_fibonacci_number/test_table_fibonacci_number_insert_commit.py
 ```
@@ -23,9 +19,13 @@ pytest -v test_group/test_basic/test_table_fibonacci_number/test_table_fibonacci
 ```
 pytest -v test_group/test_basic/test_table_fibonacci_number/
 ```
-- Запуск тестов содержащих в имени подсроку :
+- Запуск тестов содержащих в имени подстроку (-k):
 ```
 pytest -v  -k gist
+```
+- Запуск тестов не содержащих в имени подстроку (-k):
+```
+pytest -v  -k "not gist"
 ```
 
 
