@@ -11,8 +11,22 @@
 
 ## Запуск тестов .
 
-
-
+- Запуск всех тестов:
+```
+pytest -v
+```
+- Запуск конкретново теста:
+```
+pytest -v test_group/test_basic/test_table_fibonacci_number/test_table_fibonacci_number_insert_commit.py
+```
+- Запуск тестов из директории:
+```
+pytest -v test_group/test_basic/test_table_fibonacci_number/
+```
+- Запуск тестов содержащих в имени подсроку :
+```
+pytest -v  -k gist
+```
 
 
 ## Системные требования к окружению
