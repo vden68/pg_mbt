@@ -16,7 +16,7 @@ class TableCheckHelper():
     def check_count(self, count_rows_table=None, table_name=None):
         c_count = False
         #global count_table_points_index_gist
-        self.checking_completion_of_all_locks(table_name=table_name)
+        #self.checking_completion_of_all_locks(table_name=table_name)
 
         sql_char = ("""
                                         SELECT
