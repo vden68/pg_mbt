@@ -193,8 +193,8 @@ class Table_points_index_gistHelper():
 
         global count_table_points_index_gist
         c_limit = count_table_points_index_gist // 10 + 1
-        #if c_limit>10000:
-            #c_limit=10000
+        if c_limit>50000:
+            c_limit=50000
 
         list_sql_char = []
 
