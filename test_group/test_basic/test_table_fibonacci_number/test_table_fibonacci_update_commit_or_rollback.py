@@ -1,13 +1,12 @@
 __author__ = 'vden'
 import pytest
 import random
-import time
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
 @pytest.mark.test_basic
-@pytest.allure.step('test_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rollback')
-def test_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rollback(db, generator):
-    print("\n\ntest_table_fibonacci_update_from_the_number_of_lines_and_above_commit_or_rollback \n\n")
+@pytest.allure.step('test_table_fibonacci_update_commit_or_rollback')
+def test_table_fibonacci_update_commit_or_rollback(db, generator):
+    print("\n\ntest_table_fibonacci_update_commit_or_rollback \n\n")
 
     fib = generator.fibonacci.numbers_list()
 

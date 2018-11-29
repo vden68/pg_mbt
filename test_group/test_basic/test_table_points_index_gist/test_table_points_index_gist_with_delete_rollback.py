@@ -1,11 +1,10 @@
 __author__ = 'vden'
 import pytest
-import random
 
 @pytest.mark.test_basic
-@pytest.allure.step('test_table_points_index_gist_with_delete_commit_or_rollback')
-def test_table_points_index_gist_with_delete_commit_or_rollback(db, generator):
-    print("\n\ntest_table_points_index_gist_with_delete_commit_or_rollback \n\n")
+@pytest.allure.step('test_table_points_index_gist_with_delete_rollback')
+def test_table_points_index_gist_with_delete_rollback(db, generator):
+    print("\n\ntest_table_points_index_gist_with_delete_rollback \n\n")
 
     if db.table_points_index_gist.get_count_table_points_index_gist()<100:
         list_points = generator.p_points.g_points(coumt_points=10000)
@@ -15,11 +14,7 @@ def test_table_points_index_gist_with_delete_commit_or_rollback(db, generator):
 
     for x in range(10):
         with pytest.allure.step('delete 2 percent of rows'):
-            com_or_ron = random.randint(0, 1)
-            if com_or_ron == 0:
-                db.table_points_index_gist.delete_2_percent_of_rows()
-            else:
-                db.table_points_index_gist.delete_2_percent_of_rows(commit=False)
+            db.table_points_index_gist.delete_2_percent_of_rows(commit=False)
 
 
         assert(db.table_points_index_gist.check_count())

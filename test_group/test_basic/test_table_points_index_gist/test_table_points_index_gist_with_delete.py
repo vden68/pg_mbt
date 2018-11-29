@@ -2,9 +2,9 @@ __author__ = 'vden'
 import pytest
 
 @pytest.mark.test_basic
-@pytest.allure.step('test_table_points_index_gist_insert_commit')
-def test_table_points_index_gist_insert_commit(db, generator):
-    print("\n\ntest_table_points_index_gist_insert_commit \n\n")
+@pytest.allure.step('test_table_points_index_gist_with_delete')
+def test_table_points_index_gist_with_delete(db, generator):
+    print("\n\ntest_table_points_index_gist_with_delete \n\n")
 
     if db.table_points_index_gist.get_count_table_points_index_gist()<100:
         list_points = generator.p_points.g_points(coumt_points=10000)

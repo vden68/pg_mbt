@@ -3,9 +3,9 @@ import pytest
 import random
 
 @pytest.mark.test_basic
-@pytest.allure.step('test_table_points_index_gist_insert_commit_or_rollback')
-def test_table_points_index_gist_insert_commit_or_rollback(db, generator):
-    print("\n\ntest_table_points_index_gist_insert_commit_or_rollback \n\n")
+@pytest.allure.step('test_table_points_index_gist_insert_rollback')
+def test_table_points_index_gist_insert_rollback(db, generator):
+    print("\n\ntest_table_points_index_gist_insert_rollback \n\n")
 
     cycle_factor = db.app.mbt_conn.cycle_factor
     for x in range(40*cycle_factor):
