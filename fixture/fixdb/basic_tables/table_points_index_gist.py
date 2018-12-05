@@ -77,6 +77,8 @@ class Table_points_index_gistHelper():
             with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
+                #self.db.conn.all_close_conn()
+
 
     @pytest.allure.step('check count')
     def check_count(self):

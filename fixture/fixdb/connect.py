@@ -24,7 +24,8 @@ class ConnectHelper():
         #print("Connecting to database\n	->%s" % (conn_string))
 
         try:
-            conn = psycopg2.connect(conn_string)
+            conn = psycopg2.connect(conn_string, )
+            conn.set_session(autocommit=False)
         except :
             if conn:
                 conn.close()
