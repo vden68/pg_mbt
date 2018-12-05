@@ -7,44 +7,39 @@ from model.basic_tables.check_table_fibonacci_number import Check_table_fibonacc
 
 count_table_fibonacci_number = 0
 
-class Table_fibonacci_numberHelper():
+class FibonacciNumberHelper():
 
     def __init__(self, db):
         self.db = db
 
-    def create_table(self):
+    def create_table(self, table_name=None):
 
-        tablename='fibonacci_number_'+self.db.app.mbt_conn.test_uuid
-        self.db.fibonacci_number.create_table(table_name=tablename)
-
-    """
-        if self.db.initdb.check_tablename(tablename='fibonacci_number_'+self.db.app.mbt_conn.test_uuid) :
-            print(("table '%s' already created") % 'fibonacci_number')
+        if self.db.initdb.check_tablename(tablename=table_name) :
+            print(("table '%s' already created") % table_name)
         else:
-            print(("table '%s' no created") % 'fibonacci_number')
+            print(("table '%s' no created") % table_name)
 
             list_sql_char = []
 
             list_sql_char.append("BEGIN;")
 
             list_sql_char.append(("""
-            #         create table fibonacci_number_{test_uuid}
-            #         (id         serial not null
-            #                    constraint fibonacci_number_{test_uuid}_pkey
-            #                    primary key,
-            #         fib_number bigint not null);
-            #         """) .format(test_uuid=self.db.app.mbt_conn.test_uuid)
-            #                     )
+                     CREATE TABLE {tablename}
+                     (id         serial not null
+                                constraint {tablename}_pkey
+                                primary key,
+                     fib_number bigint not null);
+                     """) .format(tablename=table_name)
+                                 )
 
-            #list_sql_char.append(("""
-            #    CREATE  INDEX  fibonacci_number_{test_uuid}_column_fib_number ON fibonacci_number_{test_uuid}(fib_number)
-            #    ;""") .format(test_uuid=self.db.app.mbt_conn.test_uuid))
+            list_sql_char.append(("""
+                CREATE  INDEX  {tablename}_column_fib_number ON {tablename}(fib_number)
+                ;""") .format(tablename=table_name))
 
-            #list_sql_char.append('commit;')
+            list_sql_char.append('COMMIT;')
 
-            #with pytest.allure.step('DDL=%s' % list_sql_char):
-            #    list_row = self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
-
+            with pytest.allure.step('DDL=%s' % list_sql_char):
+                self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
 
     @pytest.allure.step('insert in table "fibonacci_number"')

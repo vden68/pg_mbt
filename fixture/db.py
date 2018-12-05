@@ -8,6 +8,7 @@ from fixture.fixdb.basic_tables.table_points_index_gist import Table_points_inde
 from fixture.fixdb.basic_tables.sql_ddl import Sql_ddlHelper
 from fixture.fixdb.table_check import TableCheckHelper
 from fixture.fixdb.table_mbt_random import TableMbtRandomHelper
+from fixture.fixdb.common.fibonacci_number import FibonacciNumberHelper
 
 
 
@@ -27,6 +28,9 @@ class Dbfixture:
         self.table_fibonacci_number=Table_fibonacci_numberHelper(self)
         self.table_points_index_gist=Table_points_index_gistHelper(self)
         self.sql_ddl=Sql_ddlHelper(self)
+
+        #common
+        self.fibonacci_number=FibonacciNumberHelper(self)
 
 
 
