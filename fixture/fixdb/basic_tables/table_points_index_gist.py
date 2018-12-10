@@ -4,7 +4,7 @@ import pytest
 import time
 
 
-
+table_points_index_gist = None
 count_table_points_index_gist = 0
 
 class Table_points_index_gistHelper():
@@ -48,6 +48,10 @@ class Table_points_index_gistHelper():
     @pytest.allure.step('insert in table "points_index_gist"')
     def insert(self, list_points=None, commit=True):
         global count_table_points_index_gist
+        global table_points_index_gist
+        if table_points_index_gist is None:
+            self.create_table()
+            table_points_index_gist = True
 
         list_sql_char=[]
 

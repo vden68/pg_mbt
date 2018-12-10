@@ -35,8 +35,8 @@ class Dbfixture:
 
 
         self.initdb.create_db()
-        self.table_fibonacci_number.create_table()
-        self.table_points_index_gist.create_table()
+        #self.table_fibonacci_number.create_table()
+        #self.table_points_index_gist.create_table()
         self.mbt_random.create_table()
 
 

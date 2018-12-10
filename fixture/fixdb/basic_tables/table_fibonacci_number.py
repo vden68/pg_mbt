@@ -1,11 +1,10 @@
 __author__ = 'vden'
 
-import time
 import pytest
 
-from model.basic_tables.check_table_fibonacci_number import Check_table_fibonacci_number
 
 count_table_fibonacci_number = 0
+table_fibonacci_number = None
 
 class Table_fibonacci_numberHelper():
 
@@ -22,6 +21,10 @@ class Table_fibonacci_numberHelper():
     @pytest.allure.step('insert in table "fibonacci_number"')
     def insert(self, list_table_fibonacci_numbers=None, commit=True):
         global count_table_fibonacci_number
+        global table_fibonacci_number
+        if table_fibonacci_number is None:
+            self.create_table()
+            table_fibonacci_number = True
 
         tablename = 'fibonacci_number_' + self.db.app.mbt_conn.test_uuid
         self.db.fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers,
