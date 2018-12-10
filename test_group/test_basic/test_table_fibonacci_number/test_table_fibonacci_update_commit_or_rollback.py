@@ -30,9 +30,9 @@ def test_table_fibonacci_update_commit_or_rollback(db, generator):
         with pytest.allure.step('update id more than number'):
             com_or_ron = random.randint(0, 1)
             if com_or_ron == 0:
-                db.table_fibonacci_number.update_id_random(number_write=(y + 1))
+                db.table_fibonacci_number.update_id_random()
             else:
-                db.table_fibonacci_number.update_id_random(number_write=(y + 1), commit=False)
+                db.table_fibonacci_number.update_id_random(commit=False)
 
 
     assert(db.table_fibonacci_number.check_count())

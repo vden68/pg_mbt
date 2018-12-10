@@ -46,7 +46,7 @@ class FibonacciNumberHelper():
 
         list_sql_char=[]
 
-        list_sql_char.append("begin;")
+        list_sql_char.append("BEGIN;")
         sql_char=(("""INSERT INTO {tablename}(fib_number) VALUES""").format(tablename=table_name))
 
         for fib_n in list_table_fibonacci_numbers:
@@ -57,7 +57,7 @@ class FibonacciNumberHelper():
         list_sql_char.append(sql_char)
 
         if commit==True:
-            list_sql_char.append('commit;')
+            list_sql_char.append('COMMIT;')
 
             with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
@@ -70,28 +70,21 @@ class FibonacciNumberHelper():
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
 
-    @pytest.allure.step('check count')
-    def check_count(self):
-        global count_table_fibonacci_number
-        table_name = ("fibonacci_number_{test_uuid}").format(test_uuid=self.db.app.mbt_conn.test_uuid)
-        c_count = self.db.table_check.check_count(count_rows_table=count_table_fibonacci_number, table_name=table_name)
-        return  c_count
-
 
     @pytest.allure.step('check records')
-    def check_records(self):
+    def check_records(self, table_name=None):
 
         sql_char = ("""
         SELECT
            fib_number,
            count(*)
          FROM
-           fibonacci_number_{test_uuid}
+           {tablename}
          GROUP BY
            fib_number
          ORDER BY
            fib_number
-        ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid)
+        ;""").format(tablename=table_name)
 
         for x in range(10):
 
@@ -134,29 +127,28 @@ class FibonacciNumberHelper():
 
 
     @pytest.allure.step('update in table "fibonacci_number"')
-    def update_id_random(self, number_write=0, commit=True):
+    def update_id_random(self, c_limit=1, table_name=None, commit=True):
 
-        global count_table_fibonacci_number
-        c_limit = count_table_fibonacci_number // 10 + 1
-        if c_limit>10000:
-            c_limit=10000
+        # global count_table_fibonacci_number
+        # c_limit = count_table_fibonacci_number // 10 + 1
+        # if c_limit>10000:
+        #     c_limit=10000
 
         list_sql_char = []
 
         list_sql_char.append("BEGIN;")
         sql_char = (("""UPDATE 
-                          fibonacci_number_{test_uuid} AS f
+                          {tablename} AS f
                         SET 
                           fib_number = (SELECT m.fib_number FROM mbt_random AS m
                         WHERE m.id<> f.id
                         ORDER BY  RANDOM()
                         LIMIT 1)        
                         WHERE 
-                          f.id IN (SELECT id  FROM fibonacci_number_{test_uuid}
+                          f.id IN (SELECT id  FROM {tablename}
                                  ORDER BY RANDOM()
                                  LIMIT {m_limit})
-                         ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid,
-                                      m_number_write=number_write, m_limit=c_limit))
+                         ;""").format(tablename=table_name, m_limit=c_limit))
 
         list_sql_char.append(sql_char)
 
@@ -173,10 +165,6 @@ class FibonacciNumberHelper():
             with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
-
-    def get_count_table_fibonacci_number(self):
-        global count_table_fibonacci_number
-        return count_table_fibonacci_number
 
     @pytest.allure.step('delete 10 percent of rows "fibonacci_number"')
     def delete_2_percent_of_rows(self, commit=True):

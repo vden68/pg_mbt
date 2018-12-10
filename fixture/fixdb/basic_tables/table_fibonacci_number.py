@@ -39,98 +39,22 @@ class Table_fibonacci_numberHelper():
 
     @pytest.allure.step('check records')
     def check_records(self):
-
-        sql_char = ("""
-        SELECT
-           fib_number,
-           count(*)
-         FROM
-           fibonacci_number_{test_uuid}
-         GROUP BY
-           fib_number
-         ORDER BY
-           fib_number
-        ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid)
-
-        for x in range(10):
-
-            if x > 1:
-                time.sleep(2)
-
-            with pytest.allure.step('get row records for verification  SQL=%s' % sql_char):
-                list_row = self.db.cur_e.execute_select(sql_char=sql_char)
-
-            list_row_records_for_verification = []
-            if list_row is not None:
-                for row in list_row:
-                    (fib_number, count,) = row
-                    list_row_records_for_verification.append(Check_table_fibonacci_number(fib_number=fib_number, count=count))
-                break
-
-        #list_row_records_for_verification=sorted(list_row_records_for_verification, key=lambda x: x.id)
-
-
-        for selected_node in self.db.app.mbt_hosts_read:
-
-            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
-                list_row = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
-                list_row2 = []
-
-                if list_row is not None:
-                    for row in list_row:
-                        (fib_number, count,) = row
-                        list_row2.append(Check_table_fibonacci_number(fib_number=fib_number, count=count))
-
-                    #print('list_row_records_for_verification=' , list_row_records_for_verification)
-                    #print('list_row2=', list_row2)
-                    assert list_row_records_for_verification==list_row2
-                    print("node_id=", selected_node.node_id, True)
-                else:
-                    print("node_id=", selected_node.node_id, None)
-
-        return True
+        tablename = 'fibonacci_number_' + self.db.app.mbt_conn.test_uuid
+        check_records_c = self.db.fibonacci_number.check_records(table_name=tablename)
+        return check_records_c
 
 
 
     @pytest.allure.step('update in table "fibonacci_number"')
-    def update_id_random(self, number_write=0, commit=True):
+    def update_id_random(self, commit=True):
 
         global count_table_fibonacci_number
         c_limit = count_table_fibonacci_number // 10 + 1
         if c_limit>10000:
             c_limit=10000
 
-        list_sql_char = []
-
-        list_sql_char.append("BEGIN;")
-        sql_char = (("""UPDATE 
-                          fibonacci_number_{test_uuid} AS f
-                        SET 
-                          fib_number = (SELECT m.fib_number FROM mbt_random AS m
-                        WHERE m.id<> f.id
-                        ORDER BY  RANDOM()
-                        LIMIT 1)        
-                        WHERE 
-                          f.id IN (SELECT id  FROM fibonacci_number_{test_uuid}
-                                 ORDER BY RANDOM()
-                                 LIMIT {m_limit})
-                         ;""").format(test_uuid=self.db.app.mbt_conn.test_uuid,
-                                      m_number_write=number_write, m_limit=c_limit))
-
-        list_sql_char.append(sql_char)
-
-        if commit == True:
-            list_sql_char.append('COMMIT;')
-
-            with pytest.allure.step('update plus commit  SQL=%s' % list_sql_char):
-                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
-
-        else:
-
-            list_sql_char.append('ROLLBACK;')
-
-            with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
-                self.db.cur_e.execute_update(list_sql_char=list_sql_char)
+        tablename = 'fibonacci_number_' + self.db.app.mbt_conn.test_uuid
+        self.db.fibonacci_number.update_id_random(c_limit=c_limit, table_name=tablename, commit=commit)
 
 
     def get_count_table_fibonacci_number(self):

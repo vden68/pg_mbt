@@ -26,7 +26,7 @@ def test_table_fibonacci_update(db, generator):
                 db.table_fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers)
 
         with pytest.allure.step('update id more than number'):
-            db.table_fibonacci_number.update_id_random(number_write=(y + 1))
+            db.table_fibonacci_number.update_id_random()
 
     assert(db.table_fibonacci_number.check_count())
     assert (db.table_fibonacci_number.check_records())
