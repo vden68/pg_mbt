@@ -42,43 +42,35 @@ class FibonacciNumberHelper():
                 self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
 
-    @pytest.allure.step('insert in table "fibonacci_number"')
-    def insert(self, list_table_fibonacci_numbers=None, commit=True):
-        global list_table_fibonacci_number
-        global count_table_fibonacci_number
+    def insert(self, list_table_fibonacci_numbers_i=None, commit=True, table_name=None):
 
         list_sql_char=[]
 
         list_sql_char.append("begin;")
-        sql_char=(("""insert into fibonacci_number_{test_uuid}
-                             (fib_number) VALUES""").format(test_uuid=self.db.app.mbt_conn.test_uuid))
+        sql_char=(("""INSERT INTO {tablename}(fib_number) VALUES""").format(tablename=table_name))
 
-        for fib_n in list_table_fibonacci_numbers:
+        for fib_n in list_table_fibonacci_numbers_i:
             sql_char+=("""
                        ({fib_number}),""").format (fib_number=fib_n.fib_number)
+            print('fib_n.fib_number=', fib_n.fib_number)
         sql_char=sql_char[:-1]+" RETURNING id ;"
+        print('SQLCHART=', sql_char)
 
         list_sql_char.append(sql_char)
 
         if commit==True:
             list_sql_char.append('commit;')
+            print('SQLLIST=', list_sql_char)
 
             with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
-                list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
-
-            count_table_fibonacci_number+=len(list_table_fibonacci_numbers)
+                self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
         else:
 
-            list_sql_char.append('rollback;')
+            list_sql_char.append('ROLLBACK;')
 
             with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
-
-
-    #def get_list(self):
-        #global list_table_fibonacci_number
-        #return list_table_fibonacci_number
 
 
     @pytest.allure.step('check count')

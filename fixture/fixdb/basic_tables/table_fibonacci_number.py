@@ -17,74 +17,17 @@ class Table_fibonacci_numberHelper():
         tablename='fibonacci_number_'+self.db.app.mbt_conn.test_uuid
         self.db.fibonacci_number.create_table(table_name=tablename)
 
-    """
-        if self.db.initdb.check_tablename(tablename='fibonacci_number_'+self.db.app.mbt_conn.test_uuid) :
-            print(("table '%s' already created") % 'fibonacci_number')
-        else:
-            print(("table '%s' no created") % 'fibonacci_number')
-
-            list_sql_char = []
-
-            list_sql_char.append("BEGIN;")
-
-            list_sql_char.append(("""
-            #         create table fibonacci_number_{test_uuid}
-            #         (id         serial not null
-            #                    constraint fibonacci_number_{test_uuid}_pkey
-            #                    primary key,
-            #         fib_number bigint not null);
-            #         """) .format(test_uuid=self.db.app.mbt_conn.test_uuid)
-            #                     )
-
-            #list_sql_char.append(("""
-            #    CREATE  INDEX  fibonacci_number_{test_uuid}_column_fib_number ON fibonacci_number_{test_uuid}(fib_number)
-            #    ;""") .format(test_uuid=self.db.app.mbt_conn.test_uuid))
-
-            #list_sql_char.append('commit;')
-
-            #with pytest.allure.step('DDL=%s' % list_sql_char):
-            #    list_row = self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
-
 
 
     @pytest.allure.step('insert in table "fibonacci_number"')
     def insert(self, list_table_fibonacci_numbers=None, commit=True):
-        global list_table_fibonacci_number
         global count_table_fibonacci_number
 
-        list_sql_char=[]
-
-        list_sql_char.append("begin;")
-        sql_char=(("""insert into fibonacci_number_{test_uuid}
-                             (fib_number) VALUES""").format(test_uuid=self.db.app.mbt_conn.test_uuid))
-
-        for fib_n in list_table_fibonacci_numbers:
-            sql_char+=("""
-                       ({fib_number}),""").format (fib_number=fib_n.fib_number)
-        sql_char=sql_char[:-1]+" RETURNING id ;"
-
-        list_sql_char.append(sql_char)
-
+        tablename = 'fibonacci_number_' + self.db.app.mbt_conn.test_uuid
+        self.db.fibonacci_number.insert(list_table_fibonacci_numbers_i=list_table_fibonacci_numbers,
+                                        commit=commit, table_name=tablename)
         if commit==True:
-            list_sql_char.append('commit;')
-
-            with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
-                list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
-
             count_table_fibonacci_number+=len(list_table_fibonacci_numbers)
-
-        else:
-
-            list_sql_char.append('rollback;')
-
-            with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
-                self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
-
-
-    #def get_list(self):
-        #global list_table_fibonacci_number
-        #return list_table_fibonacci_number
-
 
     @pytest.allure.step('check count')
     def check_count(self):
