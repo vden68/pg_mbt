@@ -24,7 +24,7 @@ class Table_fibonacci_numberHelper():
         global count_table_fibonacci_number
 
         tablename = 'fibonacci_number_' + self.db.app.mbt_conn.test_uuid
-        self.db.fibonacci_number.insert(list_table_fibonacci_numbers_i=list_table_fibonacci_numbers,
+        self.db.fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers,
                                         commit=commit, table_name=tablename)
         if commit==True:
             count_table_fibonacci_number+=len(list_table_fibonacci_numbers)

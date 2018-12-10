@@ -42,25 +42,22 @@ class FibonacciNumberHelper():
                 self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
 
-    def insert(self, list_table_fibonacci_numbers_i=None, commit=True, table_name=None):
+    def insert(self, list_table_fibonacci_numbers=None, commit=True, table_name=None):
 
         list_sql_char=[]
 
         list_sql_char.append("begin;")
         sql_char=(("""INSERT INTO {tablename}(fib_number) VALUES""").format(tablename=table_name))
 
-        for fib_n in list_table_fibonacci_numbers_i:
+        for fib_n in list_table_fibonacci_numbers:
             sql_char+=("""
                        ({fib_number}),""").format (fib_number=fib_n.fib_number)
-            print('fib_n.fib_number=', fib_n.fib_number)
         sql_char=sql_char[:-1]+" RETURNING id ;"
-        print('SQLCHART=', sql_char)
 
         list_sql_char.append(sql_char)
 
         if commit==True:
             list_sql_char.append('commit;')
-            print('SQLLIST=', list_sql_char)
 
             with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
