@@ -1,6 +1,5 @@
 __author__ = 'vden'
 import pytest
-import time
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
 @pytest.mark.xfail

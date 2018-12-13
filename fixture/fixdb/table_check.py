@@ -105,4 +105,42 @@ class TableCheckHelper():
                     print('selected_node=', selected_node, "count_lock=", count_lock)
 
 
+    def check_extension_pg_pathman(self):
+        extension_pg_pathman=False
+        sql_char = "SELECT extname FROM pg_extension;"
+
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
+            list_extension_pg_pathman_node_id = []
+            for selected_node in self.db.app.mbt_hosts_read:
+
+                with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+                    list_extension = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
+
+                    if list_extension is not None:
+                        for row in list_extension:
+                            (extname,) = row
+                            if extname=='pg_pathman':
+                                break
+                        print("node_id=", selected_node.node_id, "extname=", extname)
+                        list_extension_pg_pathman_node_id.append(extname)
+                    else:
+                        print("node_id=", selected_node.node_id, "extname=", None)
+                        list_extension_pg_pathman_node_id.append(None)
+
+            print("list_extension_pg_pathman_node_id=", list_extension_pg_pathman_node_id)
+
+            for extension_pg_pathman in list_extension_pg_pathman_node_id:
+                if not (extension_pg_pathman == 'pg_pathman' or extension_pg_pathman is None):
+                    break
+            else:
+                extension_pg_pathman = True
+                break
+
+        return extension_pg_pathman
+
+
 
