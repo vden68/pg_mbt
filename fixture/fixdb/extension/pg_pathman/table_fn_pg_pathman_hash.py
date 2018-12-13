@@ -15,6 +15,12 @@ class TableFNPg_pathmanHashHelper():
 
         tablename='fn_pg_pathman_hash_'+self.db.app.mbt_conn.test_uuid
         self.db.fibonacci_number.create_table(table_name=tablename)
+        list_sql_char=[]
+        list_sql_char.append("BEGIN;")
+        list_sql_char.append (("SELECT create_hash_partitions('%s', 'id', 30);") %(tablename))
+        list_sql_char.append("COMMIT;")
+        print("list_sql_char=", list_sql_char)
+        self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
         return tablename
 
 
@@ -71,10 +77,12 @@ class TableFNPg_pathmanHashHelper():
     def delete_2_percent_of_rows(self, commit=True):
         global count_table_fn_pg_pathman_hash
         c_limit = count_table_fn_pg_pathman_hash // 50 + 1
+        print('count_table_fn_pg_pathman_hash=', count_table_fn_pg_pathman_hash)
+        print('c_limit=', c_limit)
 
         global table_fn_pg_pathman_hash_name
         tablename = table_fn_pg_pathman_hash_name
         self.db.fibonacci_number.delete_2_percent_of_rows(c_limit=c_limit, table_name=tablename, commit=commit)
 
         if commit == True:
-            count_table_fn_pg_pathman_hash= count_table_fn_pg_pathman_hash - c_limit
+            count_table_fn_pg_pathman_hash -= c_limit

@@ -169,6 +169,7 @@ class FibonacciNumberHelper():
                       LIMIT {m_limit})
         ;
         """).format(tablename=table_name, m_limit=c_limit))
+        print('sql_char=', sql_char)
 
         list_sql_char.append(sql_char)
 
