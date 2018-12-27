@@ -21,7 +21,7 @@ class ConnectHelper():
         conn = None
 
         conn_string = "host="+host+" port="+port+" dbname="+dbname+" user="+user+" password="+password
-        #print("Connecting to database\n	->%s" % (conn_string))
+        print("Connecting to database\n	->%s" % (conn_string))
 
         try:
             conn = psycopg2.connect(conn_string, )

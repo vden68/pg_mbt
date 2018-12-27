@@ -33,6 +33,24 @@ class FibonacciHelper():
                 i_numbers_list.append(fib)
                 i_fib = i_fib + 1
                 fib = self.number(i_fib)
+            i_numbers_list.append(-9223372036854775808)
+            i_numbers_list.append(-9223372036854775807)
+            i_numbers_list.append(-9223372036854775806)
+            i_numbers_list.append(-9223372036854775805)
+            i_numbers_list.append(-9223372036854775804)
+            i_numbers_list.append(-3)
+            i_numbers_list.append(-2)
+            i_numbers_list.append(-1)
+            i_numbers_list.append(0)
+            i_numbers_list.append(1)
+            i_numbers_list.append(2)
+            i_numbers_list.append(3)
+            i_numbers_list.append(9223372036854775807)
+            i_numbers_list.append(9223372036854775806)
+            i_numbers_list.append(9223372036854775805)
+            i_numbers_list.append(9223372036854775804)
+            i_numbers_list.append(9223372036854775803)
+
 
         return i_numbers_list
 

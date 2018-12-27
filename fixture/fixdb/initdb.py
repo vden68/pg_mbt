@@ -28,6 +28,7 @@ class InitdbHelper():
         #print('sql_char=', sql_char)
 
         cursor = self.db.cur_e.cursor_execute(conn=conn, sql_char=sql_char)
+        print('cursor=' , cursor)
         datname, rolname = None, None
         for row in cursor:
             (datname, rolname) = row
@@ -50,6 +51,7 @@ class InitdbHelper():
         if rolname is None:
             rolname=self.db.app.mbt_conn.user
 
+        print('datname=', datname, 'rolname=', rolname)
         if self.check_db(x_rolname=rolname,x_datname=datname):
             print(("database %s already created") % datname)
         else:
