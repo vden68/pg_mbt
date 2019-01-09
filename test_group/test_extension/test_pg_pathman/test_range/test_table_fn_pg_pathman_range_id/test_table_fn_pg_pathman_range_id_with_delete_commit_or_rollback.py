@@ -4,7 +4,6 @@ import random
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
 
-@pytest.mark.xfail
 @pytest.mark.pg_pathman
 @pytest.allure.step('test_table_fn_pg_pathman_range_id_with_delete_commit_or_rollback')
 def test_table_fn_pg_pathman_range_id_with_delete_commit_or_rollback(db, generator):

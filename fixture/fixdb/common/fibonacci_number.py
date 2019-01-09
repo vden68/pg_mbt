@@ -126,7 +126,10 @@ class FibonacciNumberHelper():
         list_sql_char = []
 
         list_sql_char.append("BEGIN;")
-        sql_char = (("""UPDATE 
+        sql_char = (("""WITH sub AS (SELECT id  FROM {tablename}
+                                     ORDER BY RANDOM()
+                                     LIMIT {m_limit})
+                        UPDATE 
                           {tablename} AS f
                         SET 
                           fib_number = (SELECT m.fib_number FROM mbt_random AS m
@@ -134,9 +137,7 @@ class FibonacciNumberHelper():
                         ORDER BY  RANDOM()
                         LIMIT 1)        
                         WHERE 
-                          f.id IN (SELECT id  FROM {tablename}
-                                 ORDER BY RANDOM()
-                                 LIMIT {m_limit})
+                          f.id IN (SELECT id  FROM sub)
                          ;""").format(tablename=table_name, m_limit=c_limit))
 
         list_sql_char.append(sql_char)
@@ -162,11 +163,12 @@ class FibonacciNumberHelper():
 
         list_sql_char.append("BEGIN;")
         sql_char = (("""
-        DELETE FROM {tablename}
-          WHERE
-            id IN (SELECT id  FROM {tablename}
+        WITH sub AS (SELECT id  FROM {tablename}
                     ORDER BY RANDOM()
                       LIMIT {m_limit})
+        DELETE FROM {tablename}
+          WHERE
+            id IN (SELECT id  FROM sub)
         ;
         """).format(tablename=table_name, m_limit=c_limit))
         print('sql_char=', sql_char)

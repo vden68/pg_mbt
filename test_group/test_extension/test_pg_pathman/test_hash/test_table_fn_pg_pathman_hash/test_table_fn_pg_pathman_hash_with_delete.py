@@ -2,7 +2,6 @@ __author__ = 'vden'
 import pytest
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
-@pytest.mark.xfail
 @pytest.mark.pg_pathman
 @pytest.allure.step('test_table_fn_pg_pathman_hash_with_delete')
 def test_table_fn_pg_pathman_hash_with_delete(db, generator):
