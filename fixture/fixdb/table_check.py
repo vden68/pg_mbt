@@ -105,9 +105,10 @@ class TableCheckHelper():
                     print('selected_node=', selected_node, "count_lock=", count_lock)
 
 
-    def check_extension_pg_pathman(self):
-        extension_pg_pathman=False
-        sql_char = "SELECT extname FROM pg_extension;"
+    def check_extension_pg(self, sql_char=None, extension_pg_name=None):
+        extension_pg=False
+        #sql_char = "SELECT extname FROM pg_extension;"
+        #extension_pg_name = 'pg_pathman'
 
         for x in range(10):
 
@@ -123,7 +124,7 @@ class TableCheckHelper():
                     if list_extension is not None:
                         for row in list_extension:
                             (extname,) = row
-                            if extname=='pg_pathman':
+                            if extname== extension_pg_name:
                                 break
                         print("node_id=", selected_node.node_id, "extname=", extname)
                         list_extension_pg_pathman_node_id.append(extname)
@@ -133,14 +134,14 @@ class TableCheckHelper():
 
             print("list_extension_pg_pathman_node_id=", list_extension_pg_pathman_node_id)
 
-            for extension_pg_pathman in list_extension_pg_pathman_node_id:
-                if not (extension_pg_pathman == 'pg_pathman' or extension_pg_pathman is None):
+            for extension_pg in list_extension_pg_pathman_node_id:
+                if not (extension_pg == extension_pg_name or extension_pg is None):
                     break
             else:
-                extension_pg_pathman = True
+                extension_pg = True
                 break
 
-        return extension_pg_pathman
+        return extension_pg
 
 
 

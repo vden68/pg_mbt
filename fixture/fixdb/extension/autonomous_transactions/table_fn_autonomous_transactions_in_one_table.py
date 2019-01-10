@@ -13,7 +13,8 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
 
     def create_table(self):
 
-        if not self.db.table_check.check_extension_pg_pathman():
+        if not self.db.table_check.check_extension_pg(sql_char="SELECT pgpro_edition();",
+                                                      extension_pg_name='enterprise'):
             print("---- no extension pg_pathman")
             exit(1)
 

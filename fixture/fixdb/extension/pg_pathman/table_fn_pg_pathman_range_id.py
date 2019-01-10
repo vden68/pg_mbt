@@ -15,7 +15,8 @@ class TableFNPg_pathmanRangeIdHelper():
 
     def create_table(self):
 
-        if not self.db.table_check.check_extension_pg_pathman():
+        if not self.db.table_check.check_extension_pg(sql_char="SELECT extname FROM pg_extension;",
+                                                      extension_pg_name='pg_pathman'):
             print("---- no extension pg_pathman")
             exit(1)
 
