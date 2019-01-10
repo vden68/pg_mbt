@@ -11,6 +11,7 @@ from fixture.fixdb.table_mbt_random import TableMbtRandomHelper
 from fixture.fixdb.common.fibonacci_number import FibonacciNumberHelper
 from fixture.fixdb.extension.pg_pathman.table_fn_pg_pathman_hash import TableFNPg_pathmanHashHelper
 from fixture.fixdb.extension.pg_pathman.table_fn_pg_pathman_range_id import TableFNPg_pathmanRangeIdHelper
+from fixture.fixdb.extension.autonomous_transactions.table_fn_autonomous_transactions_in_one_table import TableFnAutonomousTransactionsInOneTableHelper
 
 
 
@@ -37,6 +38,7 @@ class Dbfixture:
         #extension
         self.fn_pg_pathman_hash=TableFNPg_pathmanHashHelper(self)
         self.fn_pg_pathman_range_id=TableFNPg_pathmanRangeIdHelper(self)
+        self.fn_autonomous_transactions_in_one_table=TableFnAutonomousTransactionsInOneTableHelper(self)
 
 
 
