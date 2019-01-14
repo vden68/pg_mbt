@@ -39,21 +39,22 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
 
 
     def autonomous_transactions_insert(self, list_table_fibonacci_numbers=None, commit=True,
-                                       commit_autonomous_transactions=True):
+                                       commit_autonomous_transactions=True, count_autonomous_transactions=1):
         global count_table_fn_autonomous_transactions_in_one_table
         global table_fn_autonomous_transactions_in_one_table_name
         if table_fn_autonomous_transactions_in_one_table_name is None:
             table_fn_autonomous_transactions_in_one_table_name = self.create_table()
 
         tablename = table_fn_autonomous_transactions_in_one_table_name
-        self.db.fibonacci_number.autonomous_transactions_insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers,
-                                                                commit=commit,
-                                                                commit_autonomous_transactions=commit_autonomous_transactions,
-                                                                table_name=tablename)
+        self.db.fibonacci_number.autonomous_transactions_insert(
+            list_table_fibonacci_numbers=list_table_fibonacci_numbers, commit=commit,
+            commit_autonomous_transactions=commit_autonomous_transactions, table_name=tablename,
+            count_autonomous_transactions=count_autonomous_transactions)
         if commit:
             count_table_fn_autonomous_transactions_in_one_table += len(list_table_fibonacci_numbers)*2
         if commit_autonomous_transactions:
-            count_table_fn_autonomous_transactions_in_one_table += len(list_table_fibonacci_numbers)
+            count_table_fn_autonomous_transactions_in_one_table += len(
+                list_table_fibonacci_numbers)*count_autonomous_transactions
 
     @pytest.allure.step('check count')
     def check_count(self):

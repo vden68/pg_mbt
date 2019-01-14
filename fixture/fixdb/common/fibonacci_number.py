@@ -69,7 +69,8 @@ class FibonacciNumberHelper():
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
     def autonomous_transactions_insert(self, list_table_fibonacci_numbers = None, commit = True,
-                                       commit_autonomous_transactions = True, table_name = None):
+                                       commit_autonomous_transactions = True, table_name = None,
+                                       count_autonomous_transactions=1):
         list_sql_char=[]
 
         list_sql_char.append("BEGIN;")
@@ -82,12 +83,14 @@ class FibonacciNumberHelper():
 
         list_sql_char.append(sql_char)
 
-        list_sql_char.append("BEGIN AUTONOMOUS TRANSACTION;")
-        list_sql_char.append(sql_char)
-        if commit_autonomous_transactions:
-            list_sql_char.append('COMMIT AUTONOMOUS TRANSACTION;')
-        else:
-            list_sql_char.append('ROLLBACK AUTONOMOUS TRANSACTION;')
+        for x in range(count_autonomous_transactions):
+            list_sql_char.append("BEGIN AUTONOMOUS TRANSACTION;")
+            list_sql_char.append(sql_char)
+            if commit_autonomous_transactions:
+                list_sql_char.append('COMMIT AUTONOMOUS TRANSACTION;')
+            else:
+                list_sql_char.append('ROLLBACK AUTONOMOUS TRANSACTION;')
+
         list_sql_char.append(sql_char)
 
         if commit==True:

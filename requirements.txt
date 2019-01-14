@@ -8,9 +8,9 @@ namedlist==1.7
 numpy==1.14.3
 pluggy==0.6.0
 psycopg2==2.7.4
-py==1.5.3
-pytest==3.5.1
-pytest-allure-adaptor==1.7.10
-pytest-forked==0.2
-pytest-xdist==1.22.2
+py>=1.5.3
+pytest>=3.5.1
+pytest-allure-adaptor>=1.7.10
+pytest-forked>=0.2
+pytest-xdist>=1.22.2
 six==1.11.0
