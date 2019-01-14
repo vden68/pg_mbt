@@ -68,8 +68,8 @@ class FibonacciNumberHelper():
             with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
-    def triple_autonomous_transactions_insert(self, list_table_fibonacci_numbers = None, commit = True,
-                                              commit_autonomous_transactions = True, table_name = None ):
+    def autonomous_transactions_insert(self, list_table_fibonacci_numbers = None, commit = True,
+                                       commit_autonomous_transactions = True, table_name = None):
         list_sql_char=[]
 
         list_sql_char.append("BEGIN;")
@@ -79,6 +79,7 @@ class FibonacciNumberHelper():
             sql_char+=("""
                        ({fib_number}),""").format (fib_number=fib_n.fib_number)
         sql_char=sql_char[:-1]+" RETURNING id ;"
+
         list_sql_char.append(sql_char)
 
         list_sql_char.append("BEGIN AUTONOMOUS TRANSACTION;")
@@ -87,8 +88,8 @@ class FibonacciNumberHelper():
             list_sql_char.append('COMMIT AUTONOMOUS TRANSACTION;')
         else:
             list_sql_char.append('ROLLBACK AUTONOMOUS TRANSACTION;')
-
         list_sql_char.append(sql_char)
+
         if commit==True:
             list_sql_char.append('COMMIT;')
         else:
