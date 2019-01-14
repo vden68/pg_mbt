@@ -18,7 +18,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
             print("---- no extension pg_pathman")
             exit(1)
 
-        tablename='table_fn_autonomous_transactions_in_one_table'+self.db.app.mbt_conn.test_uuid
+        tablename='table_fn_autonomous_transactions_in_one_table_'+self.db.app.mbt_conn.test_uuid
         self.db.fibonacci_number.create_table(table_name=tablename)
         # list_sql_char=[]
         # list_sql_char.append("BEGIN;")
@@ -30,7 +30,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
 
 
 
-    @pytest.allure.step('insert in table "fn_pg_pathman_hash"')
+    @pytest.allure.step('insert in table "table_fn_autonomous_transactions_in_one_table"')
     def insert(self, list_table_fibonacci_numbers=None, commit=True):
         global count_table_fn_autonomous_transactions_in_one_table
         global table_fn_autonomous_transactions_in_one_table_name
@@ -40,8 +40,26 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
         tablename = table_fn_autonomous_transactions_in_one_table_name
         self.db.fibonacci_number.insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers,
                                         commit=commit, table_name=tablename)
-        if commit==True:
+        if commit:
             count_table_fn_autonomous_transactions_in_one_table+=len(list_table_fibonacci_numbers)
+
+
+    def triple_autonomous_transactions_insert(self, list_table_fibonacci_numbers=None, commit=True,
+                                              commit_autonomous_transactions=True):
+        global count_table_fn_autonomous_transactions_in_one_table
+        global table_fn_autonomous_transactions_in_one_table_name
+        if table_fn_autonomous_transactions_in_one_table_name is None:
+            table_fn_autonomous_transactions_in_one_table_name = self.create_table()
+
+        tablename = table_fn_autonomous_transactions_in_one_table_name
+        self.db.fibonacci_number.triple_autonomous_transactions_insert(list_table_fibonacci_numbers=list_table_fibonacci_numbers,
+                                                                       commit=commit,
+                                                                       commit_autonomous_transactions=commit_autonomous_transactions,
+                                                                       table_name=tablename)
+        if commit:
+            count_table_fn_autonomous_transactions_in_one_table += len(list_table_fibonacci_numbers)*2
+        if commit_autonomous_transactions:
+            count_table_fn_autonomous_transactions_in_one_table += len(list_table_fibonacci_numbers)
 
     @pytest.allure.step('check count')
     def check_count(self):
@@ -62,7 +80,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
 
 
 
-    @pytest.allure.step('update in table "fn_pg_pathman_hash"')
+    @pytest.allure.step('update in table "table_fn_autonomous_transactions_in_one_table"')
     def update_id_random(self, commit=True):
         global count_table_fn_autonomous_transactions_in_one_table
         c_limit = count_table_fn_autonomous_transactions_in_one_table // 10 + 1
@@ -79,7 +97,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
         global count_table_fn_autonomous_transactions_in_one_table
         return count_table_fn_autonomous_transactions_in_one_table
 
-    @pytest.allure.step('delete 2 percent of rows "fn_pg_pathman_hash"')
+    @pytest.allure.step('delete 2 percent of rows "table_fn_autonomous_transactions_in_one_table"')
     def delete_2_percent_of_rows(self, commit=True):
         global count_table_fn_autonomous_transactions_in_one_table
         c_limit = count_table_fn_autonomous_transactions_in_one_table // 50 + 1

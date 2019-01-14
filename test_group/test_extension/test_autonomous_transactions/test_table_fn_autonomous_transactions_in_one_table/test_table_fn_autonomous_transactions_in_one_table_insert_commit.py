@@ -16,7 +16,7 @@ def test_table_fn_pg_pathman_hash_insert_commit(db, generator):
             list_table_fn_pg_pathman_hash = []
             list_table_fn_pg_pathman_hash.append(Table_fibonacci_number(id=0,fib_number=i_fib))
             with pytest.allure.step('insert in the table the table_fn_pg_pathman_hash %s' % fib):
-                db.fn_pg_pathman_hash.insert(list_table_fibonacci_numbers=list_table_fn_pg_pathman_hash)
+                db.fn_autonomous_transactions_in_one_table.triple_autonomous_transactions_insert(list_table_fibonacci_numbers=list_table_fn_pg_pathman_hash)
 
-    assert(db.fn_pg_pathman_hash.check_count())
-    assert (db.fn_pg_pathman_hash.check_records())
+    assert(db.fn_autonomous_transactions_in_one_table.check_count())
+    assert (db.fn_autonomous_transactions_in_one_table.check_records())
