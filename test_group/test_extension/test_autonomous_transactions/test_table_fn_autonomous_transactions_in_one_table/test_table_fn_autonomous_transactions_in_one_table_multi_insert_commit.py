@@ -13,7 +13,7 @@ def test_table_fn_autonomous_transactions_in_one_table_multi_insert_commit(db, g
         list_table_fn_autonomous_transactions_in_one_table.append(Table_fibonacci_number(id=0, fib_number=i_fib))
 
     cycle_factor=db.app.mbt_conn.cycle_factor
-    for x in range(1000*cycle_factor):
+    for x in range(500*cycle_factor):
         with pytest.allure.step('insert in the test_table_fn_autonomous_transactions_in_one_table %s'
                                         % fib):
             db.fn_autonomous_transactions_in_one_table.autonomous_transactions_insert(

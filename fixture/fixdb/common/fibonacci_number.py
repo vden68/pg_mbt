@@ -91,7 +91,7 @@ class FibonacciNumberHelper():
             else:
                 list_sql_char.append('ROLLBACK AUTONOMOUS TRANSACTION;')
 
-        list_sql_char.append(sql_char)
+            list_sql_char.append(sql_char)
 
         if commit==True:
             list_sql_char.append('COMMIT;')

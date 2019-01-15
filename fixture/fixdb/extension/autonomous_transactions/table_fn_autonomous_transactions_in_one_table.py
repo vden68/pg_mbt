@@ -18,7 +18,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
             print("---- no extension pg_pathman")
             exit(1)
 
-        tablename='table_fn_autonomous_transactions_in_one_table_'+self.db.app.mbt_conn.test_uuid
+        tablename='fn_autonomous_transactions_in_one_table_'+self.db.app.mbt_conn.test_uuid
         self.db.fibonacci_number.create_table(table_name=tablename)
         return tablename
 
@@ -51,7 +51,8 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
             commit_autonomous_transactions=commit_autonomous_transactions, table_name=tablename,
             count_autonomous_transactions=count_autonomous_transactions)
         if commit:
-            count_table_fn_autonomous_transactions_in_one_table += len(list_table_fibonacci_numbers)*2
+            count_table_fn_autonomous_transactions_in_one_table += (
+                len(list_table_fibonacci_numbers)+len(list_table_fibonacci_numbers)*count_autonomous_transactions)
         if commit_autonomous_transactions:
             count_table_fn_autonomous_transactions_in_one_table += len(
                 list_table_fibonacci_numbers)*count_autonomous_transactions

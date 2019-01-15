@@ -14,7 +14,7 @@ def test_table_fn_autonomous_transactions_in_one_table_insert_commit_or_rollback
         list_table_fn_autonomous_transactions_in_one_table.append(Table_fibonacci_number(id=0, fib_number=i_fib))
 
     cycle_factor = db.app.mbt_conn.cycle_factor
-    for x in range(1000*cycle_factor):
+    for x in range(500*cycle_factor):
         with pytest.allure.step('insert in the table_fn_autonomous_transactions_in_one_table %s' % fib):
             com_or_ron = random.randint(0, 3)
             if com_or_ron == 0:
