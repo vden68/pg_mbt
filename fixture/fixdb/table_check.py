@@ -144,4 +144,43 @@ class TableCheckHelper():
         return extension_pg
 
 
+    def get_number_of_rows_from_table(self, table_name=None):
+        count_rows = None
+        # global count_table_points_index_gist
+        # self.checking_completion_of_all_locks(table_name=table_name)
+
+        sql_char = ("""
+                                                SELECT
+                                                  count(*)
+                                                FROM
+                                                  {s_table_name}
+                                                                   ;
+                                                """).format(s_table_name=table_name)
+        # print('sql_char=', sql_char)
+
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
+            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+                list_count = self.db.cur_e.execute_select(sql_char=sql_char)
+
+                if list_count is not None:
+                    for row in list_count:
+                        (count_rows,) = row
+                    print("count_rows=",  count_rows)
+                else:
+                    print("count_rows=", None)
+
+            if count_rows is not None:
+                break
+
+
+        return count_rows
+
+    def get_pathman_partition_list(self):
+        pass
+
+
 
