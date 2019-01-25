@@ -179,8 +179,40 @@ class TableCheckHelper():
 
         return count_rows
 
-    def get_pathman_partition_list(self):
-        pass
+    def get_pathman_partition_list(self, table_name=None):
+        list_partition = []
+        # global count_table_points_index_gist
+        # self.checking_completion_of_all_locks(table_name=table_name)
+
+        sql_char = ("""
+                    SELECT  
+                       partition 
+                    FROM 
+                       pathman_partition_list 
+                    WHERE TEXT(parent)= {s_table_name};
+                     """).format(s_table_name=table_name)
+        # print('sql_char=', sql_char)
+
+        for x in range(10):
+
+            if x > 1:
+                time.sleep(2)
+
+            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+                list_count = self.db.cur_e.execute_select(sql_char=sql_char)
+
+                if list_count is not None:
+                    for row in list_count:
+                        (count_rows,) = row
+                        list_partition.append(count_rows)
+                    print("list_partition=", list_partition)
+                else:
+                    print("list_partition=", None)
+
+            if list_partition is not None:
+                break
+
+        return list_partition
 
 
 
