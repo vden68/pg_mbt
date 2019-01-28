@@ -32,7 +32,7 @@ class TableFNPg_pathmanRangeIdHelper():
 
         list_sql_char=[]
         list_sql_char.append("BEGIN;")
-        list_sql_char.append (("SELECT create_range_partitions('%s', 'id', 1, 100);") %(tablename))
+        list_sql_char.append (("SELECT create_range_partitions('%s', 'id', 1, 1000);") %(tablename))
         list_sql_char.append("COMMIT;")
         print("list_sql_char=", list_sql_char)
         self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
