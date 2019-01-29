@@ -22,7 +22,7 @@ class TableFNPg_pathmanHashHelper():
         self.db.fibonacci_number.create_table(table_name=tablename)
         list_sql_char=[]
         list_sql_char.append("BEGIN;")
-        list_sql_char.append (("SELECT create_hash_partitions('%s', 'id', 10);") %(tablename))
+        list_sql_char.append (("SELECT create_hash_partitions('%s', 'id', 200);") %(tablename))
         list_sql_char.append("COMMIT;")
         print("list_sql_char=", list_sql_char)
         self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
