@@ -1,7 +1,6 @@
 __author__ = 'vden'
 
 import time
-import pytest
 import allure
 
 from model.basic_tables.check_table_fibonacci_number import Check_table_fibonacci_number

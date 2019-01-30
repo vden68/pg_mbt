@@ -1,7 +1,6 @@
 __author__ = 'vden'
 
 
-import pytest
 import time
 import allure
 

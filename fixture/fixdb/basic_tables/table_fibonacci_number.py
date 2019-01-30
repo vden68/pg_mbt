@@ -1,6 +1,5 @@
 __author__ = 'vden'
 
-import pytest
 import allure
 
 
