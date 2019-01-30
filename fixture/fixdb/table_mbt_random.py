@@ -2,6 +2,7 @@ __author__ = 'vden'
 
 import pytest
 import time
+import allure
 
 
 
@@ -42,7 +43,7 @@ class TableMbtRandomHelper():
             self.insert()
 
 
-    @pytest.allure.step('insert in table "mbt_random"')
+    @allure.step('insert in table "mbt_random"')
     def insert(self ):
 
 
@@ -69,7 +70,7 @@ class TableMbtRandomHelper():
         self.db.table_check.checking_completion_of_all_locks(table_name="mbt_random")
 
 
-    @pytest.allure.step('check count')
+    @allure.step('check count')
     def check_count(self):
 
         global count_table_points_index_gist
@@ -78,7 +79,7 @@ class TableMbtRandomHelper():
 
         return c_count
 
-    @pytest.allure.step('check records')
+    @allure.step('check records')
     def check_records(self):
 
         sql_char = ("""
@@ -136,7 +137,7 @@ class TableMbtRandomHelper():
 
         return True
 
-    @pytest.allure.step('delete 2 percent of rows "points_index_gist"')
+    @allure.step('delete 2 percent of rows "points_index_gist"')
     def delete_2_percent_of_rows(self, commit=True):
 
         global count_table_points_index_gist

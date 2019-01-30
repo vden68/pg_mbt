@@ -1,6 +1,7 @@
 __author__ = 'vden'
 
 import pytest
+import allure
 
 
 count_table_fibonacci_number = 0
@@ -19,7 +20,9 @@ class Table_fibonacci_numberHelper():
 
 
 
-    @pytest.allure.step('insert in table "fibonacci_number"')
+
+
+    @allure.step('insert in table "fibonacci_number"')
     def insert(self, list_table_fibonacci_numbers=None, commit=True):
         global count_table_fibonacci_number
         global table_fibonacci_number_name
@@ -32,7 +35,7 @@ class Table_fibonacci_numberHelper():
         if commit==True:
             count_table_fibonacci_number+=len(list_table_fibonacci_numbers)
 
-    @pytest.allure.step('check count')
+    @allure.step('check count')
     def check_count(self):
         global count_table_fibonacci_number
         global table_fibonacci_number_name
@@ -41,7 +44,7 @@ class Table_fibonacci_numberHelper():
         return  c_count
 
 
-    @pytest.allure.step('check records')
+    @allure.step('check records')
     def check_records(self):
         global table_fibonacci_number_name
         tablename = table_fibonacci_number_name
@@ -50,7 +53,7 @@ class Table_fibonacci_numberHelper():
 
 
 
-    @pytest.allure.step('update in table "fibonacci_number"')
+    @allure.step('update in table "fibonacci_number"')
     def update_id_random(self, commit=True):
         global count_table_fibonacci_number
         c_limit = count_table_fibonacci_number // 10 + 1
@@ -67,7 +70,7 @@ class Table_fibonacci_numberHelper():
         global count_table_fibonacci_number
         return count_table_fibonacci_number
 
-    @pytest.allure.step('delete 10 percent of rows "fibonacci_number"')
+    @allure.step('delete 10 percent of rows "fibonacci_number"')
     def delete_2_percent_of_rows(self, commit=True):
         global count_table_fibonacci_number
         c_limit = count_table_fibonacci_number // 50 + 1

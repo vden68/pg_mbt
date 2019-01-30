@@ -1,6 +1,7 @@
 __author__ = 'vden'
 
 import pytest
+import allure
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
 
@@ -40,7 +41,7 @@ class TableFNPg_pathmanRangeIdHelper():
 
 
 
-    @pytest.allure.step('insert in table "fn_pg_pathman_range_id"')
+    @allure.step('insert in table "fn_pg_pathman_range_id"')
     def insert(self, list_table_fibonacci_numbers=None, commit=True):
         global count_table_fn_pg_pathman_range_id
         global table_fn_pg_pathman_range_id_name
@@ -53,7 +54,7 @@ class TableFNPg_pathmanRangeIdHelper():
         if commit==True:
             count_table_fn_pg_pathman_range_id+=len(list_table_fibonacci_numbers)
 
-    @pytest.allure.step('check count')
+    @allure.step('check count')
     def check_count(self):
         global count_table_fn_pg_pathman_range_id
         global table_fn_pg_pathman_range_id_name
@@ -62,7 +63,7 @@ class TableFNPg_pathmanRangeIdHelper():
         return  c_count
 
 
-    @pytest.allure.step('check records')
+    @allure.step('check records')
     def check_records(self):
         global table_fn_pg_pathman_range_id_name
         tablename = table_fn_pg_pathman_range_id_name
@@ -71,7 +72,7 @@ class TableFNPg_pathmanRangeIdHelper():
 
 
 
-    @pytest.allure.step('update in table "fn_pg_pathman_range_id"')
+    @allure.step('update in table "fn_pg_pathman_range_id"')
     def update_id_random(self, commit=True):
         global count_table_fn_pg_pathman_range_id
         c_limit = count_table_fn_pg_pathman_range_id // 10 + 1
@@ -88,7 +89,7 @@ class TableFNPg_pathmanRangeIdHelper():
         global count_table_fn_pg_pathman_range_id
         return count_table_fn_pg_pathman_range_id
 
-    @pytest.allure.step('delete 2 percent of rows "fn_pg_pathman_range_id"')
+    @allure.step('delete 2 percent of rows "fn_pg_pathman_range_id"')
     def delete_2_percent_of_rows(self, commit=True):
         global count_table_fn_pg_pathman_range_id
         c_limit = count_table_fn_pg_pathman_range_id // 50 + 1

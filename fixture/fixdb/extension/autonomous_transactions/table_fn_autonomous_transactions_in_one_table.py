@@ -1,6 +1,7 @@
 __author__ = 'vden'
 
 import pytest
+import allure
 
 
 count_table_fn_autonomous_transactions_in_one_table = 0
@@ -24,7 +25,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
 
 
 
-    @pytest.allure.step('insert in table "table_fn_autonomous_transactions_in_one_table"')
+    @allure.step('insert in table "table_fn_autonomous_transactions_in_one_table"')
     def insert(self, list_table_fibonacci_numbers=None, commit=True):
         global count_table_fn_autonomous_transactions_in_one_table
         global table_fn_autonomous_transactions_in_one_table_name
@@ -57,7 +58,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
             count_table_fn_autonomous_transactions_in_one_table += len(
                 list_table_fibonacci_numbers)*count_autonomous_transactions
 
-    @pytest.allure.step('check count')
+    @allure.step('check count')
     def check_count(self):
         global count_table_fn_autonomous_transactions_in_one_table
         global table_fn_autonomous_transactions_in_one_table_name
@@ -67,7 +68,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
         return  c_count
 
 
-    @pytest.allure.step('check records')
+    @allure.step('check records')
     def check_records(self):
         global table_fn_autonomous_transactions_in_one_table_name
         tablename = table_fn_autonomous_transactions_in_one_table_name
@@ -76,7 +77,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
 
 
 
-    @pytest.allure.step('update in table "table_fn_autonomous_transactions_in_one_table"')
+    @allure.step('update in table "table_fn_autonomous_transactions_in_one_table"')
     def update_id_random(self, commit=True):
         global count_table_fn_autonomous_transactions_in_one_table
         c_limit = count_table_fn_autonomous_transactions_in_one_table // 10 + 1
@@ -93,7 +94,7 @@ class TableFnAutonomousTransactionsInOneTableHelper(): #table_fn_autonomous_tran
         global count_table_fn_autonomous_transactions_in_one_table
         return count_table_fn_autonomous_transactions_in_one_table
 
-    @pytest.allure.step('delete 2 percent of rows "table_fn_autonomous_transactions_in_one_table"')
+    @allure.step('delete 2 percent of rows "table_fn_autonomous_transactions_in_one_table"')
     def delete_2_percent_of_rows(self, commit=True):
         global count_table_fn_autonomous_transactions_in_one_table
         c_limit = count_table_fn_autonomous_transactions_in_one_table // 50 + 1

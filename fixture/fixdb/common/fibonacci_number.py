@@ -2,6 +2,7 @@ __author__ = 'vden'
 
 import time
 import pytest
+import allure
 
 from model.basic_tables.check_table_fibonacci_number import Check_table_fibonacci_number
 
@@ -37,7 +38,7 @@ class FibonacciNumberHelper():
 
             list_sql_char.append('COMMIT;')
 
-            with pytest.allure.step('DDL=%s' % list_sql_char):
+            with allure.step('DDL=%s' % list_sql_char):
                 self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
 
@@ -58,14 +59,14 @@ class FibonacciNumberHelper():
         if commit==True:
             list_sql_char.append('COMMIT;')
 
-            with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
+            with allure.step('insert plus commit  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
         else:
 
             list_sql_char.append('ROLLBACK;')
 
-            with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
+            with allure.step('insert plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
     def autonomous_transactions_insert(self, list_table_fibonacci_numbers = None, commit = True,
@@ -98,13 +99,13 @@ class FibonacciNumberHelper():
         else:
             list_sql_char.append('ROLLBACK;')
 
-        with pytest.allure.step('insert SQL=%s' % list_sql_char):
+        with allure.step('insert SQL=%s' % list_sql_char):
             self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
 
 
 
-    @pytest.allure.step('check records')
+    @allure.step('check records')
     def check_records(self, table_name=None):
 
         sql_char = ("""
@@ -124,7 +125,7 @@ class FibonacciNumberHelper():
             if x > 1:
                 time.sleep(2)
 
-            with pytest.allure.step('get row records for verification  SQL=%s' % sql_char):
+            with allure.step('get row records for verification  SQL=%s' % sql_char):
                 list_row = self.db.cur_e.execute_select(sql_char=sql_char)
 
             list_row_records_for_verification = []
@@ -136,7 +137,7 @@ class FibonacciNumberHelper():
 
         for selected_node in self.db.app.mbt_hosts_read:
 
-            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+            with allure.step('get the number of rows  SQL=%s' % sql_char):
                 list_row = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
                 list_row2 = []
 
@@ -154,7 +155,7 @@ class FibonacciNumberHelper():
 
 
 
-    @pytest.allure.step('update in table "fibonacci_number"')
+    @allure.step('update in table "fibonacci_number"')
     def update_id_random(self, c_limit=1, table_name=None, commit=True):
 
         list_sql_char = []
@@ -179,18 +180,18 @@ class FibonacciNumberHelper():
         if commit == True:
             list_sql_char.append('COMMIT;')
 
-            with pytest.allure.step('update plus commit  SQL=%s' % list_sql_char):
+            with allure.step('update plus commit  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
         else:
 
             list_sql_char.append('ROLLBACK;')
 
-            with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
+            with allure.step('update plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
 
-    @pytest.allure.step('delete 2 percent of rows "fibonacci_number"')
+    @allure.step('delete 2 percent of rows "fibonacci_number"')
     def delete_2_percent_of_rows(self, c_limit=1, table_name=None, commit=True):
 
         list_sql_char = []
@@ -212,13 +213,13 @@ class FibonacciNumberHelper():
         if commit == True:
             list_sql_char.append('COMMIT;')
 
-            with pytest.allure.step('update plus commit  SQL=%s' % list_sql_char):
+            with allure.step('update plus commit  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
         else:
 
             list_sql_char.append('ROLLBACK;')
 
-            with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
+            with allure.step('update plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
 

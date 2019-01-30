@@ -2,6 +2,7 @@ __author__ = 'vden'
 
 import random
 import pytest
+import allure
 
 
 list_table = []
@@ -12,7 +13,7 @@ class Sql_ddlHelper():
     def __init__(self, db):
         self.db = db
 
-    @pytest.allure.step('create table {0}')
+    @allure.step('create table {0}')
     def create_table(self, tablename=None, column_names_and_type=None):
 
         if self.db.initdb.check_tablename(tablename=tablename):

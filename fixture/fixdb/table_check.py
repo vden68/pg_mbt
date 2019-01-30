@@ -3,6 +3,7 @@ __author__ = 'vden'
 
 import pytest
 import time
+import allure
 
 
 
@@ -12,7 +13,7 @@ class TableCheckHelper():
     def __init__(self, db):
         self.db = db
 
-    @pytest.allure.step('check count')
+    @allure.step('check count')
     def check_count(self, count_rows_table=None, table_name=None):
         c_count = False
         #global count_table_points_index_gist
@@ -35,7 +36,7 @@ class TableCheckHelper():
             list_count_node_id = []
             for selected_node in self.db.app.mbt_hosts_read:
 
-                with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+                with allure.step('get the number of rows  SQL=%s' % sql_char):
                     list_count = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
 
                     if list_count is not None:
@@ -85,7 +86,7 @@ class TableCheckHelper():
             count2 = 0
             while count_lock != 0:
 
-                with pytest.allure.step('Checking completion of all locks  SQL=%s' % sql_char):
+                with allure.step('Checking completion of all locks  SQL=%s' % sql_char):
                     list_count = self.db.cur_e.execute_select_list(list_sql_char=list_sql_char,
                                                                    selected_node=selected_node)
 
@@ -118,7 +119,7 @@ class TableCheckHelper():
             list_extension_pg_pathman_node_id = []
             for selected_node in self.db.app.mbt_hosts_read:
 
-                with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+                with allure.step('get the number of rows  SQL=%s' % sql_char):
                     list_extension = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
 
                     if list_extension is not None:
@@ -163,7 +164,7 @@ class TableCheckHelper():
             if x > 1:
                 time.sleep(2)
 
-            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+            with allure.step('get the number of rows  SQL=%s' % sql_char):
                 list_count = self.db.cur_e.execute_select(sql_char=sql_char)
 
                 if list_count is not None:
@@ -198,7 +199,7 @@ class TableCheckHelper():
             if x > 1:
                 time.sleep(2)
 
-            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+            with allure.step('get the number of rows  SQL=%s' % sql_char):
                 list_count = self.db.cur_e.execute_select(sql_char=sql_char)
 
                 if list_count is not None:

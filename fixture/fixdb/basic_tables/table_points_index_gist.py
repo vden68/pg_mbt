@@ -2,6 +2,7 @@ __author__ = 'vden'
 
 import pytest
 import time
+import allure
 
 
 table_points_index_gist = None
@@ -45,7 +46,7 @@ class Table_points_index_gistHelper():
                 self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
 
-    @pytest.allure.step('insert in table "points_index_gist"')
+    @allure.step('insert in table "points_index_gist"')
     def insert(self, list_points=None, commit=True):
         global count_table_points_index_gist
         global table_points_index_gist
@@ -84,7 +85,7 @@ class Table_points_index_gistHelper():
                 #self.db.conn.all_close_conn()
 
 
-    @pytest.allure.step('check count')
+    @allure.step('check count')
     def check_count(self):
 
         global count_table_points_index_gist
@@ -93,7 +94,7 @@ class Table_points_index_gistHelper():
 
         return c_count
 
-    @pytest.allure.step('check records')
+    @allure.step('check records')
     def check_records(self):
 
         sql_char = ("""
@@ -151,7 +152,7 @@ class Table_points_index_gistHelper():
 
         return True
 
-    @pytest.allure.step('delete 2 percent of rows "points_index_gist"')
+    @allure.step('delete 2 percent of rows "points_index_gist"')
     def delete_2_percent_of_rows(self, commit=True):
 
         global count_table_points_index_gist
@@ -194,7 +195,7 @@ class Table_points_index_gistHelper():
         return count_table_points_index_gist
 
 
-    @pytest.allure.step('update in table "points_index_gist"')
+    @allure.step('update in table "points_index_gist"')
     def update_id_random(self, commit=True):
 
         global count_table_points_index_gist
