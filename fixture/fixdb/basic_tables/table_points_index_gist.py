@@ -42,7 +42,7 @@ class Table_points_index_gistHelper():
 
             list_sql_char.append('COMMIT;')
 
-            with pytest.allure.step('DDL=%s' % list_sql_char):
+            with allure.step('DDL=%s' % list_sql_char):
                 self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
 
@@ -70,7 +70,7 @@ class Table_points_index_gistHelper():
         if commit==True:
             list_sql_char.append('commit;')
 
-            with pytest.allure.step('insert plus commit  SQL=%s' % list_sql_char):
+            with allure.step('insert plus commit  SQL=%s' % list_sql_char):
                 list_row = self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
                 count_table_points_index_gist+=len(list_points)
@@ -79,7 +79,7 @@ class Table_points_index_gistHelper():
 
             list_sql_char.append('rollback;')
 
-            with pytest.allure.step('insert plus rollback  SQL=%s' % list_sql_char):
+            with allure.step('insert plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_insert(list_sql_char=list_sql_char)
 
                 #self.db.conn.all_close_conn()
@@ -120,7 +120,7 @@ class Table_points_index_gistHelper():
             if x > 1:
                 time.sleep(2)
 
-            with pytest.allure.step('get row records for verification  SQL=%s' % sql_char):
+            with allure.step('get row records for verification  SQL=%s' % sql_char):
                 list_row = self.db.cur_e.execute_select(sql_char=sql_char)
 
             list_row_records_for_verification = []
@@ -134,7 +134,7 @@ class Table_points_index_gistHelper():
 
         for selected_node in self.db.app.mbt_hosts_read:
 
-            with pytest.allure.step('get the number of rows  SQL=%s' % sql_char):
+            with allure.step('get the number of rows  SQL=%s' % sql_char):
                 list_row = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
                 list_row2 = []
 
@@ -177,7 +177,7 @@ class Table_points_index_gistHelper():
 
             #print("list_sql_char=", list_sql_char)
 
-            with pytest.allure.step('delete plus commit  SQL=%s' % list_sql_char):
+            with allure.step('delete plus commit  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
                 count_table_points_index_gist=count_table_points_index_gist-c_limit
                 print('c_limit=', c_limit)
@@ -186,7 +186,7 @@ class Table_points_index_gistHelper():
 
             list_sql_char.append('rollback;')
 
-            with pytest.allure.step('delete plus rollback  SQL=%s' % list_sql_char):
+            with allure.step('delete plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
 
@@ -224,14 +224,14 @@ class Table_points_index_gistHelper():
         if commit == True:
             list_sql_char.append('COMMIT;')
 
-            with pytest.allure.step('update plus commit  SQL=%s' % list_sql_char):
+            with allure.step('update plus commit  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
         else:
 
             list_sql_char.append('ROLLBACK;')
 
-            with pytest.allure.step('update plus rollback  SQL=%s' % list_sql_char):
+            with allure.step('update plus rollback  SQL=%s' % list_sql_char):
                 self.db.cur_e.execute_update(list_sql_char=list_sql_char)
 
 

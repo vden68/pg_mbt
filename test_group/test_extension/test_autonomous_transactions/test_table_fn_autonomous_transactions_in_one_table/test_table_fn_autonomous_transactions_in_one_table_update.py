@@ -1,9 +1,10 @@
 __author__ = 'vden'
 import pytest
+import allure
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
 @pytest.mark.pg_pathman
-@pytest.allure.step('test_table_fn_autonomous_transactions_in_one_table_update')
+@allure.step('test_table_fn_autonomous_transactions_in_one_table_update')
 def test_table_fn_autonomous_transactions_in_one_table_update(db, generator):
     print("\n\ntest_table_fn_autonomous_transactions_in_one_table_update \n\n")
 
@@ -12,7 +13,7 @@ def test_table_fn_autonomous_transactions_in_one_table_update(db, generator):
     for i_fib in fib:
         list_table_fn_pg_pathman_hash.append(Table_fibonacci_number(fib_number=i_fib))
     for x in range(20):
-        with pytest.allure.step('insert in the table the Fibonacci number %s' % fib):
+        with allure.step('insert in the table the Fibonacci number %s' % fib):
             db.fn_autonomous_transactions_in_one_table.insert(
                 list_table_fibonacci_numbers=list_table_fn_pg_pathman_hash)
 
@@ -27,7 +28,7 @@ def test_table_fn_autonomous_transactions_in_one_table_update(db, generator):
 
 
 
-        with pytest.allure.step('update id more than number'):
+        with allure.step('update id more than number'):
             db.fn_autonomous_transactions_in_one_table.update_id_random()
 
 
