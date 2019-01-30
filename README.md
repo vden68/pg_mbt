@@ -43,7 +43,8 @@ pytest -v  -l
 ```
 pytest -v  -l
 ```
---alluredir=/home/vden/PycharmProjects/pg_mbt/tmp/my_allure_results
+$ pytest --alluredir=/home/vden/PycharmProjects/pg_mbt/tmp/my_allure_results
+$ allure serve /home/vden/PycharmProjects/pg_mbt/tmp/my_allure_results
 ## Системные требования к окружению
 
 - 
