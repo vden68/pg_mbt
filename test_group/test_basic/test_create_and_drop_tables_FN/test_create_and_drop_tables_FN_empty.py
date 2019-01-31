@@ -4,12 +4,21 @@ import pytest
 import allure
 
 
-@pytest.mark.test_basic
-@allure.step('test_table_fibonacci_number_insert_commit')
-def test_create_tables_FN_empty():
-    pass
+@pytest.mark.create_and_drop_tables_FN
+@allure.step('test_create_tables_FN_empty')
+def test_create_tables_FN_empty(db):
+    print("\n\ntest_create_tables_FN_empty \n\n")
+    cycle_factor=db.app.mbt_conn.cycle_factor
+    number_of_tables=10*cycle_factor
+    db.create_and_drop_tables_FN.create_tables_empty(number_of_tables=number_of_tables)
 
-@pytest.mark.test_basic
-@allure.step('test_table_fibonacci_number_insert_commit')
-def test_drop_tables_FN_empty():
-    pass
+
+
+
+@pytest.mark.create_and_drop_tables_FN
+@allure.step('test_drop_tables_FN_empty')
+def test_drop_tables_FN_empty(db):
+    print("\n\ntest_drop_tables_FN_empty \n\n")
+
+
+
