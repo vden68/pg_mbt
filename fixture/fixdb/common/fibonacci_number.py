@@ -40,6 +40,21 @@ class FibonacciNumberHelper():
             with allure.step('DDL=%s' % list_sql_char):
                 self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
 
+    def drop_tables(self, list_table_name=None):
+
+        list_sql_char = []
+        list_sql_char.append("BEGIN;")
+
+        for table_name in list_table_name:
+            list_sql_char.append(("""DROP TABLE {tablename} CASCADE ;""") .format(tablename=table_name))
+
+        list_sql_char.append('COMMIT;')
+
+        with allure.step('DDL=%s' % list_sql_char):
+            self.db.cur_e.execute_ddl(list_sql_char=list_sql_char)
+
+
+
 
     def insert(self, list_table_fibonacci_numbers=None, commit=True, table_name=None):
 
@@ -124,8 +139,7 @@ class FibonacciNumberHelper():
             if x > 1:
                 time.sleep(2)
 
-            with allure.step('get row records for verification  SQL=%s' % sql_char):
-                list_row = self.db.cur_e.execute_select(sql_char=sql_char)
+            list_row = self.db.cur_e.execute_select(sql_char=sql_char)
 
             list_row_records_for_verification = []
             if list_row is not None:

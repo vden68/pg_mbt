@@ -5,7 +5,6 @@ import allure
 
 
 @pytest.mark.create_and_drop_tables_FN
-@allure.step('test_create_tables_FN_empty')
 def test_create_tables_FN_empty(db):
     print("\n\ntest_create_tables_FN_empty \n\n")
     cycle_factor=db.app.mbt_conn.cycle_factor
@@ -16,9 +15,13 @@ def test_create_tables_FN_empty(db):
 
 
 @pytest.mark.create_and_drop_tables_FN
-@allure.step('test_drop_tables_FN_empty')
 def test_drop_tables_FN_empty(db):
     print("\n\ntest_drop_tables_FN_empty \n\n")
+    count_tables_fibonacci_number_empty=db.create_and_drop_tables_FN.get_count_tables_fibonacci_number_empty()
+    allure.attach('get_count_tables_fibonacci_number_empty=%s' % count_tables_fibonacci_number_empty)
+    allure.attach('get_count_tables_fibonacci_number_empty=%s' % count_tables_fibonacci_number_empty)
+    print('count_tables_fibonacci_number_empty=', count_tables_fibonacci_number_empty)
+    db.create_and_drop_tables_FN.drop_tables_empty()
 
 
 

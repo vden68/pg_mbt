@@ -1,5 +1,6 @@
 __author__ = 'vden'
 import time
+import allure
 
 
 
@@ -75,7 +76,7 @@ class CursorExecuteHelper():
 
         return list_row
 
-
+    allure.step('get row records for verification  SQL="{sql_char}", node="{selected_node}"' )
     def execute_select(self, sql_char=None, selected_node=None):
 
         for x in range(10):
