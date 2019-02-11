@@ -21,6 +21,7 @@ def test_empty_one_by_one_FN(db):
     allure.attach('get_count_tables_fibonacci_number_empty=%s' % count_tables_fibonacci_number_empty)
     allure.attach('get_count_tables_fibonacci_number_empty=%s' % count_tables_fibonacci_number_empty)
     print('count_tables_fibonacci_number_empty=', count_tables_fibonacci_number_empty)
+
     db.create_and_drop_tables_FN.drop_tables_empty_one_by_one()
 
 

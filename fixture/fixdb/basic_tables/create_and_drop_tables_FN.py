@@ -42,7 +42,7 @@ class CreateAndDropTablesFnHelper():
         count_tables_fibonacci_number_empty=0
         list_tables_fibonacci_number_empty=[]
 
-    @allure.step('drop empty tables in quantities ')
+    @allure.step('drop_tables_empty_one_by_one ')
     def drop_tables_empty_one_by_one(self):
         global count_tables_fibonacci_number_empty
         global list_tables_fibonacci_number_empty
