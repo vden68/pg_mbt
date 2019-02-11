@@ -8,7 +8,7 @@ import allure
 def test_create_tables_FN_empty(db):
     print("\n\ntest_create_tables_FN_empty \n\n")
     cycle_factor=db.app.mbt_conn.cycle_factor
-    number_of_tables=10*cycle_factor
+    number_of_tables=100*cycle_factor
     db.create_and_drop_tables_FN.create_tables_empty(number_of_tables=number_of_tables)
 
 
