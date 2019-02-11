@@ -1,5 +1,6 @@
 /.idea/
-/.pytest_cache/
+/test_group/test_basic/.pytest_cache/
+/UNKNOWN.egg-info/
 /env/
 /test_group/.pytest_cache/
 /test_group/test_basic/allure-results/
