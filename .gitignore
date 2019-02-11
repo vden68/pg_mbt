@@ -1,4 +1,5 @@
 /.idea/
+/.pytest_cache/
 /env/
 /test_group/.pytest_cache/
 /test_group/test_basic/allure-results/
