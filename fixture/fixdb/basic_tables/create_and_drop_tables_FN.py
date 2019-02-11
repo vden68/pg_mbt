@@ -55,6 +55,22 @@ class CreateAndDropTablesFnHelper():
         count_tables_fibonacci_number_empty = 0
         list_tables_fibonacci_number_empty = []
 
+    @allure.step('drop_tables_list ')
+    def drop_tables_list(self):
+        global count_tables_fibonacci_number_empty
+        global list_tables_fibonacci_number_empty
+
+        List_name_table = []
+        name_tables=' '
+        for name_table in list_tables_fibonacci_number_empty:
+            name_tables= name_tables + ', ' + name_table + ' '
+
+        List_name_table.append(name_tables[2:])
+        self.db.fibonacci_number.drop_tables(list_table_name=List_name_table)
+
+        count_tables_fibonacci_number_empty = 0
+        list_tables_fibonacci_number_empty = []
+
     def get_count_tables_fibonacci_number_empty(self):
         global count_tables_fibonacci_number_empty
 

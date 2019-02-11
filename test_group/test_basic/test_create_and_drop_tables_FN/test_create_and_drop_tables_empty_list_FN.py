@@ -15,14 +15,14 @@ def test_create_tables_FN_empty(db):
 
 
 @pytest.mark.create_and_drop_tables_FN
-def test_drop_empty_one_by_one_FN(db):
+def test_drop_empty_list_FN(db):
     print("\n\ntest_empty_one_by_one_FN \n\n")
     count_tables_fibonacci_number_empty=db.create_and_drop_tables_FN.get_count_tables_fibonacci_number_empty()
     allure.attach('get_count_tables_fibonacci_number_empty=%s' % count_tables_fibonacci_number_empty)
     allure.attach('get_count_tables_fibonacci_number_empty=%s' % count_tables_fibonacci_number_empty)
     print('count_tables_fibonacci_number_empty=', count_tables_fibonacci_number_empty)
 
-    db.create_and_drop_tables_FN.drop_tables_empty_one_by_one()
+    db.create_and_drop_tables_FN.drop_tables_list()
 
 
 
