@@ -11,7 +11,7 @@ def test_table_fibonacci_number_insert_commit(db, generator):
     fib = generator.fibonacci.numbers_list()
 
     cycle_factor=db.app.mbt_conn.cycle_factor
-    for x in range(10*cycle_factor):
+    for x in range(5*cycle_factor):
 
         for i_fib in fib:
             list_table_fibonacci_numbers = []

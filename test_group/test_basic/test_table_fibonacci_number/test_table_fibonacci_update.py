@@ -17,7 +17,7 @@ def test_table_fibonacci_update(db, generator):
         print('count_table_fibonacci_number=', count_table_fibonacci_number)
         print("\n range=", y)
 
-        for x in range(20):
+        for x in range(10):
 
             list_table_fibonacci_numbers = []
             for i_fib in fib:
