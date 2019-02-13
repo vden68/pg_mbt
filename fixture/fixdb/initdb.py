@@ -64,11 +64,11 @@ class InitdbHelper():
 
         sql_char = ("""
         SELECT
-          tablename
+          relname
         FROM
-          pg_tables
+          pg_class
         where
-          tablename = '%s'
+          relname = '%s'
         ;""")%tablename
 
         print('sql_char=', sql_char)
