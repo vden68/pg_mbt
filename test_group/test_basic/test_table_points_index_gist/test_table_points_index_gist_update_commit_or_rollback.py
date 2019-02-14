@@ -9,7 +9,7 @@ def test_table_points_index_gist_update_commit_or_rollback(db, generator):
     print("\n\ntest_table_points_index_gist_update_commit_or_rollback \n\n")
 
     #cycle_factor = db.app.mbt_conn.cycle_factor
-    for x in range(10):
+    for x in range(5):
         list_points = generator.p_points.g_points(coumt_points=1000)
 
         with allure.step('insert in the table the points index gist %s' % list_points):
