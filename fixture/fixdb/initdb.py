@@ -59,7 +59,7 @@ class InitdbHelper():
 
     def check_tablename(self, tablename=None):
         print('check_tablename')
-        conn = self.db.conn.db_read()
+        conn = self.db.conn.db_write()
         #conn = self.db.conn.db_write()
 
         sql_char = ("""
