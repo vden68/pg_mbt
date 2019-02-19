@@ -15,6 +15,7 @@ from fixture.fixdb.extension.pg_pathman.table_fn_pg_pathman_hash import TableFNP
 from fixture.fixdb.extension.pg_pathman.table_fn_pg_pathman_range_id import TableFNPg_pathmanRangeIdHelper
 from fixture.fixdb.extension.autonomous_transactions.table_fn_autonomous_transactions_in_one_table import \
     TableFnAutonomousTransactionsInOneTableHelper
+from fixture.fixdb.finishing_checks.finishing_checks import FinishingChecklHelper
 
 
 
@@ -44,6 +45,9 @@ class Dbfixture:
         self.fn_pg_pathman_hash=TableFNPg_pathmanHashHelper(self)
         self.fn_pg_pathman_range_id=TableFNPg_pathmanRangeIdHelper(self)
         self.fn_autonomous_transactions_in_one_table=TableFnAutonomousTransactionsInOneTableHelper(self)
+
+        #finishing_checks
+        self.finishing_checks=FinishingChecklHelper(self)
 
 
 
