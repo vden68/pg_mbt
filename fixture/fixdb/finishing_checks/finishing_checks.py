@@ -21,6 +21,8 @@ class FinishingChecklHelper():
                 tablename LIKE 'fibonacci_number%'
                 OR tablename LIKE 'points_index_gist%'
                 OR tablename LIKE 'mbt_random'
+                OR tablename LIKE 'fn_autonomous_transactions%'
+                OR tablename LIKE 'fn_pg_pathman%'                                
               )
             ORDER BY
               tablename
