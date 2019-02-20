@@ -48,3 +48,11 @@ class FinishingChecklHelper():
             list_tables.append(Check_list_tables(table_name=model.table_name, count_rows=countrows))
 
         return list_tables
+
+    @allure.step('drop_tables {0}')
+    def drop_tables(self, list_model=None):
+        list_tables = []
+        for model in list_model:
+            list_tables.append(model.table_name)
+        self.db.fibonacci_number.drop_tables(list_table_name=list_tables)
+

@@ -46,7 +46,7 @@ class FibonacciNumberHelper():
         list_sql_char.append("BEGIN;")
 
         for table_name in list_table_name:
-            list_sql_char.append(("""DROP TABLE {tablename} CASCADE ;""") .format(tablename=table_name))
+            list_sql_char.append(("""DROP TABLE IF EXISTS {tablename} CASCADE ;""") .format(tablename=table_name))
 
         list_sql_char.append('COMMIT;')
 
