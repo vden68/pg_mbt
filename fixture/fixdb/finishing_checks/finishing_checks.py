@@ -35,3 +35,16 @@ class FinishingChecklHelper():
             list_tables.append(Check_list_tables(table_name=t_name))
 
         return list_tables
+
+    @allure.step('get_list_rows_tables {0}')
+    def get_list_rows_tables(self, selected_node=None, list_model=None):
+        list_tables = []
+        for model in list_model:
+            sql_char=("SELECT count(*)  FROM {tablename} ;").format(tablename=model.table_name)
+            list_rows = self.db.cur_e.execute_select(sql_char=sql_char, selected_node=selected_node)
+
+            for row in list_rows:
+                (countrows,) = row
+            list_tables.append(Check_list_tables(table_name=model.table_name, count_rows=countrows))
+
+        return list_tables
