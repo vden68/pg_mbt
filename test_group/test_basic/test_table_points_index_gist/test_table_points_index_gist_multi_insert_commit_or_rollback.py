@@ -3,6 +3,7 @@ import pytest
 import allure
 import random
 
+#@pytest.mark.skip()
 @pytest.mark.test_basic
 @allure.step('test_table_points_index_gist_insert_commit_or_rollback')
 def test_table_points_index_gist_insert_commit_or_rollback(db, generator):

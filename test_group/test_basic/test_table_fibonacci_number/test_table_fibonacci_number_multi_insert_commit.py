@@ -3,6 +3,7 @@ import pytest
 import allure
 from model.basic_tables.table_fibonacci_number import Table_fibonacci_number
 
+#@pytest.mark.skip()
 @pytest.mark.test_basic
 @allure.step('test_table_fibonacci_number_multi_insert_commit')
 def test_table_fibonacci_number_multi_insert_commit(db, generator):

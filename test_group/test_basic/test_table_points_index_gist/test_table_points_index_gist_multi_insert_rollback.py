@@ -2,6 +2,7 @@ __author__ = 'vden'
 import pytest
 import allure
 
+#@pytest.mark.skip()
 @pytest.mark.test_basic
 @allure.step('test_table_points_index_gist_insert_rollback')
 def test_table_points_index_gist_insert_rollback(db, generator):
