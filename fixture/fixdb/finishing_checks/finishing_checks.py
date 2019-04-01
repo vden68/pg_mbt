@@ -49,8 +49,8 @@ class FinishingChecklHelper():
 
         return list_tables
 
-    @allure.step('get_list_ьв5_tables {0}')
-    def get_list_ьв5_tables(self, selected_node=None, list_model=None):
+    @allure.step('get_list_md5_tables {0}')
+    def get_list_md5_tables(self, selected_node=None, list_model=None):
         list_tables = []
         for model in list_model:
             sql_char = ("SELECT count(*)  FROM {tablename} ;").format(tablename=model.table_name)
